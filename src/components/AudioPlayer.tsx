@@ -1,19 +1,103 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause, SkipBack, SkipForward, Mic } from "lucide-react";
 import type { Book } from "@/types";
 import BookCover from "@/components/BookCover";
 
 interface AudioPlayerProps {
   book: Book;
+  audioUrl: string | null;
 }
 
-export default function AudioPlayer({ book }: AudioPlayerProps) {
+export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const totalSeconds = 225; // 3:45 mock duration
   const [currentSeconds, setCurrentSeconds] = useState(0);
+  const [totalSeconds, setTotalSeconds] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+
+  // Initialize audio element
+  useEffect(() => {
+    if (!audioUrl) return;
+
+    const audio = new Audio(audioUrl);
+    audioRef.current = audio;
+
+    const onLoadedMetadata = () => {
+      setTotalSeconds(Math.floor(audio.duration));
+      setIsLoaded(true);
+    };
+
+    const onEnded = () => {
+      setIsPlaying(false);
+      setCurrentSeconds(Math.floor(audio.duration));
+    };
+
+    const onError = () => {
+      setIsLoaded(false);
+    };
+
+    audio.addEventListener("loadedmetadata", onLoadedMetadata);
+    audio.addEventListener("ended", onEnded);
+    audio.addEventListener("error", onError);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", onLoadedMetadata);
+      audio.removeEventListener("ended", onEnded);
+      audio.removeEventListener("error", onError);
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, [audioUrl]);
+
+  // Update current time via requestAnimationFrame
+  const updateTime = useCallback(() => {
+    if (audioRef.current) {
+      setCurrentSeconds(Math.floor(audioRef.current.currentTime));
+    }
+    animFrameRef.current = requestAnimationFrame(updateTime);
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      animFrameRef.current = requestAnimationFrame(updateTime);
+    } else if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+    }
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, [isPlaying, updateTime]);
+
+  const togglePlayPause = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || !isLoaded) return;
+
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      audio.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {
+        // Autoplay blocked or other error
+      });
+    }
+  }, [isPlaying, isLoaded]);
+
+  const seekBy = useCallback((seconds: number) => {
+    const audio = audioRef.current;
+    if (!audio || !isLoaded) return;
+
+    const newTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds));
+    audio.currentTime = newTime;
+    setCurrentSeconds(Math.floor(newTime));
+  }, [isLoaded]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -105,15 +189,15 @@ export default function AudioPlayer({ book }: AudioPlayerProps) {
         <div className="flex items-center justify-center gap-7">
           {/* Rewind 15s */}
           <button
-            onClick={() =>
-              setCurrentSeconds((p) => Math.max(0, p - 15))
-            }
+            onClick={() => seekBy(-15)}
             className="w-16 h-16 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
             style={{
               border: "1px solid rgba(26, 18, 7, 0.06)",
               boxShadow: "var(--shadow-sm)",
+              opacity: isLoaded ? 1 : 0.4,
             }}
             aria-label="Rewind 15 seconds"
+            disabled={!isLoaded}
           >
             <div className="relative flex items-center justify-center">
               <SkipBack size={24} className="text-text-secondary" />
@@ -123,7 +207,7 @@ export default function AudioPlayer({ book }: AudioPlayerProps) {
 
           {/* Play / Pause */}
           <button
-            onClick={() => setIsPlaying((p) => !p)}
+            onClick={togglePlayPause}
             className="w-24 h-24 rounded-full flex items-center justify-center text-white active:scale-[0.92] transition-all duration-150 cursor-pointer"
             style={{
               background: isPlaying ? "var(--accent-deep)" : "var(--gradient-cta)",
@@ -131,23 +215,25 @@ export default function AudioPlayer({ book }: AudioPlayerProps) {
                 ? "0 8px 24px rgba(139, 92, 246, 0.3)"
                 : "var(--shadow-cta)",
               transition: "background 300ms, box-shadow 300ms, transform 150ms",
+              opacity: isLoaded ? 1 : 0.4,
             }}
             aria-label={isPlaying ? "Pause" : "Play"}
+            disabled={!isLoaded}
           >
             {isPlaying ? <Pause size={36} fill="white" /> : <Play size={36} fill="white" className="ml-1" />}
           </button>
 
           {/* Forward 15s */}
           <button
-            onClick={() =>
-              setCurrentSeconds((p) => Math.min(totalSeconds, p + 15))
-            }
+            onClick={() => seekBy(15)}
             className="w-16 h-16 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
             style={{
               border: "1px solid rgba(26, 18, 7, 0.06)",
               boxShadow: "var(--shadow-sm)",
+              opacity: isLoaded ? 1 : 0.4,
             }}
             aria-label="Forward 15 seconds"
+            disabled={!isLoaded}
           >
             <div className="relative flex items-center justify-center">
               <SkipForward size={24} className="text-text-secondary" />

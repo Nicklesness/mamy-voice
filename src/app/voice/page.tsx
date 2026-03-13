@@ -1,34 +1,100 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Mic, RotateCcw, Trash2 } from "lucide-react";
+import { ChevronLeft, Mic, RotateCcw, Trash2, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
+
+type PageState = "loading" | "ready" | "deleting";
 
 export default function VoiceProfilePage() {
   const router = useRouter();
   const [voiceRecorded, setVoiceRecorded] = useState(false);
   const [recordedAt, setRecordedAt] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [pageState, setPageState] = useState<PageState>("loading");
 
+  // Validate voice_id on mount
   useEffect(() => {
-    setVoiceRecorded(localStorage.getItem("voiceRecorded") === "true");
-    setRecordedAt(localStorage.getItem("voiceRecordedAt"));
+    const voiceId = localStorage.getItem("voiceId");
+    const storedRecordedAt = localStorage.getItem("voiceRecordedAt");
+
+    if (!voiceId) {
+      setVoiceRecorded(false);
+      setRecordedAt(null);
+      setPageState("ready");
+      return;
+    }
+
+    // Validate voice_id via API
+    fetch(`/api/voice/status?voice_id=${encodeURIComponent(voiceId)}`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Status check failed");
+        return res.json();
+      })
+      .then((data: { exists: boolean }) => {
+        if (data.exists) {
+          setVoiceRecorded(true);
+          setRecordedAt(storedRecordedAt);
+        } else {
+          // Voice no longer exists on server — clear local state
+          localStorage.removeItem("voiceRecorded");
+          localStorage.removeItem("voiceRecordedAt");
+          localStorage.removeItem("voiceId");
+          localStorage.removeItem("voiceDate");
+          setVoiceRecorded(false);
+          setRecordedAt(null);
+        }
+      })
+      .catch(() => {
+        // On network error, trust localStorage
+        setVoiceRecorded(localStorage.getItem("voiceRecorded") === "true");
+        setRecordedAt(storedRecordedAt);
+      })
+      .finally(() => {
+        setPageState("ready");
+      });
   }, []);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(async () => {
+    const voiceId = localStorage.getItem("voiceId");
+
+    setPageState("deleting");
+
+    if (voiceId) {
+      try {
+        await fetch(`/api/voice/delete?voice_id=${encodeURIComponent(voiceId)}`, {
+          method: "DELETE",
+        });
+      } catch {
+        // Continue with local cleanup even if API fails
+      }
+    }
+
     localStorage.removeItem("voiceRecorded");
     localStorage.removeItem("voiceRecordedAt");
     localStorage.removeItem("voiceId");
+    localStorage.removeItem("voiceDate");
     setVoiceRecorded(false);
     setRecordedAt(null);
     setShowDeleteConfirm(false);
-  };
+    setPageState("ready");
+  }, []);
 
   const formatDate = (iso: string) => {
     const d = new Date(iso);
     return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
   };
+
+  if (pageState === "loading" || pageState === "deleting") {
+    return (
+      <div className="flex items-center justify-center min-h-svh" style={{ background: "var(--bg)" }}>
+        <div className="animate-spin">
+          <Loader2 size={32} style={{ color: "var(--accent-warm)" }} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex flex-col min-h-svh px-6 pt-12 pb-10 overflow-hidden">

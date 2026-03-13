@@ -45,18 +45,27 @@ export default function GeneratePage() {
   const router = useRouter();
   const bookId = params.bookId;
   const [book, setBook] = useState<Book | undefined>();
-  const { status, progress, start } = useGenerationStatus(bookId);
+  const { status, progress, error, start } = useGenerationStatus(bookId);
+  const [hasStarted, setHasStarted] = useState(false);
 
+  // Check for voiceId, redirect if missing
   useEffect(() => {
+    const voiceId = localStorage.getItem("voiceId");
+    if (!voiceId) {
+      router.replace("/record");
+      return;
+    }
     const found = getBookById(bookId);
     setBook(found);
-  }, [bookId]);
+  }, [bookId, router]);
 
+  // Auto-start generation once book is loaded
   useEffect(() => {
-    if (book && status === "idle") {
+    if (book && !hasStarted) {
+      setHasStarted(true);
       start();
     }
-  }, [book, status, start]);
+  }, [book, hasStarted, start]);
 
   if (!book) {
     return (
@@ -106,14 +115,14 @@ export default function GeneratePage() {
             >
               <div
                 className="h-1.5 rounded-full transition-all duration-300 ease-out progress-bar-animated"
-                style={{ width: `${progress}%`, background: "var(--gradient-cta)" }}
+                style={{ width: `${Math.round(progress)}%`, background: "var(--gradient-cta)" }}
               />
             </div>
             <p
               className="text-center text-text-primary mt-2.5"
               style={{ fontSize: 24, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}
             >
-              {progress}%
+              {Math.round(progress)}%
             </p>
           </div>
 
@@ -183,14 +192,16 @@ export default function GeneratePage() {
           </h1>
 
           <p className="text-text-secondary text-center" style={{ fontSize: 15 }}>
-            Couldn&apos;t generate the narration. Please try again.
+            {error || "Couldn't generate the narration. Please try again."}
           </p>
 
           <Button
             variant="primary"
             size="lg"
             fullWidth
-            onClick={() => start()}
+            onClick={() => {
+              setHasStarted(false);
+            }}
           >
             Try Again
           </Button>

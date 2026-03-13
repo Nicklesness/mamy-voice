@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateSpeech, splitText, ElevenLabsError } from "@/lib/elevenlabs";
+import { generateSpeech, ElevenLabsError } from "@/lib/elevenlabs";
 import { getBookById } from "@/lib/books";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -31,24 +31,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Split text into chunks if needed (max 5000 chars per request)
-    const chunks = splitText(book.text, 5000);
-
-    // Generate speech for each chunk
-    const audioBuffers: ArrayBuffer[] = [];
-    for (const chunk of chunks) {
-      const audioBuffer = await generateSpeech(chunk, voiceId);
-      audioBuffers.push(audioBuffer);
-    }
-
-    // Concatenate all audio buffers
-    const totalLength = audioBuffers.reduce((sum, buf) => sum + buf.byteLength, 0);
-    const combined = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const buf of audioBuffers) {
-      combined.set(new Uint8Array(buf), offset);
-      offset += buf.byteLength;
-    }
+    // Generate speech (single request — texts are short for MVP)
+    const audioBuffer = await generateSpeech(book.text, voiceId);
+    const combined = new Uint8Array(audioBuffer);
 
     // Save to public/audio directory
     const audioDir = path.join(process.cwd(), "public", "audio");

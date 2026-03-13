@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
 import Button from "@/components/ui/Button";
@@ -111,28 +111,6 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
   const isFirstPassage = currentPassage === 0;
   const isLastPassage = currentPassage === TOTAL_PASSAGES - 1;
 
-  // Passage dots
-  const passageDots = useMemo(() => (
-    <div className="flex gap-2 justify-center mb-4">
-      {Array.from({ length: TOTAL_PASSAGES }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-            i === currentPassage ? "animate-pulse-soft" : ""
-          }`}
-          style={{
-            backgroundColor:
-              i < currentPassage
-                ? "var(--accent-warm)"
-                : i === currentPassage
-                  ? "var(--accent-warm)"
-                  : "rgba(26, 18, 7, 0.1)",
-          }}
-        />
-      ))}
-    </div>
-  ), [currentPassage]);
-
   // COMPLETE screen
   if (screenState === "complete") {
     return (
@@ -204,13 +182,11 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
           </button>
         )}
 
-        {passageDots}
-
         <p
           className="text-center"
           style={{ fontSize: 13, fontWeight: 700, color: "var(--text-tertiary)" }}
         >
-          Passage {currentPassage + 1} of {TOTAL_PASSAGES}
+          Read aloud to record your voice
         </p>
       </div>
 

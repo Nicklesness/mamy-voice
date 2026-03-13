@@ -4,9 +4,9 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getBookById } from "@/lib/books";
 import { useGenerationStatus } from "@/hooks/useGenerationStatus";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import BookCover from "@/components/BookCover";
-import { MagicCreation, Celebration, ErrorState } from "@/components/illustrations";
 import type { Book } from "@/types";
 
 function ConfettiDots() {
@@ -81,7 +81,7 @@ export default function GeneratePage() {
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm">
           {/* Illustration */}
           <div className="animate-fade-in-scale">
-            <MagicCreation className="w-40 h-40" />
+            <Image src="/images/generating.png" alt="Creating magic" width={160} height={160} className="rounded-2xl" />
           </div>
 
           {/* Book mini-cover with spinning ring */}
@@ -149,7 +149,7 @@ export default function GeneratePage() {
 
           {/* Illustration */}
           <div className="animate-bounce-in">
-            <Celebration className="w-[180px] h-[180px]" />
+            <Image src="/images/celebration.png" alt="Celebration" width={180} height={180} className="rounded-2xl" />
           </div>
 
           <h1
@@ -185,7 +185,7 @@ export default function GeneratePage() {
 
       {status === "error" && (
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm animate-fade-in-scale">
-          <ErrorState className="w-40 h-40" />
+          <Image src="/images/error.png" alt="Error" width={160} height={160} className="rounded-2xl" />
 
           <h1 className="text-text-primary text-center" style={{ fontSize: 22, fontWeight: 700 }}>
             Something went wrong

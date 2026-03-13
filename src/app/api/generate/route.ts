@@ -35,15 +35,15 @@ export async function POST(request: NextRequest) {
     const audioBuffer = await generateSpeech(book.text, voiceId);
     const combined = new Uint8Array(audioBuffer);
 
-    // Save to public/audio directory
-    const audioDir = path.join(process.cwd(), "public", "audio");
+    // Save to data/audio directory (not public — served via API route)
+    const audioDir = path.join(process.cwd(), "data", "audio");
     await mkdir(audioDir, { recursive: true });
 
     const filename = `${bookId}-${voiceId}.mp3`;
     const filePath = path.join(audioDir, filename);
     await writeFile(filePath, combined);
 
-    const audioUrl = `/audio/${filename}`;
+    const audioUrl = `/api/audio?file=${filename}`;
 
     return NextResponse.json({ audioUrl });
   } catch (error) {

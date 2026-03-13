@@ -4,33 +4,29 @@ import { cloneVoice, ElevenLabsError } from "@/lib/elevenlabs";
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const audioFile = formData.get("audio");
+    const audioFiles = formData.getAll("audio").filter(
+      (f): f is File => f instanceof Blob && f.size > 0
+    );
 
-    if (!audioFile || !(audioFile instanceof Blob)) {
+    if (audioFiles.length === 0) {
       return NextResponse.json(
-        { error: "Missing or invalid 'audio' field. Expected an audio file." },
+        { error: "Missing or invalid 'audio' field. Expected audio file(s)." },
         { status: 400 }
       );
     }
 
-    // Validate file size (max 50MB)
+    // Validate total size (max 50MB)
     const maxSize = 50 * 1024 * 1024;
-    if (audioFile.size > maxSize) {
+    const totalSize = audioFiles.reduce((sum, f) => sum + f.size, 0);
+    if (totalSize > maxSize) {
       return NextResponse.json(
-        { error: "Audio file is too large. Maximum size is 50MB." },
-        { status: 400 }
-      );
-    }
-
-    if (audioFile.size === 0) {
-      return NextResponse.json(
-        { error: "Audio file is empty." },
+        { error: "Audio files are too large. Maximum total size is 50MB." },
         { status: 400 }
       );
     }
 
     const name = `Mamy Voice - ${Date.now()}`;
-    const result = await cloneVoice(audioFile, name);
+    const result = await cloneVoice(audioFiles, name);
 
     return NextResponse.json({ voice_id: result.voice_id });
   } catch (error) {

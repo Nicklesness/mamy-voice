@@ -20,6 +20,12 @@
 # production
 /build
 
+# generated audio files
+public/audio/*.mp3
+public/audio/*.wav
+public/audio/*.webm
+data/audio/
+
 # misc
 .DS_Store
 *.pem

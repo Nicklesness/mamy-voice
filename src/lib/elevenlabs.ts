@@ -28,12 +28,15 @@ export interface VoiceInfo {
  * Accepts an audio Blob (from FormData upload).
  */
 export async function cloneVoice(
-  audioFile: File | Blob,
+  audioFiles: (File | Blob)[] | File | Blob,
   name: string
 ): Promise<CloneVoiceResult> {
   const formData = new FormData();
   formData.append("name", name);
-  formData.append("files", audioFile);
+  const files = Array.isArray(audioFiles) ? audioFiles : [audioFiles];
+  for (const file of files) {
+    formData.append("files", file);
+  }
 
   const response = await fetch(`${API_BASE}/voices/add`, {
     method: "POST",

@@ -119,23 +119,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Wave divider ─── */}
-        <div className="w-full overflow-hidden" style={{ height: 24, marginTop: -1 }}>
-          <svg viewBox="0 0 1440 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 24V12C240 0 480 0 720 12C960 24 1200 24 1440 12V24H0Z" fill="var(--bg-warm)" />
-          </svg>
-        </div>
-
         {/* ─── Trusted By (logos) ─── */}
         <ScrollReveal>
-          <section className="py-10 md:py-14 px-6 md:px-16" style={{ background: "var(--bg-warm)" }}>
-            <p className="text-text-tertiary text-center mb-6" style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <section className="py-12 md:py-16 px-6" style={{ background: "white" }}>
+            <p className="text-text-tertiary text-center mb-8" style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
               Research backed by
             </p>
-            <div className="flex items-center justify-center gap-10 md:gap-16 flex-wrap">
-              <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[44px] md:h-[56px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
-              <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[40px] md:h-[52px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
-              <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[44px] md:h-[56px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
+            <div className="flex items-center justify-center gap-12 md:gap-20 flex-wrap max-w-4xl mx-auto">
+              <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={300} height={80} className="opacity-50 hover:opacity-80 transition-opacity duration-300 h-[50px] md:h-[65px] w-auto" style={{ objectFit: "contain" }} />
+              <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={300} height={80} className="opacity-50 hover:opacity-80 transition-opacity duration-300 h-[44px] md:h-[58px] w-auto" style={{ objectFit: "contain" }} />
+              <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={300} height={80} className="opacity-50 hover:opacity-80 transition-opacity duration-300 h-[50px] md:h-[65px] w-auto" style={{ objectFit: "contain" }} />
             </div>
           </section>
         </ScrollReveal>
@@ -340,25 +333,13 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {/* Free tier */}
-                <div className="rounded-[20px] p-7 flex flex-col" style={{ background: "var(--bg)", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(26, 18, 7, 0.06)" }}>
-                  <p className="text-text-secondary" style={{ fontSize: 18, fontWeight: 700 }}>Free</p>
-                  <p className="mt-2" style={{ fontSize: 36, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-                    $0
-                  </p>
-                  <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>5 minutes included</p>
-                  <div className="flex items-center gap-2 mt-5 text-text-secondary" style={{ fontSize: 14 }}>
-                    <Clock size={15} style={{ color: "var(--success)" }} /> ~1-2 stories
-                  </div>
-                  <div className="mt-auto pt-6">
-                    <Link href="/record" className="flex items-center justify-center w-full rounded-full font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 44, fontSize: 14, color: "var(--accent-warm)", border: "1.5px solid var(--accent-warm)" }}>
-                      Get Started
-                    </Link>
-                  </div>
-                </div>
+              {/* Free badge */}
+              <div className="flex items-center justify-center gap-2 mb-8 rounded-full px-5 py-2.5 mx-auto w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
+                <Sparkles size={16} style={{ color: "var(--success)" }} />
+                <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>5 free minutes for every new account</span>
+              </div>
 
-                {/* Paid tiers */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {MINUTE_PACKS.map((pack) => (
                   <div
                     key={pack.id}

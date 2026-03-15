@@ -135,7 +135,11 @@ export default function Home() {
 
         {/* ─── The Problem ─── */}
         <ScrollReveal>
-          <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
+          <section className="relative max-w-5xl mx-auto px-6 py-20 md:py-28">
+            {/* Decorative elements */}
+            <span className="absolute top-16 left-4 md:left-10 text-xl animate-float-slow hidden md:block" style={{ opacity: 0.1 }}>&#9679;</span>
+            <span className="absolute top-32 right-8 md:right-16 text-lg animate-float-slow-alt hidden md:block" style={{ opacity: 0.08, animationDelay: "1.5s" }}>&#10038;</span>
+            <span className="absolute bottom-20 left-12 text-2xl animate-float-slow-reverse hidden md:block" style={{ opacity: 0.07, animationDelay: "2.5s" }}>&#9734;</span>
             <div className="text-center mb-12">
               <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 You know reading matters.
@@ -199,7 +203,11 @@ export default function Home() {
 
         {/* ─── Book Showcase ─── */}
         <ScrollReveal>
-          <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
+          <section className="relative py-20 md:py-28" style={{ background: "var(--surface)" }}>
+            {/* Decorative elements */}
+            <span className="absolute top-12 right-10 text-2xl animate-float-slow" style={{ opacity: 0.12 }}>&#9733;</span>
+            <span className="absolute top-1/3 left-6 text-xl animate-float-slow-alt" style={{ opacity: 0.1, animationDelay: "2s" }}>&#9829;</span>
+            <span className="absolute bottom-16 right-16 text-lg animate-float-slow-reverse" style={{ opacity: 0.09, animationDelay: "1s" }}>&#9834;</span>
             <div className="max-w-5xl mx-auto px-6">
               <h2 className="text-text-primary text-center mb-3" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 Stories your child will <span style={{ color: "var(--accent-warm)" }}>love</span>
@@ -253,7 +261,9 @@ export default function Home() {
               </h2>
 
               {/* Hero Stat */}
-              <div className="mx-auto text-center rounded-[28px] p-10 md:p-14 mb-12" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
+              <div className="relative mx-auto text-center rounded-[28px] p-10 md:p-14 mb-12" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
+                <span className="absolute -top-3 -right-3 text-xl animate-float-slow" style={{ opacity: 0.2 }}>&#10022;</span>
+                <span className="absolute -bottom-2 -left-2 text-lg animate-float-slow-alt" style={{ opacity: 0.15, animationDelay: "1.5s" }}>&#9733;</span>
                 <p style={{ fontSize: "clamp(64px, 10vw, 80px)", fontWeight: 800, color: "var(--accent-deep)", lineHeight: 1, letterSpacing: "-0.04em" }}>
                   <AnimatedCounter value="97%" />
                 </p>
@@ -420,8 +430,14 @@ export default function Home() {
 
         {/* ─── Final CTA ─── */}
         <ScrollReveal>
-          <section className="px-6 py-20 md:py-28" style={{ background: "var(--surface)" }}>
-            <div className="max-w-xl mx-auto text-center">
+          <section className="relative px-6 py-20 md:py-28" style={{ background: "var(--surface)" }}>
+            {/* Decorative elements */}
+            <span className="absolute top-14 left-[15%] text-2xl animate-float-slow" style={{ opacity: 0.12 }}>&#9733;</span>
+            <span className="absolute top-20 right-[12%] text-xl animate-float-slow-alt" style={{ opacity: 0.1, animationDelay: "1s" }}>&#9829;</span>
+            <span className="absolute bottom-14 left-[20%] text-lg animate-float-slow-reverse" style={{ opacity: 0.08, animationDelay: "2s" }}>&#9834;</span>
+            <span className="absolute bottom-24 right-[18%] text-xl animate-float-slow" style={{ opacity: 0.1, animationDelay: "0.5s" }}>&#9790;</span>
+            <span className="absolute top-1/2 left-[8%] text-lg animate-float-slow-alt" style={{ opacity: 0.07, animationDelay: "3s" }}>&#10022;</span>
+            <div className="max-w-xl mx-auto text-center relative z-10">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: "var(--accent-warm-light)" }}>
                 <Sparkles size={28} style={{ color: "var(--accent-warm)" }} />
               </div>

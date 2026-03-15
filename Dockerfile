@@ -1,5 +1,6 @@
 FROM node:22-alpine AS base
 
+# --- Install dependencies ---
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -7,30 +8,40 @@ COPY prisma ./prisma/
 COPY prisma.config.ts ./
 RUN npm ci
 
+# --- Build app ---
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npx prisma generate && npm run build
+RUN npx prisma generate
+RUN npm run build
 
+# --- Production runner ---
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 
+# Copy standalone build
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+# Copy Prisma files for runtime + migrations
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/src/generated ./src/generated
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/@prisma/adapter-pg ./node_modules/@prisma/adapter-pg
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/dotenv ./node_modules/dotenv
+
+# Make prisma CLI accessible
+RUN ln -s /app/node_modules/prisma/build/bin.js /usr/local/bin/prisma
 
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
+CMD ["sh", "-c", "prisma migrate deploy && node server.js"]

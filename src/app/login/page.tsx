@@ -75,16 +75,16 @@ function LoginContent() {
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-5 w-full max-w-sm">
+      <div className="relative z-10 flex flex-col items-center gap-5 w-full max-w-sm md:max-w-md">
         <div className="animate-fade-in-scale">
           <Image src="/images/hero.png" alt="Mamy Voice" width={100} height={100} className="rounded-2xl" />
         </div>
 
         <div className="text-center animate-fade-in-up delay-200">
-          <h1 className="text-text-primary" style={{ fontSize: 26, fontWeight: 700 }}>
+          <h1 className="text-text-primary md:text-3xl" style={{ fontSize: 26, fontWeight: 700 }}>
             {isRegister ? "Create Account" : "Welcome Back"}
           </h1>
-          <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>
+          <p className="text-text-secondary mt-1 md:text-base" style={{ fontSize: 14 }}>
             {isRegister ? "Sign up to start narrating stories" : "Sign in to continue"}
           </p>
         </div>

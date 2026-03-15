@@ -73,9 +73,9 @@ export default function GeneratePage() {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-svh px-6 py-8 overflow-hidden">
+    <div className="relative flex flex-col items-center justify-center min-h-svh px-6 md:px-10 py-8 overflow-hidden">
       {status === "generating" && (
-        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm">
+        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm md:max-w-lg mx-auto">
           <div className="animate-fade-in-scale">
             <Image src="/images/generating.png" alt="Creating magic" width={160} height={160} className="rounded-2xl" />
           </div>
@@ -89,7 +89,7 @@ export default function GeneratePage() {
           </div>
 
           <div className="text-center animate-fade-in-up delay-200">
-            <h1 className="text-text-primary" style={{ fontSize: 20, fontWeight: 600 }}>
+            <h1 className="text-text-primary text-xl md:text-2xl font-semibold">
               {book.title}
             </h1>
             <p className="text-sm text-text-secondary mt-1">
@@ -97,7 +97,7 @@ export default function GeneratePage() {
             </p>
           </div>
 
-          <div className="w-[280px] animate-fade-in-up delay-300">
+          <div className="w-[280px] md:w-[380px] animate-fade-in-up delay-300">
             <div
               className="w-full h-1.5 rounded-full overflow-hidden"
               style={{ background: "rgba(26, 18, 7, 0.06)", boxShadow: "var(--shadow-inner)" }}
@@ -128,12 +128,12 @@ export default function GeneratePage() {
       )}
 
       {status === "done" && (
-        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm">
+        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm md:max-w-lg mx-auto">
           <ConfettiDots />
           <div className="animate-bounce-in">
             <Image src="/images/celebration.png" alt="Celebration" width={180} height={180} className="rounded-2xl" />
           </div>
-          <h1 className="text-text-primary text-center animate-fade-in-up delay-200" style={{ fontSize: 28, fontWeight: 700 }}>
+          <h1 className="text-text-primary text-center text-2xl md:text-3xl font-bold animate-fade-in-up delay-200">
             Narration <span style={{ color: "var(--accent-warm)" }}>ready</span>!
           </h1>
           <p className="text-base text-text-secondary text-center animate-fade-in-up delay-300">{book.title}</p>
@@ -149,7 +149,7 @@ export default function GeneratePage() {
       )}
 
       {status === "error" && (
-        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm animate-fade-in-scale">
+        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm md:max-w-lg mx-auto animate-fade-in-scale">
           <Image src="/images/error.png" alt="Error" width={160} height={160} className="rounded-2xl" />
           <h1 className="text-text-primary text-center" style={{ fontSize: 22, fontWeight: 700 }}>
             Something went wrong

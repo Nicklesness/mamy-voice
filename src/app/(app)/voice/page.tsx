@@ -72,9 +72,9 @@ export default function VoiceProfilePage() {
   }
 
   return (
-    <div className="relative flex flex-col min-h-svh px-6 pt-12 pb-10 overflow-hidden">
+    <div className="relative flex flex-col min-h-svh px-6 md:px-8 pt-12 pb-10 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
+      <div className="flex items-center gap-3 mb-8 max-w-2xl mx-auto w-full">
         <button
           onClick={() => router.push("/books")}
           className="flex items-center justify-center cursor-pointer bg-transparent border-none"
@@ -88,7 +88,7 @@ export default function VoiceProfilePage() {
       </div>
 
       {voiceRecorded ? (
-        <>
+        <div className="max-w-2xl mx-auto w-full">
           {/* Voice card */}
           <div
             className="rounded-3xl p-6 mb-6 animate-fade-in-up"
@@ -144,7 +144,7 @@ export default function VoiceProfilePage() {
           {showDeleteConfirm && (
             <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: "rgba(0,0,0,0.4)" }}>
               <div
-                className="w-full max-w-[390px] rounded-t-3xl p-6 animate-fade-in-up"
+                className="w-full max-w-[480px] rounded-t-3xl p-6 animate-fade-in-up"
                 style={{ background: "var(--surface)" }}
               >
                 <h3 className="text-text-primary text-center mb-2" style={{ fontSize: 18, fontWeight: 700 }}>
@@ -174,10 +174,10 @@ export default function VoiceProfilePage() {
               </div>
             </div>
           )}
-        </>
+        </div>
       ) : (
         /* Empty state */
-        <div className="flex-1 flex flex-col items-center justify-center animate-fade-in-up">
+        <div className="flex-1 flex flex-col items-center justify-center animate-fade-in-up max-w-2xl mx-auto w-full">
           <div
             className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
             style={{ background: "rgba(26, 18, 7, 0.04)" }}

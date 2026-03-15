@@ -110,7 +110,7 @@ export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
 
   return (
     <div
-      className="flex flex-col items-center justify-between min-h-svh px-6 py-10 relative overflow-hidden"
+      className="flex flex-col items-center justify-between min-h-svh px-6 md:px-10 lg:px-16 py-10 relative overflow-hidden"
       style={{
         background: `linear-gradient(180deg, ${book.coverColor}20 0%, ${book.coverColor}08 40%, #FDF6EE 100%)`,
       }}
@@ -149,17 +149,17 @@ export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
       </div>
 
       {/* Info + Controls */}
-      <div className="w-full flex flex-col items-center gap-6 pb-4 animate-fade-in-up delay-300">
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-6 pb-4 animate-fade-in-up delay-300">
         {/* Title & Author */}
         <div className="text-center">
-          <h2 className="text-[22px] font-bold text-text-primary">{book.title}</h2>
+          <h2 className="text-[22px] md:text-[26px] font-bold text-text-primary">{book.title}</h2>
           <p className="text-sm text-text-secondary mt-1 flex items-center justify-center gap-1.5">
             <Mic size={14} className="text-accent-warm" /> Mom&apos;s Voice
           </p>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full" style={{ maxWidth: 342 }}>
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg">
           <div
             className="w-full h-1 rounded-full overflow-hidden"
             style={{ background: "rgba(26, 18, 7, 0.06)" }}
@@ -190,7 +190,7 @@ export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
           {/* Rewind 15s */}
           <button
             onClick={() => seekBy(-15)}
-            className="w-16 h-16 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
+            className="w-16 h-16 md:w-18 md:h-18 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
             style={{
               border: "1px solid rgba(26, 18, 7, 0.06)",
               boxShadow: "var(--shadow-sm)",
@@ -208,7 +208,7 @@ export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
           {/* Play / Pause */}
           <button
             onClick={togglePlayPause}
-            className="w-24 h-24 rounded-full flex items-center justify-center text-white active:scale-[0.92] transition-all duration-150 cursor-pointer"
+            className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center text-white active:scale-[0.92] transition-all duration-150 cursor-pointer"
             style={{
               background: isPlaying ? "var(--accent-deep)" : "var(--gradient-cta)",
               boxShadow: isPlaying
@@ -226,7 +226,7 @@ export default function AudioPlayer({ book, audioUrl }: AudioPlayerProps) {
           {/* Forward 15s */}
           <button
             onClick={() => seekBy(15)}
-            className="w-16 h-16 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
+            className="w-16 h-16 md:w-18 md:h-18 rounded-full bg-white flex items-center justify-center active:scale-90 transition-all duration-200 cursor-pointer"
             style={{
               border: "1px solid rgba(26, 18, 7, 0.06)",
               boxShadow: "var(--shadow-sm)",

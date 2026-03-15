@@ -98,7 +98,8 @@ export default function RecordPage() {
   // After recording, not logged in → ask to create account
   if (cloneState === "needsAuth" && pendingBlobs) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-svh px-6 gap-6" style={{ background: "var(--bg)" }}>
+      <div className="flex flex-col items-center justify-center min-h-svh px-6 md:px-10 gap-6" style={{ background: "var(--bg)" }}>
+        <div className="max-w-lg mx-auto flex flex-col items-center gap-6">
         <div
           className="w-16 h-16 rounded-full flex items-center justify-center animate-bounce-in"
           style={{ background: "var(--accent-warm-light)" }}
@@ -113,7 +114,7 @@ export default function RecordPage() {
             Create a free account to save your voice and start narrating books
           </p>
         </div>
-        <div className="w-full max-w-sm flex flex-col gap-3 animate-fade-in-up delay-300">
+        <div className="w-full max-w-sm md:max-w-md flex flex-col gap-3 animate-fade-in-up delay-300">
           <Button
             variant="primary"
             size="lg"
@@ -130,23 +131,26 @@ export default function RecordPage() {
             Already have an account? Sign In
           </Button>
         </div>
+        </div>
       </div>
     );
   }
 
   if (cloneState === "cloning") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-svh px-6 gap-6" style={{ background: "var(--bg)" }}>
-        <div className="animate-spin">
-          <Loader2 size={48} style={{ color: "var(--accent-warm)" }} />
-        </div>
-        <div className="text-center">
-          <h2 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700 }}>
-            Cloning your voice...
-          </h2>
-          <p className="text-text-secondary text-sm mt-2">
-            This may take a moment
-          </p>
+      <div className="flex flex-col items-center justify-center min-h-svh px-6 md:px-10 gap-6" style={{ background: "var(--bg)" }}>
+        <div className="max-w-lg mx-auto flex flex-col items-center gap-6">
+          <div className="animate-spin">
+            <Loader2 size={48} style={{ color: "var(--accent-warm)" }} />
+          </div>
+          <div className="text-center">
+            <h2 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700 }}>
+              Cloning your voice...
+            </h2>
+            <p className="text-text-secondary text-sm mt-2">
+              This may take a moment
+            </p>
+          </div>
         </div>
       </div>
     );

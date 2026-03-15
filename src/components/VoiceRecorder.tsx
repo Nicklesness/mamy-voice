@@ -115,7 +115,7 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
   if (screenState === "complete") {
     return (
       <div className="relative flex flex-col min-h-svh px-6 pt-12 pb-10 overflow-hidden" style={{ background: "var(--bg)" }}>
-        <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center max-w-lg mx-auto w-full">
           <div className="animate-bounce-in">
             <div
               className="w-24 h-24 rounded-full flex items-center justify-center"
@@ -158,7 +158,7 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
   }
 
   return (
-    <div className="relative flex flex-col h-svh overflow-hidden" style={{ background: "var(--bg)" }}>
+    <div className="relative flex flex-col h-svh overflow-hidden max-w-2xl mx-auto w-full" style={{ background: "var(--bg)" }}>
       {/* Error message */}
       {error && (
         <div

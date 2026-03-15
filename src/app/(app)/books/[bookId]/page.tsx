@@ -21,7 +21,7 @@ export default async function BookPage({ params }: BookPageProps) {
   }
 
   return (
-    <div className="relative px-6 pt-12 pb-10 min-h-svh overflow-hidden">
+    <div className="relative px-6 md:px-8 pt-12 pb-10 min-h-svh overflow-hidden">
       {/* Background with book color */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -30,7 +30,7 @@ export default async function BookPage({ params }: BookPageProps) {
         }}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-2xl mx-auto">
         {/* Back button */}
         <Link
           href="/books"
@@ -62,12 +62,12 @@ export default async function BookPage({ params }: BookPageProps) {
         {/* Title */}
         <div className="text-center mt-5 animate-fade-in-up delay-200">
           <h1
-            className="text-text-primary"
+            className="text-text-primary md:text-3xl"
             style={{ fontSize: 28, fontWeight: 700 }}
           >
             {book.title}
           </h1>
-          <p className="text-sm text-text-secondary mt-1">
+          <p className="text-sm md:text-base text-text-secondary mt-1">
             {book.author}
           </p>
         </div>

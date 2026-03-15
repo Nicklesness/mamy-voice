@@ -53,8 +53,8 @@ export default function PlayerPage() {
 
   if (!audioUrl) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-svh px-6 gap-6" style={{ background: "var(--bg)" }}>
-        <div className="text-center">
+      <div className="flex flex-col items-center justify-center min-h-svh px-6 md:px-10 gap-6" style={{ background: "var(--bg)" }}>
+        <div className="text-center max-w-lg mx-auto">
           <h2 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700 }}>
             No narration yet
           </h2>
@@ -73,7 +73,7 @@ export default function PlayerPage() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative max-w-3xl mx-auto">
       <button
         onClick={() => router.push("/books")}
         className="absolute top-3 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer hover:bg-[rgba(26,18,7,0.08)] active:bg-[rgba(26,18,7,0.12)]"

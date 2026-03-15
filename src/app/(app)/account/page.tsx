@@ -48,8 +48,8 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="relative px-6 pt-12 pb-8 min-h-svh overflow-hidden">
-      <div className="relative z-10">
+    <div className="relative px-6 md:px-8 pt-12 pb-8 min-h-svh overflow-hidden">
+      <div className="relative z-10 max-w-2xl mx-auto">
         {/* Back button */}
         <Link
           href="/books"
@@ -63,12 +63,12 @@ export default function AccountPage() {
         {/* Profile header */}
         <div className="animate-fade-in-up">
           <h1
-            className="text-text-primary"
+            className="text-text-primary md:text-3xl"
             style={{ fontSize: 28, fontWeight: 700 }}
           >
             My Account
           </h1>
-          <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>
+          <p className="text-text-secondary mt-1 md:text-base" style={{ fontSize: 14 }}>
             {session.user?.email}
           </p>
         </div>

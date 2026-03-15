@@ -48,7 +48,7 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="relative px-6 pt-12 pb-8 min-h-svh overflow-hidden">
+    <div className="relative px-6 md:px-8 lg:px-12 pt-12 pb-8 min-h-svh overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -57,7 +57,7 @@ export default function PricingPage() {
         }}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-4xl mx-auto">
         <Link
           href="/account"
           className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white mb-6 active:scale-95 transition-all duration-200"
@@ -81,17 +81,17 @@ export default function PricingPage() {
             Narration Minutes
           </div>
           <h1
-            className="text-text-primary"
+            className="text-text-primary md:text-3xl"
             style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}
           >
             Buy <span style={{ color: "var(--accent-deep)" }}>minutes</span>
           </h1>
-          <p className="text-text-secondary mt-2" style={{ fontSize: 14 }}>
+          <p className="text-text-secondary mt-2 md:text-base" style={{ fontSize: 14 }}>
             Each story uses minutes based on its length
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 mt-8">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6 mt-8">
           {MINUTE_PACKS.map((pack, i) => (
             <div
               key={pack.id}

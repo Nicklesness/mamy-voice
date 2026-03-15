@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const publicRoutes = ["/", "/onboarding", "/login"];
+const publicRoutes = ["/", "/onboarding", "/login", "/record"];
 const publicPrefixes = ["/api/auth", "/api/books"];
 
 export function middleware(req: NextRequest) {

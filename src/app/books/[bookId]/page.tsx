@@ -6,13 +6,15 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import BookCover from "@/components/BookCover";
 
+export const dynamic = "force-dynamic";
+
 interface BookPageProps {
   params: Promise<{ bookId: string }>;
 }
 
 export default async function BookPage({ params }: BookPageProps) {
   const { bookId } = await params;
-  const book = getBookById(bookId);
+  const book = await getBookById(bookId);
 
   if (!book) {
     notFound();

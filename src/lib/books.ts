@@ -1,132 +1,39 @@
-import type { Book } from "@/types";
+import { prisma } from "@/lib/prisma";
+import type { Book as PrismaBook } from "@/generated/prisma/client";
 
-const books: Book[] = [
-  {
-    id: "goodnight-moon",
-    title: "Goodnight Moon",
-    author: "Margaret Wise Brown",
-    description: "A little bunny says goodnight to everything in his room.",
-    summary: "In a cozy green room, a little bunny whispers goodnight to all the familiar things — the moon, the stars, the mittens, and the quiet old lady whispering hush.",
-    coverColor: "#2D5A3D",
-    pageCount: 3,
-    ageRange: "1-3",
-    duration: 3,
-    text: `In the great green room there was a fireplace, and a red balloon, and a picture of a cow jumping over the moon. Goodnight room. Goodnight moon. Goodnight stars. Goodnight air. Goodnight noises everywhere. The end!`,
-  },
-  {
-    id: "very-hungry-caterpillar",
-    title: "The Very Hungry Caterpillar",
-    author: "Eric Carle",
-    description: "A tiny caterpillar eats his way through a week of food.",
-    summary: "A tiny caterpillar hatches from an egg and eats through fruits, treats, and leaves all week long. By Sunday he's big and fat — and turns into a beautiful butterfly!",
-    coverColor: "#E74C3C",
-    pageCount: 3,
-    ageRange: "1-3",
-    duration: 3,
-    text: `One Sunday morning a tiny caterpillar hatched from an egg. He was very hungry. He ate through one apple, two pears, three plums, and so much more! He got a stomachache. Then he ate a nice green leaf and felt much better. He built a cocoon and became a beautiful butterfly! The end!`,
-  },
-  {
-    id: "where-wild-things",
-    title: "Where the Wild Things Are",
-    author: "Maurice Sendak",
-    description: "A boy sails to an island of wild creatures and becomes their king.",
-    summary: "Max puts on his wolf suit and makes mischief. He's sent to bed without supper — but his room grows into a jungle, and he sails to where the wild things are!",
-    coverColor: "#F4A460",
-    pageCount: 4,
-    ageRange: "3-5",
-    duration: 4,
-    text: `Max wore his wolf suit and made mischief. His mother called him wild thing and sent him to bed. But a forest grew in his room, and he sailed to where the wild things are! They roared and gnashed their teeth, but Max tamed them. He became king of all wild things! But he was lonely, so he sailed back home — where his supper was waiting, still hot. The end!`,
-  },
-  {
-    id: "guess-how-much",
-    title: "Guess How Much I Love You",
-    author: "Sam McBratney",
-    description: "A little hare and big hare try to measure their love.",
-    summary: "Little Nutbrown Hare wants to show Big Nutbrown Hare how much he loves him. They stretch their arms, reach up high, and hop — but love is always hard to measure!",
-    coverColor: "#DEB887",
-    pageCount: 3,
-    ageRange: "2-4",
-    duration: 3,
-    text: `Little Nutbrown Hare said, guess how much I love you! He stretched his arms as wide as they could go. Big Nutbrown Hare stretched his even wider. I love you this much! They reached up high, hopped, and pointed to the moon. I love you to the moon, said Little Hare. And back, whispered Big Hare, kissing him goodnight. The end!`,
-  },
-  {
-    id: "giving-tree",
-    title: "The Giving Tree",
-    author: "Shel Silverstein",
-    description: "A tree gives everything to the boy she loves.",
-    summary: "A tree loves a little boy. As he grows, she gives him her apples, branches, and trunk. In the end, she's just a stump — but still has enough to offer him a place to sit.",
-    coverColor: "#7CB342",
-    pageCount: 3,
-    ageRange: "3-5",
-    duration: 3,
-    text: `Once there was a tree who loved a little boy. He climbed her trunk and swung from her branches. As he grew, the tree gave him her apples to sell, her branches to build a house, and her trunk to make a boat. Now she was just a stump. The boy came back, old and tired. I have a stump to sit on, said the tree. And the boy sat down. And the tree was happy. The end!`,
-  },
-  {
-    id: "kolobok",
-    title: "The Round Bun",
-    author: "Russian Folk Tale",
-    description: "A cheerful little bun rolls through the forest, outsmarting everyone he meets.",
-    summary: "A cheerful little bun escapes from grandma and grandpa, rolling through the forest. He outruns a rabbit, a wolf, and a bear — but a clever fox has other plans.",
-    coverColor: "#FFD93D",
-    pageCount: 4,
-    ageRange: "2-4",
-    duration: 5,
-    text: `Once upon a time, an old woman baked a round bun. She set it on the windowsill to cool. But the bun rolled away into the forest! He met a rabbit, a wolf, and a bear — and outsang them all. But the clever fox tricked him. The end!`,
-  },
-  {
-    id: "repka",
-    title: "The Giant Turnip",
-    author: "Russian Folk Tale",
-    description: "Everyone pulls together to harvest an enormous turnip.",
-    summary: "Grandpa plants a turnip that grows enormous. He can't pull it out alone, so one by one the whole family and their pets join in. Together, they finally pull it free!",
-    coverColor: "#A8E6CF",
-    pageCount: 3,
-    ageRange: "2-3",
-    duration: 3,
-    text: `Grandpa planted a turnip that grew enormous. He pulled and pulled but couldn't get it out. Grandma, the granddaughter, the dog, the cat, and finally a tiny mouse all helped. Together they pulled it out! The end!`,
-  },
-  {
-    id: "kurochka-ryaba",
-    title: "The Golden Egg",
-    author: "Russian Folk Tale",
-    description: "A little hen lays a very special golden egg.",
-    summary: "A little hen named Ryaba lays a golden egg. Grandpa and grandma try to crack it, but a tiny mouse does it by accident. Don't worry — Ryaba promises a new one.",
-    coverColor: "#FFB347",
-    pageCount: 2,
-    ageRange: "2-3",
-    duration: 2,
-    text: `An old man and woman had a hen named Ryaba. One day she laid a golden egg. They tried to crack it but couldn't. A mouse ran by and knocked it off the table. It broke! But Ryaba promised a new one. The end!`,
-  },
-  {
-    id: "teremok",
-    title: "The Little House",
-    author: "Russian Folk Tale",
-    description: "Forest animals find a tiny house and try to share it.",
-    summary: "A tiny house in a meadow becomes home to more and more forest animals. Each one asks to move in — until a big bear tries to fit and the house tumbles down!",
-    coverColor: "#B19CD9",
-    pageCount: 4,
-    ageRange: "2-4",
-    duration: 4,
-    text: `A little house stood in a field. A mouse, a frog, a rabbit, a fox, and a wolf all moved in together. Then a big bear came and sat on the roof — and crushed the house! But they built a new one, even better. The end!`,
-  },
-  {
-    id: "tri-medvedya",
-    title: "The Three Bears",
-    author: "Russian Folk Tale",
-    description: "A curious girl explores a cottage belonging to three bears.",
-    summary: "A curious girl wanders into a forest cottage belonging to three bears. She tries their chairs, porridge, and beds — but when the bears come home, she'd better run!",
-    coverColor: "#87CEEB",
-    pageCount: 5,
-    ageRange: "3-5",
-    duration: 5,
-    text: `A little girl got lost in the forest and found a cottage. Inside lived three bears. She tried their chairs, porridge, and beds. The littlest was always just right! When the bears came home, she woke up and ran away. The end!`,
-  },
-];
+export type { PrismaBook as BookRecord };
 
-export function getBooks(): Book[] {
-  return books;
+// Map Prisma Book to app Book type (backward compatible)
+function toAppBook(b: PrismaBook) {
+  return {
+    id: b.id,
+    title: b.title,
+    author: b.author,
+    description: b.description,
+    summary: b.summary,
+    coverColor: b.coverColor,
+    pageCount: b.pageCount,
+    text: b.text,
+    ageRange: b.ageRange,
+    duration: Math.ceil(b.estimatedMinutes),
+    estimatedMinutes: b.estimatedMinutes,
+    coverImageUrl: b.coverImageUrl,
+    category: b.category,
+  };
 }
 
-export function getBookById(id: string): Book | undefined {
-  return books.find((book) => book.id === id);
+export type AppBook = ReturnType<typeof toAppBook>;
+
+export async function getBooks() {
+  const books = await prisma.book.findMany({
+    where: { isPublished: true },
+    orderBy: { sortOrder: "asc" },
+  });
+  return books.map(toAppBook);
+}
+
+export async function getBookById(id: string) {
+  const book = await prisma.book.findUnique({ where: { id } });
+  if (!book || !book.isPublished) return undefined;
+  return toAppBook(book);
 }

@@ -1,32 +1,29 @@
-import { NextRequest, NextResponse } from "next/server";
-import { checkVoice, ElevenLabsError } from "@/lib/elevenlabs";
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const voiceId = request.nextUrl.searchParams.get("voice_id");
-
-    if (!voiceId || voiceId.trim().length === 0) {
-      return NextResponse.json(
-        { error: "Missing 'voice_id' query parameter." },
-        { status: 400 }
-      );
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const voiceInfo = await checkVoice(voiceId);
+    const voice = await prisma.voice.findUnique({
+      where: { userId: session.user.id },
+    });
 
-    if (!voiceInfo) {
-      return NextResponse.json({ exists: false, name: null });
+    if (!voice) {
+      return NextResponse.json({ exists: false, name: null, voiceId: null });
     }
 
-    return NextResponse.json({ exists: true, name: voiceInfo.name });
+    return NextResponse.json({
+      exists: true,
+      name: voice.name,
+      voiceId: voice.elevenLabsId,
+      createdAt: voice.createdAt.toISOString(),
+    });
   } catch (error) {
-    if (error instanceof ElevenLabsError) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode === 429 ? 429 : 502 }
-      );
-    }
-
     console.error("Voice status error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

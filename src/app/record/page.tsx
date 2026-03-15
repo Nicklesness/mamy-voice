@@ -33,13 +33,7 @@ export default function RecordPage() {
         throw new Error(data.error || `Voice cloning failed (${res.status})`);
       }
 
-      const data: { voice_id: string } = await res.json();
-
-      localStorage.setItem("voiceId", data.voice_id);
-      localStorage.setItem("voiceRecorded", "true");
-      localStorage.setItem("voiceDate", new Date().toISOString());
-      localStorage.setItem("voiceRecordedAt", new Date().toISOString());
-
+      // Voice is now saved in DB via the API route — no localStorage needed
       router.push("/books");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong";

@@ -3,12 +3,15 @@ export interface Book {
   title: string
   author: string
   description: string
-  summary: string          // 2-3 sentence story description for book page
+  summary: string
   coverColor: string
   pageCount: number
-  text: string             // full narration text (not shown in UI)
-  ageRange: string         // "2-4", "3-6" etc.
-  duration: number         // estimated narration duration in minutes
+  text: string
+  ageRange: string
+  duration: number
+  estimatedMinutes?: number
+  coverImageUrl?: string | null
+  category?: string | null
 }
 
 export interface Voice {

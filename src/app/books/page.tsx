@@ -3,8 +3,10 @@ import { BookOpen } from "lucide-react";
 import BookCard from "@/components/BookCard";
 import VoiceProfileLink from "@/components/VoiceProfileLink";
 
-export default function BooksPage() {
-  const books = getBooks();
+export const dynamic = "force-dynamic";
+
+export default async function BooksPage() {
+  const books = await getBooks();
 
   return (
     <div className="relative px-6 pt-12 pb-8 min-h-svh overflow-hidden">

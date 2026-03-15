@@ -7,6 +7,13 @@ import Button from "@/components/ui/Button";
 
 type PageState = "loading" | "ready" | "deleting";
 
+interface VoiceStatus {
+  exists: boolean;
+  name: string | null;
+  voiceId: string | null;
+  createdAt: string | null;
+}
+
 export default function VoiceProfilePage() {
   const router = useRouter();
   const [voiceRecorded, setVoiceRecorded] = useState(false);
@@ -14,42 +21,20 @@ export default function VoiceProfilePage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [pageState, setPageState] = useState<PageState>("loading");
 
-  // Validate voice_id on mount
+  // Fetch voice status from DB
   useEffect(() => {
-    const voiceId = localStorage.getItem("voiceId");
-    const storedRecordedAt = localStorage.getItem("voiceRecordedAt");
-
-    if (!voiceId) {
-      setVoiceRecorded(false);
-      setRecordedAt(null);
-      setPageState("ready");
-      return;
-    }
-
-    // Validate voice_id via API
-    fetch(`/api/voice/status?voice_id=${encodeURIComponent(voiceId)}`)
+    fetch("/api/voice/status")
       .then(async (res) => {
         if (!res.ok) throw new Error("Status check failed");
         return res.json();
       })
-      .then((data: { exists: boolean }) => {
-        if (data.exists) {
-          setVoiceRecorded(true);
-          setRecordedAt(storedRecordedAt);
-        } else {
-          // Voice no longer exists on server — clear local state
-          localStorage.removeItem("voiceRecorded");
-          localStorage.removeItem("voiceRecordedAt");
-          localStorage.removeItem("voiceId");
-          localStorage.removeItem("voiceDate");
-          setVoiceRecorded(false);
-          setRecordedAt(null);
-        }
+      .then((data: VoiceStatus) => {
+        setVoiceRecorded(data.exists);
+        setRecordedAt(data.createdAt ?? null);
       })
       .catch(() => {
-        // On network error, trust localStorage
-        setVoiceRecorded(localStorage.getItem("voiceRecorded") === "true");
-        setRecordedAt(storedRecordedAt);
+        setVoiceRecorded(false);
+        setRecordedAt(null);
       })
       .finally(() => {
         setPageState("ready");
@@ -57,24 +42,14 @@ export default function VoiceProfilePage() {
   }, []);
 
   const handleDelete = useCallback(async () => {
-    const voiceId = localStorage.getItem("voiceId");
-
     setPageState("deleting");
 
-    if (voiceId) {
-      try {
-        await fetch(`/api/voice/delete?voice_id=${encodeURIComponent(voiceId)}`, {
-          method: "DELETE",
-        });
-      } catch {
-        // Continue with local cleanup even if API fails
-      }
+    try {
+      await fetch("/api/voice/delete", { method: "DELETE" });
+    } catch {
+      // Continue even if API fails
     }
 
-    localStorage.removeItem("voiceRecorded");
-    localStorage.removeItem("voiceRecordedAt");
-    localStorage.removeItem("voiceId");
-    localStorage.removeItem("voiceDate");
     setVoiceRecorded(false);
     setRecordedAt(null);
     setShowDeleteConfirm(false);

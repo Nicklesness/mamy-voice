@@ -37,18 +37,10 @@ export function useGenerationStatus(bookId: string): UseGenerationStatusReturn {
     setAudioUrl(null);
     setStatus("generating");
 
-    const voiceId = localStorage.getItem("voiceId");
-    if (!voiceId) {
-      setStatus("error");
-      setError("No voice recorded. Please record your voice first.");
-      return;
-    }
-
     // Simulate progress 0→90% over ~60s while waiting for API
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 90) return 90;
-        // Slow down as we approach 90
         const increment = Math.max(0.5, (90 - prev) * 0.03);
         return Math.min(90, prev + increment);
       });
@@ -57,15 +49,21 @@ export function useGenerationStatus(bookId: string): UseGenerationStatusReturn {
     const controller = new AbortController();
     abortRef.current = controller;
 
+    // Voice is now managed server-side — no localStorage needed
     fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bookId, voiceId }),
+      body: JSON.stringify({ bookId }),
       signal: controller.signal,
     })
       .then(async (res) => {
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
+          if (res.status === 402) {
+            throw new Error(
+              `Not enough minutes. You need ${data.minutesNeeded} min but have ${data.minuteBalance} min.`
+            );
+          }
           throw new Error(data.error || `Generation failed (${res.status})`);
         }
         return res.json();
@@ -77,7 +75,6 @@ export function useGenerationStatus(bookId: string): UseGenerationStatusReturn {
         }
         setProgress(100);
         setAudioUrl(data.audioUrl);
-        localStorage.setItem(`audio_${bookId}`, data.audioUrl);
         setStatus("done");
       })
       .catch((err: Error) => {

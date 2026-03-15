@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -29,9 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.className} antialiased`}>
-        <div className="app-container">
-          {children}
-        </div>
+        <SessionProvider>
+          <div className="app-container">
+            {children}
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

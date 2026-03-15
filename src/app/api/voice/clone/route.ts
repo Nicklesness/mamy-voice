@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cloneVoice, ElevenLabsError } from "@/lib/elevenlabs";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const audioFiles = formData.getAll("audio").filter(
       (f): f is File => f instanceof Blob && f.size > 0
@@ -25,8 +32,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const name = `Mamy Voice - ${Date.now()}`;
+    // Delete existing voice if any
+    const existingVoice = await prisma.voice.findUnique({
+      where: { userId: session.user.id },
+    });
+    if (existingVoice) {
+      // Delete from ElevenLabs (best effort)
+      try {
+        const { deleteVoice } = await import("@/lib/elevenlabs");
+        await deleteVoice(existingVoice.elevenLabsId);
+      } catch {
+        // Continue even if ElevenLabs delete fails
+      }
+      await prisma.voice.delete({ where: { id: existingVoice.id } });
+    }
+
+    const name = `Mamy Voice - ${session.user.email || session.user.id}`;
     const result = await cloneVoice(audioFiles, name);
+
+    // Save voice to DB
+    await prisma.voice.create({
+      data: {
+        userId: session.user.id,
+        elevenLabsId: result.voice_id,
+        name,
+      },
+    });
 
     return NextResponse.json({ voice_id: result.voice_id });
   } catch (error) {

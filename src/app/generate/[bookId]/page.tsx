@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getBookById } from "@/lib/books";
 import { useGenerationStatus } from "@/hooks/useGenerationStatus";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
@@ -45,19 +44,17 @@ export default function GeneratePage() {
   const router = useRouter();
   const bookId = params.bookId;
   const [book, setBook] = useState<Book | undefined>();
-  const { status, progress, error, start } = useGenerationStatus(bookId);
+  const { status, progress, audioUrl, error, start } = useGenerationStatus(bookId);
   const [hasStarted, setHasStarted] = useState(false);
 
-  // Check for voiceId, redirect if missing
+  // Fetch book data
   useEffect(() => {
-    const voiceId = localStorage.getItem("voiceId");
-    if (!voiceId) {
-      router.replace("/record");
-      return;
-    }
-    const found = getBookById(bookId);
-    setBook(found);
-  }, [bookId, router]);
+    fetch(`/api/books/${bookId}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setBook(data);
+      });
+  }, [bookId]);
 
   // Auto-start generation once book is loaded
   useEffect(() => {
@@ -70,7 +67,7 @@ export default function GeneratePage() {
   if (!book) {
     return (
       <div className="flex items-center justify-center min-h-svh">
-        <p className="text-text-secondary animate-pulse-soft">Book not found</p>
+        <p className="text-text-secondary animate-pulse-soft">Loading...</p>
       </div>
     );
   }
@@ -79,23 +76,16 @@ export default function GeneratePage() {
     <div className="relative flex flex-col items-center justify-center min-h-svh px-6 py-8 overflow-hidden">
       {status === "generating" && (
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm">
-          {/* Illustration */}
           <div className="animate-fade-in-scale">
             <Image src="/images/generating.png" alt="Creating magic" width={160} height={160} className="rounded-2xl" />
           </div>
 
-          {/* Book mini-cover with spinning ring */}
           <div className="relative animate-fade-in-scale delay-100">
             <div
               className="absolute -inset-2 rounded-[18px] animate-spin-slow"
               style={{ border: "2px dashed rgba(232, 115, 74, 0.2)" }}
             />
-            <BookCover
-              bookId={book.id}
-              title={book.title}
-              coverColor={book.coverColor}
-              size="sm"
-            />
+            <BookCover bookId={book.id} title={book.title} coverColor={book.coverColor} size="sm" />
           </div>
 
           <div className="text-center animate-fade-in-up delay-200">
@@ -107,7 +97,6 @@ export default function GeneratePage() {
             </p>
           </div>
 
-          {/* Progress bar */}
           <div className="w-[280px] animate-fade-in-up delay-300">
             <div
               className="w-full h-1.5 rounded-full overflow-hidden"
@@ -130,14 +119,9 @@ export default function GeneratePage() {
             Usually a couple of minutes
           </p>
 
-          {/* Bouncing dots */}
           <div className="flex gap-2">
             {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                className="w-2 h-2 rounded-full dot-bounce"
-                style={{ background: "var(--accent-warm)", opacity: 0.5 }}
-              />
+              <span key={i} className="w-2 h-2 rounded-full dot-bounce" style={{ background: "var(--accent-warm)", opacity: 0.5 }} />
             ))}
           </div>
         </div>
@@ -146,37 +130,18 @@ export default function GeneratePage() {
       {status === "done" && (
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm">
           <ConfettiDots />
-
-          {/* Illustration */}
           <div className="animate-bounce-in">
             <Image src="/images/celebration.png" alt="Celebration" width={180} height={180} className="rounded-2xl" />
           </div>
-
-          <h1
-            className="text-text-primary text-center animate-fade-in-up delay-200"
-            style={{ fontSize: 28, fontWeight: 700 }}
-          >
+          <h1 className="text-text-primary text-center animate-fade-in-up delay-200" style={{ fontSize: 28, fontWeight: 700 }}>
             Narration <span style={{ color: "var(--accent-warm)" }}>ready</span>!
           </h1>
-
-          <p className="text-base text-text-secondary text-center animate-fade-in-up delay-300">
-            {book.title}
-          </p>
-
+          <p className="text-base text-text-secondary text-center animate-fade-in-up delay-300">{book.title}</p>
           <div className="w-full flex flex-col gap-3 mt-2 animate-fade-in-up delay-400">
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              onClick={() => router.push(`/player/${bookId}`)}
-            >
+            <Button variant="primary" size="lg" fullWidth onClick={() => router.push(`/player/${bookId}`)}>
               Listen
             </Button>
-            <Button
-              variant="text"
-              fullWidth
-              onClick={() => router.push("/books")}
-            >
+            <Button variant="text" fullWidth onClick={() => router.push("/books")}>
               Back to Catalog
             </Button>
           </div>
@@ -186,23 +151,13 @@ export default function GeneratePage() {
       {status === "error" && (
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm animate-fade-in-scale">
           <Image src="/images/error.png" alt="Error" width={160} height={160} className="rounded-2xl" />
-
           <h1 className="text-text-primary text-center" style={{ fontSize: 22, fontWeight: 700 }}>
             Something went wrong
           </h1>
-
           <p className="text-text-secondary text-center" style={{ fontSize: 15 }}>
             {error || "Couldn't generate the narration. Please try again."}
           </p>
-
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            onClick={() => {
-              setHasStarted(false);
-            }}
-          >
+          <Button variant="primary" size="lg" fullWidth onClick={() => setHasStarted(false)}>
             Try Again
           </Button>
         </div>

@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateSpeech, ElevenLabsError } from "@/lib/elevenlabs";
-import { getBookById } from "@/lib/books";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { uploadAudio, generationKey } from "@/lib/r2";
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await request.json();
-    const { bookId, voiceId } = body;
+    const { bookId } = body;
 
     if (!bookId || typeof bookId !== "string") {
       return NextResponse.json(
@@ -16,34 +21,94 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!voiceId || typeof voiceId !== "string") {
+    // Get user's voice from DB
+    const voice = await prisma.voice.findUnique({
+      where: { userId: session.user.id },
+    });
+    if (!voice) {
       return NextResponse.json(
-        { error: "Missing or invalid 'voiceId' field." },
+        { error: "No voice recorded. Please record your voice first." },
         { status: 400 }
       );
     }
 
-    const book = getBookById(bookId);
-    if (!book) {
+    // Get book
+    const book = await prisma.book.findUnique({ where: { id: bookId } });
+    if (!book || !book.isPublished) {
       return NextResponse.json(
         { error: `Book not found: ${bookId}` },
         { status: 404 }
       );
     }
 
-    // Generate speech (single request — texts are short for MVP)
-    const audioBuffer = await generateSpeech(book.text, voiceId);
+    // Check balance
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { minuteBalance: true },
+    });
+    if (!user || user.minuteBalance < book.estimatedMinutes) {
+      return NextResponse.json(
+        {
+          error: "Not enough minutes. Please purchase more.",
+          minutesNeeded: book.estimatedMinutes,
+          minuteBalance: user?.minuteBalance ?? 0,
+        },
+        { status: 402 }
+      );
+    }
+
+    // Check for existing generation
+    const existing = await prisma.generation.findUnique({
+      where: { userId_bookId: { userId: session.user.id, bookId } },
+    });
+    if (existing?.status === "DONE" && existing.audioKey) {
+      return NextResponse.json({ audioUrl: `/api/audio?key=${encodeURIComponent(existing.audioKey)}` });
+    }
+
+    // Create or update generation record
+    const generation = await prisma.generation.upsert({
+      where: { userId_bookId: { userId: session.user.id, bookId } },
+      create: {
+        userId: session.user.id,
+        bookId,
+        voiceId: voice.id,
+        status: "GENERATING",
+      },
+      update: {
+        voiceId: voice.id,
+        status: "GENERATING",
+        errorMessage: null,
+      },
+    });
+
+    // Generate speech
+    const audioBuffer = await generateSpeech(book.text, voice.elevenLabsId);
     const combined = new Uint8Array(audioBuffer);
 
-    // Save to data/audio directory (not public — served via API route)
-    const audioDir = path.join(process.cwd(), "data", "audio");
-    await mkdir(audioDir, { recursive: true });
+    // Upload to R2
+    const audioKey = generationKey(session.user.id, bookId, voice.elevenLabsId);
+    await uploadAudio(audioKey, combined);
 
-    const filename = `${bookId}-${voiceId}.mp3`;
-    const filePath = path.join(audioDir, filename);
-    await writeFile(filePath, combined);
+    const audioUrl = `/api/audio?key=${encodeURIComponent(audioKey)}`;
 
-    const audioUrl = `/api/audio?file=${filename}`;
+    // Update generation record and deduct minutes
+    await prisma.$transaction([
+      prisma.generation.update({
+        where: { id: generation.id },
+        data: {
+          status: "DONE",
+          audioUrl,
+          audioKey,
+          minutesUsed: book.estimatedMinutes,
+        },
+      }),
+      prisma.user.update({
+        where: { id: session.user.id },
+        data: {
+          minuteBalance: { decrement: book.estimatedMinutes },
+        },
+      }),
+    ]);
 
     return NextResponse.json({ audioUrl });
   } catch (error) {

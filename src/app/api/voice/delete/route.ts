@@ -1,18 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { deleteVoice, ElevenLabsError } from "@/lib/elevenlabs";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE() {
   try {
-    const voiceId = request.nextUrl.searchParams.get("voice_id");
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    if (!voiceId || voiceId.trim().length === 0) {
+    const voice = await prisma.voice.findUnique({
+      where: { userId: session.user.id },
+    });
+
+    if (!voice) {
       return NextResponse.json(
-        { error: "Missing 'voice_id' query parameter." },
-        { status: 400 }
+        { error: "No voice found" },
+        { status: 404 }
       );
     }
 
-    await deleteVoice(voiceId);
+    // Delete from ElevenLabs
+    await deleteVoice(voice.elevenLabsId);
+
+    // Delete from DB
+    await prisma.voice.delete({ where: { id: voice.id } });
 
     return NextResponse.json({ success: true });
   } catch (error) {

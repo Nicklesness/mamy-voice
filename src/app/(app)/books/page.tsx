@@ -9,9 +9,9 @@ export default async function BooksPage() {
   const books = await getBooks();
 
   return (
-    <div className="relative px-6 md:px-8 lg:px-12 pt-12 pb-8 min-h-svh overflow-hidden">
-      <div className="relative z-10 max-w-3xl mx-auto">
-        {/* Header with step indicator */}
+    <div className="relative px-4 md:px-6 pt-12 pb-8 min-h-svh">
+      <div className="relative z-10">
+        {/* Header */}
         <div className="animate-fade-in-down">
           <div className="flex items-start justify-between">
             <div>
@@ -32,22 +32,22 @@ export default async function BooksPage() {
             <VoiceProfileLink />
           </div>
           <h1
-            className="text-text-primary md:text-3xl lg:text-4xl"
+            className="text-text-primary"
             style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}
           >
             <span style={{ color: "var(--accent-warm)" }}>Choose</span> a story
           </h1>
-          <p className="text-text-secondary mt-1 mb-6 md:text-base" style={{ fontSize: 14 }}>
+          <p className="text-text-secondary mt-1 mb-6" style={{ fontSize: 14 }}>
             Which one should we narrate in your voice?
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-4 md:gap-5">
           {books.map((book, i) => (
             <div
               key={book.id}
               className="animate-spring-card"
-              style={{ animationDelay: `${i * 100 + 200}ms` }}
+              style={{ animationDelay: `${i * 80 + 150}ms` }}
             >
               <BookCard book={book} />
             </div>

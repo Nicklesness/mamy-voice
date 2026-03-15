@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mic, BookOpen, Headphones, ChevronRight, Shield, Lock, Heart, Clock, Sparkles, Play, SkipBack, SkipForward } from "lucide-react";
+import { ChevronRight, Shield, Lock, Heart, Clock, Sparkles, Play, SkipBack, SkipForward } from "lucide-react";
 import FAQ from "@/components/FAQ";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -8,9 +8,9 @@ import NavbarShadow from "@/components/NavbarShadow";
 import { MINUTE_PACKS } from "@/lib/pricing";
 
 const steps = [
-  { icon: Mic, title: "Record your voice", desc: "Read a short passage out loud — just 30 seconds", color: "var(--accent-warm)", bg: "var(--accent-warm-light)" },
-  { icon: BookOpen, title: "Choose a book", desc: "Pick from our library of beloved children's classics", color: "var(--accent-deep)", bg: "var(--accent-deep-light)" },
-  { icon: Headphones, title: "Listen together", desc: "Your child hears the story in your voice, anytime", color: "#F5A623", bg: "#FEF3C7" },
+  { image: "/images/landing/step_record.png", title: "Record your voice", desc: "Read a short passage out loud — just 30 seconds" },
+  { image: "/images/landing/step_choose.png", title: "Choose a book", desc: "Pick from our library of beloved children's classics" },
+  { image: "/images/landing/step_listen.png", title: "Listen together", desc: "Your child hears the story in your voice, anytime" },
 ];
 
 const books = [
@@ -78,16 +78,42 @@ export default function Home() {
                 Free to try · No credit card · 30 seconds to start
               </p>
             </div>
-            <div className="lg:w-[45%] mt-12 lg:mt-0">
-              <div className="relative mx-auto" style={{ maxWidth: 460 }}>
-                <div className="absolute -inset-6 rounded-[32px] blur-3xl opacity-15" style={{ background: "var(--accent-warm)" }} />
+            <div className="lg:w-[45%] mt-12 lg:mt-0 animate-fade-in-scale delay-300">
+              <div className="relative mx-auto" style={{ maxWidth: 340 }}>
+                <div className="absolute -inset-6 rounded-[32px] blur-3xl opacity-12" style={{ background: "var(--accent-warm)" }} />
                 {/* Floating decorative elements */}
                 <span className="absolute -top-4 -right-2 text-2xl animate-float-slow" style={{ opacity: 0.18 }}>&#9733;</span>
                 <span className="absolute top-1/4 -left-6 text-xl animate-float-slow-alt" style={{ opacity: 0.15, animationDelay: "1s" }}>&#9790;</span>
                 <span className="absolute bottom-1/4 -right-5 text-lg animate-float-slow-reverse" style={{ opacity: 0.17, animationDelay: "2s" }}>&#9829;</span>
                 <span className="absolute -bottom-2 left-1/4 text-xl animate-float-slow" style={{ opacity: 0.15, animationDelay: "0.5s" }}>&#9834;</span>
-                <span className="absolute top-1/2 -right-8 text-lg animate-float-slow-alt" style={{ opacity: 0.13, animationDelay: "3s" }}>&#10022;</span>
-                <Image src="/images/landing_hero.png" alt="Mother reading to child" width={460} height={460} className="relative rounded-[28px] w-full h-auto" priority />
+                {/* Player mockup card */}
+                <div className="relative rounded-[28px] p-5 md:p-6" style={{ background: "var(--surface)", boxShadow: "0 20px 60px rgba(232, 115, 74, 0.15), 0 4px 20px rgba(0,0,0,0.06)" }}>
+                  <div className="w-full rounded-2xl mb-4 overflow-hidden" style={{ aspectRatio: "1/1" }}>
+                    <Image src="/images/landing/player_mockup.png" alt="Child sleeping while listening" width={300} height={300} className="w-full h-full object-cover" priority />
+                  </div>
+                  <p className="text-text-primary text-center" style={{ fontSize: 16, fontWeight: 700 }}>Goodnight Moon</p>
+                  <p className="text-text-secondary text-center mt-0.5" style={{ fontSize: 13 }}>Margaret Wise Brown</p>
+                  <div className="mt-4">
+                    <div className="w-full h-1.5 rounded-full" style={{ background: "var(--bg-warm)" }}>
+                      <div className="h-full rounded-full progress-bar-animated" style={{ width: "60%", background: "var(--gradient-cta)" }} />
+                    </div>
+                    <div className="flex justify-between mt-1.5">
+                      <span className="text-text-tertiary" style={{ fontSize: 11 }}>1:24</span>
+                      <span className="text-text-tertiary" style={{ fontSize: 11 }}>3:15</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center gap-6 mt-3">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
+                      <SkipBack size={16} className="text-text-secondary" />
+                    </div>
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                      <Play size={20} className="ml-0.5" />
+                    </div>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
+                      <SkipForward size={16} className="text-text-secondary" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -102,11 +128,14 @@ export default function Home() {
 
         {/* ─── Trusted By (logos) ─── */}
         <ScrollReveal>
-          <section className="py-10 md:py-14 px-10 md:px-16" style={{ background: "var(--bg-warm)" }}>
-            <div className="flex items-center justify-center gap-12 md:gap-20 flex-wrap">
-              <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
-              <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
-              <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
+          <section className="py-10 md:py-14 px-6 md:px-16" style={{ background: "var(--bg-warm)" }}>
+            <p className="text-text-tertiary text-center mb-6" style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              Research backed by
+            </p>
+            <div className="flex items-center justify-center gap-10 md:gap-16 flex-wrap">
+              <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[44px] md:h-[56px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
+              <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[40px] md:h-[52px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
+              <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={280} height={70} className="opacity-60 hover:opacity-100 transition-opacity duration-300 h-[44px] md:h-[56px] w-auto" style={{ objectFit: "contain", mixBlendMode: "multiply" }} />
             </div>
           </section>
         </ScrollReveal>
@@ -159,8 +188,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {steps.map((step, i) => (
                 <div key={i} className="text-center">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: step.bg }}>
-                    <step.icon size={28} style={{ color: step.color }} />
+                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-3xl overflow-hidden mx-auto mb-5" style={{ boxShadow: "var(--shadow-sm)" }}>
+                    <Image src={step.image} alt={step.title} width={144} height={144} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</h3>
                   <p className="text-text-secondary mt-2" style={{ fontSize: 15, lineHeight: 1.65 }}>{step.desc}</p>
@@ -171,48 +200,6 @@ export default function Home() {
               <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 50, fontSize: 16, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
                 Try It Free <ChevronRight size={16} className="ml-1" />
               </Link>
-            </div>
-          </section>
-        </ScrollReveal>
-
-        {/* ─── Player Mockup ─── */}
-        <ScrollReveal>
-          <section className="px-6 pb-20 md:pb-28">
-            <p className="text-text-primary text-center mb-8" style={{ fontSize: "clamp(22px, 3.5vw, 32px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              Beautiful player for your child
-            </p>
-            <div className="max-w-sm mx-auto">
-              <div className="rounded-[28px] p-6 md:p-8" style={{ background: "var(--surface)", boxShadow: "0 16px 60px rgba(232, 115, 74, 0.12), 0 4px 20px rgba(0,0,0,0.06)" }}>
-                {/* Book cover placeholder */}
-                <div className="w-full rounded-2xl mb-5 flex items-center justify-center" style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #FDE8E0 0%, #EDE0FB 100%)" }}>
-                  <Image src="/images/books/goodnight-moon.png" alt="Goodnight Moon" width={200} height={200} className="w-3/4 h-3/4 object-cover rounded-xl" />
-                </div>
-                {/* Title & author */}
-                <p className="text-text-primary text-center" style={{ fontSize: 18, fontWeight: 700 }}>Goodnight Moon</p>
-                <p className="text-text-secondary text-center mt-0.5" style={{ fontSize: 14 }}>Margaret Wise Brown</p>
-                {/* Progress bar */}
-                <div className="mt-5">
-                  <div className="w-full h-1.5 rounded-full" style={{ background: "var(--bg-warm)" }}>
-                    <div className="h-full rounded-full" style={{ width: "60%", background: "var(--gradient-cta)" }} />
-                  </div>
-                  <div className="flex justify-between mt-1.5">
-                    <span className="text-text-tertiary" style={{ fontSize: 12 }}>1:24</span>
-                    <span className="text-text-tertiary" style={{ fontSize: 12 }}>3:15</span>
-                  </div>
-                </div>
-                {/* Controls */}
-                <div className="flex items-center justify-center gap-8 mt-4">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
-                    <SkipBack size={18} className="text-text-secondary" />
-                  </div>
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white" style={{ background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                    <Play size={24} className="ml-0.5" />
-                  </div>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
-                    <SkipForward size={18} className="text-text-secondary" />
-                  </div>
-                </div>
-              </div>
             </div>
           </section>
         </ScrollReveal>
@@ -228,32 +215,33 @@ export default function Home() {
                 Classic tales from American and Russian traditions
               </p>
             </div>
-            <div className="relative">
-              <div className="flex gap-5 md:gap-6 overflow-x-auto no-scrollbar px-6 md:px-8 pb-4" style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
-                <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
-                {books.map((book) => (
-                  <Link key={book.id} href={`/books/${book.id}`} className="shrink-0 group" style={{ scrollSnapAlign: "start" }}>
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="grid grid-cols-5 gap-3 md:gap-5">
+                {books.slice(0, 5).map((book) => (
+                  <Link key={book.id} href={`/books/${book.id}`} className="group">
                     <div className="transition-transform duration-300 group-hover:-translate-y-2">
-                      <Image
-                        src={`/images/books/${book.id}.png`}
-                        alt={book.title}
-                        width={180}
-                        height={245}
-                        className="rounded-2xl w-[160px] h-[218px] md:w-[180px] md:h-[245px] object-cover transition-shadow duration-300 group-hover:shadow-xl"
-                        style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }}
-                      />
-                      <p className="text-text-primary mt-3 w-[160px] md:w-[180px] truncate" style={{ fontSize: 14, fontWeight: 600 }}>
-                        {book.title}
-                      </p>
-                      <p className="text-text-tertiary w-[160px] md:w-[180px] truncate" style={{ fontSize: 12 }}>
-                        {book.author}
-                      </p>
+                      <Image src={`/images/books/${book.id}.png`} alt={book.title} width={160} height={218}
+                        className="rounded-xl md:rounded-2xl w-full object-cover transition-shadow duration-300 group-hover:shadow-xl"
+                        style={{ aspectRatio: "3/4", boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }} />
+                      <p className="text-text-primary mt-2 truncate" style={{ fontSize: "clamp(10px, 1.4vw, 14px)", fontWeight: 600 }}>{book.title}</p>
+                      <p className="text-text-tertiary truncate hidden md:block" style={{ fontSize: 12 }}>{book.author}</p>
                     </div>
                   </Link>
                 ))}
-                <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
               </div>
-              <div className="absolute top-0 right-0 bottom-0 w-12 pointer-events-none lg:hidden" style={{ background: "linear-gradient(to left, var(--surface), transparent)" }} />
+              <div className="grid grid-cols-5 gap-3 md:gap-5 mt-3 md:mt-5">
+                {books.slice(5, 10).map((book) => (
+                  <Link key={book.id} href={`/books/${book.id}`} className="group">
+                    <div className="transition-transform duration-300 group-hover:-translate-y-2">
+                      <Image src={`/images/books/${book.id}.png`} alt={book.title} width={160} height={218}
+                        className="rounded-xl md:rounded-2xl w-full object-cover transition-shadow duration-300 group-hover:shadow-xl"
+                        style={{ aspectRatio: "3/4", boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }} />
+                      <p className="text-text-primary mt-2 truncate" style={{ fontSize: "clamp(10px, 1.4vw, 14px)", fontWeight: 600 }}>{book.title}</p>
+                      <p className="text-text-tertiary truncate hidden md:block" style={{ fontSize: 12 }}>{book.author}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
             <div className="text-center mt-8">
               <Link href="/books" className="inline-flex items-center gap-1 font-semibold transition-colors" style={{ color: "var(--accent-warm)", fontSize: 15 }}>
@@ -413,6 +401,9 @@ export default function Home() {
         {/* ─── Trust & Guarantees ─── */}
         <ScrollReveal>
           <section className="max-w-4xl mx-auto px-6 py-20 md:py-28">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mx-auto mb-10" style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.08)" }}>
+              <Image src="/images/landing/trust_hands.png" alt="Safety and trust" width={160} height={160} className="w-full h-full object-cover" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 { icon: Shield, title: "Free to try", desc: "5 free minutes. No credit card required.", color: "var(--success)" },

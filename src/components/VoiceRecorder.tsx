@@ -174,7 +174,7 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
         {/* Back button */}
         {isFirstPassage && screenState === "idle" && (
           <button
-            onClick={() => router.push("/onboarding")}
+            onClick={() => router.push("/")}
             className="absolute top-3 left-4 z-10 flex items-center justify-center cursor-pointer bg-transparent border-none"
             aria-label="Back"
           >

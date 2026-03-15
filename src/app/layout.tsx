@@ -31,9 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.className} antialiased`}>
         <SessionProvider>
-          <div className="app-container">
-            {children}
-          </div>
+          {children}
         </SessionProvider>
       </body>
     </html>

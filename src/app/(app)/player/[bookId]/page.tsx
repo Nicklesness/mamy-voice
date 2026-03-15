@@ -54,20 +54,22 @@ export default function PlayerPage() {
   if (!audioUrl) {
     return (
       <div className="flex flex-col items-center justify-center min-h-svh px-6 md:px-10 gap-6" style={{ background: "var(--bg)" }}>
-        <div className="text-center max-w-lg mx-auto">
-          <h2 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700 }}>
-            No narration yet
-          </h2>
-          <p className="text-text-secondary text-sm mt-2">
-            Generate a narration for this book first
-          </p>
+        <div className="max-w-md mx-auto w-full flex flex-col items-center gap-6">
+          <div className="text-center">
+            <h2 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700 }}>
+              No narration yet
+            </h2>
+            <p className="text-text-secondary text-sm mt-2">
+              Generate a narration for this book first
+            </p>
+          </div>
+          <Button variant="primary" size="lg" fullWidth onClick={() => router.push(`/generate/${bookId}`)}>
+            Generate Narration
+          </Button>
+          <Button variant="text" fullWidth onClick={() => router.push("/books")}>
+            Back to Catalog
+          </Button>
         </div>
-        <Button variant="primary" size="lg" fullWidth onClick={() => router.push(`/generate/${bookId}`)}>
-          Generate Narration
-        </Button>
-        <Button variant="text" fullWidth onClick={() => router.push("/books")}>
-          Back to Catalog
-        </Button>
       </div>
     );
   }

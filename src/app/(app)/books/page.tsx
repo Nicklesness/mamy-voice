@@ -10,7 +10,7 @@ export default async function BooksPage() {
 
   return (
     <div className="relative px-6 md:px-8 lg:px-12 pt-12 pb-8 min-h-svh overflow-hidden">
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="relative z-10 max-w-3xl mx-auto">
         {/* Header with step indicator */}
         <div className="animate-fade-in-down">
           <div className="flex items-start justify-between">

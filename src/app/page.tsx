@@ -24,10 +24,10 @@ const books = [
 ];
 
 const studies = [
-  { quote: "Hearing mom's voice reduces stress hormones and triggers oxytocin — even when she's not physically there.", source: "University of Wisconsin-Madison", year: "2010", journal: "Proceedings of the Royal Society B" },
-  { quote: "Children with insufficient parental attention show worse mental and physical health in adulthood.", source: "American Psychological Association", year: "2019", journal: "Longitudinal research review" },
-  { quote: "Children regularly read to develop more active brain regions for imagination and comprehension.", source: "Cincinnati Children's Hospital", year: "2015", journal: "Pediatrics (AAP)" },
-  { quote: "The weaker the emotional bond with parents, the higher the level of depressive symptoms.", source: "University of Minnesota", year: "2005", journal: "30-year longitudinal study" },
+  { quote: "Hearing mom's voice reduces stress hormones and triggers oxytocin — even when she's not physically there.", source: "University of Wisconsin-Madison", year: "2010", journal: "Proceedings of the Royal Society B", logo: null },
+  { quote: "Children with insufficient parental attention show worse mental and physical health in adulthood.", source: "American Psychological Association", year: "2019", journal: "Longitudinal research review", logo: "/images/logos/apa-full.png" },
+  { quote: "Children regularly read to develop more active brain regions for imagination and comprehension.", source: "Cincinnati Children's Hospital", year: "2015", journal: "Pediatrics (AAP)", logo: "/images/logos/aap-full.jpg" },
+  { quote: "The weaker the emotional bond with parents, the higher the level of depressive symptoms.", source: "University of Minnesota", year: "2005", journal: "30-year longitudinal study", logo: null },
 ];
 
 export default function Home() {
@@ -77,15 +77,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Trusted By (text-only, clean) ─── */}
-        <section className="py-8" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.04)", borderBottom: "1px solid rgba(26, 18, 7, 0.04)" }}>
-          <p className="text-text-tertiary text-center" style={{ fontSize: 13, letterSpacing: "0.04em" }}>
-            Research from{" "}
-            <span className="text-text-secondary font-semibold">Stanford</span> ·{" "}
-            <span className="text-text-secondary font-semibold">Harvard</span> ·{" "}
-            <span className="text-text-secondary font-semibold">AAP</span> ·{" "}
-            <span className="text-text-secondary font-semibold">University of Wisconsin</span>
+        {/* ─── Trusted By (logos) ─── */}
+        <section className="py-8 md:py-10" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.04)", borderBottom: "1px solid rgba(26, 18, 7, 0.04)" }}>
+          <p className="text-text-tertiary text-center mb-5" style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            Research backed by
           </p>
+          <div className="flex items-center justify-center gap-8 md:gap-14 flex-wrap px-6">
+            <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[32px] md:h-[40px] w-auto" style={{ objectFit: "contain" }} />
+            <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[28px] md:h-[36px] w-auto" style={{ objectFit: "contain" }} />
+            <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[32px] md:h-[40px] w-auto" style={{ objectFit: "contain" }} />
+          </div>
         </section>
 
         {/* ─── The Problem ─── */}
@@ -201,8 +202,11 @@ export default function Home() {
               <p className="text-text-primary mt-4 mx-auto" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 420 }}>
                 Children recognize their mother&apos;s voice with 97% accuracy in under one second
               </p>
-              <p className="text-text-tertiary mt-4" style={{ fontSize: 14, fontWeight: 500 }}>
-                Stanford University · PNAS, 2016
+              <div className="flex items-center justify-center gap-3 mt-5">
+                <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={160} height={40} className="h-[30px] w-auto opacity-60" style={{ objectFit: "contain" }} />
+              </div>
+              <p className="text-text-tertiary mt-2" style={{ fontSize: 13 }}>
+                PNAS, 2016
               </p>
             </div>
 
@@ -214,8 +218,12 @@ export default function Home() {
                     &ldquo;{study.quote}&rdquo;
                   </p>
                   <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.06)" }}>
-                    <p className="text-text-primary" style={{ fontSize: 13, fontWeight: 600 }}>{study.source}</p>
-                    <p className="text-text-tertiary" style={{ fontSize: 12 }}>{study.journal}, {study.year}</p>
+                    {study.logo ? (
+                      <Image src={study.logo} alt={study.source} width={140} height={32} className="h-[24px] w-auto mb-1.5 opacity-60" style={{ objectFit: "contain" }} />
+                    ) : (
+                      <p className="text-text-primary" style={{ fontSize: 13, fontWeight: 600 }}>{study.source}</p>
+                    )}
+                    <p className="text-text-tertiary" style={{ fontSize: 12 }}>{study.logo ? "" : ""}{study.journal}, {study.year}</p>
                   </div>
                 </div>
               ))}

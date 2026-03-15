@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mic, BookOpen, Headphones, ChevronRight, Shield, Lock, Heart, Clock, Sparkles } from "lucide-react";
+import { Mic, BookOpen, Headphones, ChevronRight, Shield, Lock, Heart, Clock, Sparkles, Play, SkipBack, SkipForward } from "lucide-react";
 import FAQ from "@/components/FAQ";
+import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import NavbarShadow from "@/components/NavbarShadow";
 import { MINUTE_PACKS } from "@/lib/pricing";
 
 const steps = [
@@ -30,20 +33,27 @@ const studies = [
   { quote: "The weaker the emotional bond with parents, the higher the level of depressive symptoms.", source: "University of Minnesota", year: "2005", journal: "30-year longitudinal study", logo: null },
 ];
 
+const testimonials = [
+  { initials: "S", name: "Sarah", context: "mom of a 3-year-old", quote: "My daughter asks for 'mommy stories' every night now. She doesn't know I'm not actually reading!", color: "var(--accent-warm)" },
+  { initials: "E", name: "Emily", context: "mom of two", quote: "I travel for work a lot. Knowing my son hears my voice at bedtime makes everything easier.", color: "var(--accent-deep)" },
+  { initials: "J", name: "Jessica", context: "mom of a 4-year-old", quote: "I was skeptical but the voice quality is incredible. My kids can't tell the difference!", color: "#F5A623" },
+];
+
 export default function Home() {
   return (
     <div className="min-h-svh" style={{ background: "var(--bg)" }}>
       {/* ─── Navbar ─── */}
-      <nav className="sticky top-0 z-50 backdrop-blur-md" style={{ background: "rgba(253, 246, 238, 0.9)", borderBottom: "1px solid rgba(26, 18, 7, 0.06)" }}>
+      <nav className="sticky top-0 z-50 backdrop-blur-md relative" style={{ background: "rgba(253, 246, 238, 0.9)", borderBottom: "1px solid rgba(26, 18, 7, 0.06)" }}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" style={{ height: 64 }}>
           <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.03em" }}>
             <span style={{ color: "var(--accent-warm)" }}>Mamy</span>{" "}
             <span className="text-text-primary">Voice</span>
           </span>
-          <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95" style={{ height: 36, background: "var(--gradient-cta)" }}>
+          <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 36, background: "var(--gradient-cta)" }}>
             Try Free
           </Link>
         </div>
+        <NavbarShadow />
       </nav>
 
       <main>
@@ -51,306 +61,417 @@ export default function Home() {
         <section className="max-w-7xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:gap-20">
             <div className="lg:w-[55%]">
-              <h1 className="text-text-primary" style={{ fontSize: "clamp(34px, 5.5vw, 60px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.03em" }}>
+              <h1 className="text-text-primary animate-fade-in-up" style={{ fontSize: "clamp(34px, 5.5vw, 60px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.03em" }}>
                 Bedtime stories
                 <br />
                 <span style={{ color: "var(--accent-warm)" }}>in your voice</span>
               </h1>
-              <p className="text-text-secondary mt-5 lg:mt-6" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.7, maxWidth: 480 }}>
-                Your child hears your voice reading their favorite story — even when you can&apos;t be there.
+              <p className="text-text-secondary mt-5 lg:mt-6 animate-fade-in-up delay-200" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.7, maxWidth: 480 }}>
+                Your child hears your voice reading their favorite story — <span className="italic" style={{ color: "var(--accent-warm)" }}>even when you can&apos;t be there</span>.
               </p>
-              <div className="mt-10">
-                <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+              <div className="mt-10 animate-fade-in-up delay-400">
+                <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
                   Record Your Voice <ChevronRight size={20} className="ml-1" />
                 </Link>
               </div>
-              <p className="text-text-tertiary mt-4" style={{ fontSize: 14 }}>
+              <p className="text-text-tertiary mt-4 animate-fade-in delay-500" style={{ fontSize: 14 }}>
                 Free to try · No credit card · 30 seconds to start
               </p>
             </div>
             <div className="lg:w-[45%] mt-12 lg:mt-0">
               <div className="relative mx-auto" style={{ maxWidth: 460 }}>
                 <div className="absolute -inset-6 rounded-[32px] blur-3xl opacity-15" style={{ background: "var(--accent-warm)" }} />
+                {/* Floating decorative elements */}
+                <span className="absolute -top-4 -right-2 text-2xl animate-float-slow" style={{ opacity: 0.18 }}>&#9733;</span>
+                <span className="absolute top-1/4 -left-6 text-xl animate-float-slow-alt" style={{ opacity: 0.15, animationDelay: "1s" }}>&#9790;</span>
+                <span className="absolute bottom-1/4 -right-5 text-lg animate-float-slow-reverse" style={{ opacity: 0.17, animationDelay: "2s" }}>&#9829;</span>
+                <span className="absolute -bottom-2 left-1/4 text-xl animate-float-slow" style={{ opacity: 0.15, animationDelay: "0.5s" }}>&#9834;</span>
+                <span className="absolute top-1/2 -right-8 text-lg animate-float-slow-alt" style={{ opacity: 0.13, animationDelay: "3s" }}>&#10022;</span>
                 <Image src="/images/landing_hero.png" alt="Mother reading to child" width={460} height={460} className="relative rounded-[28px] w-full h-auto" priority />
               </div>
             </div>
           </div>
         </section>
 
+        {/* ─── Wave divider ─── */}
+        <div className="w-full overflow-hidden" style={{ height: 24, marginTop: -1 }}>
+          <svg viewBox="0 0 1440 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 24V12C240 0 480 0 720 12C960 24 1200 24 1440 12V24H0Z" fill="var(--bg-warm)" />
+          </svg>
+        </div>
+
         {/* ─── Trusted By (logos) ─── */}
-        <section className="py-8 md:py-10" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.04)", borderBottom: "1px solid rgba(26, 18, 7, 0.04)" }}>
-          <p className="text-text-tertiary text-center mb-5" style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            Research backed by
-          </p>
-          <div className="flex items-center justify-center gap-8 md:gap-14 flex-wrap px-6">
-            <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[32px] md:h-[40px] w-auto" style={{ objectFit: "contain" }} />
-            <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[28px] md:h-[36px] w-auto" style={{ objectFit: "contain" }} />
-            <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={180} height={45} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[32px] md:h-[40px] w-auto" style={{ objectFit: "contain" }} />
-          </div>
-        </section>
+        <ScrollReveal>
+          <section className="py-10 md:py-14 px-10 md:px-16" style={{ background: "var(--bg-warm)" }}>
+            <div className="flex items-center justify-center gap-12 md:gap-20 flex-wrap">
+              <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
+              <Image src="/images/logos/apa-full.png" alt="American Psychological Association" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
+              <Image src="/images/logos/aap-full.jpg" alt="American Academy of Pediatrics" width={240} height={56} className="opacity-70 hover:opacity-100 transition-opacity duration-300 h-[48px] md:h-[56px] w-auto" style={{ objectFit: "contain" }} />
+            </div>
+          </section>
+        </ScrollReveal>
 
         {/* ─── The Problem ─── */}
-        <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
-          <div className="text-center mb-12">
-            <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              You know reading matters.
-              <br />
-              <span className="text-text-secondary" style={{ fontWeight: 400 }}>But life gets in the way.</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { stat: "83%", text: "of parents feel guilty about not reading enough to their kids" },
-              { stat: "30M", text: "word gap by age 3 between children who are read to and those who aren't" },
-              { stat: "1 in 3", text: "children are not read to daily at home" },
-            ].map((item, i) => (
-              <div key={i} className="text-center rounded-[20px] p-8" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
-                <p style={{ fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 800, color: "var(--accent-warm)", lineHeight: 1, letterSpacing: "-0.03em" }}>{item.stat}</p>
-                <p className="text-text-secondary mt-4" style={{ fontSize: 15, lineHeight: 1.6 }}>{item.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-text-primary text-center mt-14 mx-auto" style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 600, lineHeight: 1.5, maxWidth: 520, letterSpacing: "-0.01em" }}>
-            What if your child could hear <span style={{ color: "var(--accent-warm)" }}>your voice</span> reading to them — even when you&apos;re not home?
-          </p>
-        </section>
-
-        {/* ─── Video ─── */}
-        <section className="max-w-4xl mx-auto px-6 pb-20 md:pb-28">
-          <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl" style={{ aspectRatio: "16/9", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}>
-            <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/E5hDhWSmeoY" title="Why mom's voice matters" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ border: "none" }} />
-          </div>
-        </section>
-
-        {/* ─── How It Works ─── */}
-        <section className="max-w-5xl mx-auto px-6 pb-20 md:pb-28">
-          <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            Three simple steps
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {steps.map((step, i) => (
-              <div key={i} className="text-center">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: step.bg }}>
-                  <step.icon size={28} style={{ color: step.color }} />
-                </div>
-                <h3 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</h3>
-                <p className="text-text-secondary mt-2" style={{ fontSize: 15, lineHeight: 1.65 }}>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold px-10 transition-all duration-200 active:scale-95" style={{ height: 50, fontSize: 16, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-              Try It Free <ChevronRight size={16} className="ml-1" />
-            </Link>
-          </div>
-        </section>
-
-        {/* ─── Book Showcase ─── */}
-        <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-text-primary text-center mb-3" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              Stories your child will <span style={{ color: "var(--accent-warm)" }}>love</span>
-            </h2>
-            <p className="text-text-secondary text-center mb-10" style={{ fontSize: 16 }}>
-              Classic tales from American and Russian traditions
-            </p>
-          </div>
-          <div className="relative">
-            <div className="flex gap-5 md:gap-6 overflow-x-auto no-scrollbar px-6 md:px-8 pb-4" style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
-              <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
-              {books.map((book) => (
-                <Link key={book.id} href={`/books/${book.id}`} className="shrink-0 group" style={{ scrollSnapAlign: "start" }}>
-                  <div className="transition-transform duration-300 group-hover:-translate-y-2">
-                    <Image
-                      src={`/images/books/${book.id}.png`}
-                      alt={book.title}
-                      width={180}
-                      height={245}
-                      className="rounded-2xl w-[160px] h-[218px] md:w-[180px] md:h-[245px] object-cover transition-shadow duration-300 group-hover:shadow-xl"
-                      style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }}
-                    />
-                    <p className="text-text-primary mt-3 w-[160px] md:w-[180px] truncate" style={{ fontSize: 14, fontWeight: 600 }}>
-                      {book.title}
-                    </p>
-                    <p className="text-text-tertiary w-[160px] md:w-[180px] truncate" style={{ fontSize: 12 }}>
-                      {book.author}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-              <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
-            </div>
-            <div className="absolute top-0 right-0 bottom-0 w-12 pointer-events-none lg:hidden" style={{ background: "linear-gradient(to left, var(--surface), transparent)" }} />
-          </div>
-          <div className="text-center mt-8">
-            <Link href="/books" className="inline-flex items-center gap-1 font-semibold transition-colors" style={{ color: "var(--accent-warm)", fontSize: 15 }}>
-              See all books <ChevronRight size={16} />
-            </Link>
-          </div>
-        </section>
-
-        {/* ─── Backed by Science ─── */}
-        <section className="px-6 py-20 md:py-28">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-text-primary text-center mb-14" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              Backed by <span style={{ color: "var(--accent-deep)" }}>science</span>
-            </h2>
-
-            {/* Hero Stat */}
-            <div className="mx-auto text-center rounded-[28px] p-10 md:p-14 mb-12" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
-              <p style={{ fontSize: "clamp(64px, 10vw, 80px)", fontWeight: 800, color: "var(--accent-deep)", lineHeight: 1, letterSpacing: "-0.04em" }}>97%</p>
-              <p className="text-text-primary mt-4 mx-auto" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 420 }}>
-                Children recognize their mother&apos;s voice with 97% accuracy in under one second
-              </p>
-              <div className="flex items-center justify-center gap-3 mt-5">
-                <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={160} height={40} className="h-[30px] w-auto opacity-60" style={{ objectFit: "contain" }} />
-              </div>
-              <p className="text-text-tertiary mt-2" style={{ fontSize: 13 }}>
-                PNAS, 2016
-              </p>
-            </div>
-
-            {/* Evidence Cards — text only, no logos */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ maxWidth: 760, margin: "0 auto" }}>
-              {studies.map((study, i) => (
-                <div key={i} className="rounded-[20px] p-6 md:p-7" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
-                  <p className="text-text-primary" style={{ fontSize: 15, lineHeight: 1.75 }}>
-                    &ldquo;{study.quote}&rdquo;
-                  </p>
-                  <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.06)" }}>
-                    {study.logo ? (
-                      <Image src={study.logo} alt={study.source} width={140} height={32} className="h-[24px] w-auto mb-1.5 opacity-60" style={{ objectFit: "contain" }} />
-                    ) : (
-                      <p className="text-text-primary" style={{ fontSize: 13, fontWeight: 600 }}>{study.source}</p>
-                    )}
-                    <p className="text-text-tertiary" style={{ fontSize: 12 }}>{study.logo ? "" : ""}{study.journal}, {study.year}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Pricing ─── */}
-        <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
-          <div className="max-w-4xl mx-auto px-6">
+        <ScrollReveal>
+          <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
             <div className="text-center mb-12">
               <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-                Simple <span style={{ color: "var(--accent-deep)" }}>pricing</span>
+                You know reading matters.
+                <br />
+                <span className="text-text-secondary" style={{ fontWeight: 400 }}>But life gets in the way.</span>
               </h2>
-              <p className="text-text-secondary mt-3" style={{ fontSize: 16 }}>
-                Start free. Buy minutes when you need more.
-              </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {/* Free tier */}
-              <div className="rounded-[20px] p-7 flex flex-col" style={{ background: "var(--bg)", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(26, 18, 7, 0.06)" }}>
-                <p className="text-text-primary" style={{ fontSize: 18, fontWeight: 700 }}>Free</p>
-                <p className="mt-2" style={{ fontSize: 36, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-                  $0
-                </p>
-                <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>5 minutes included</p>
-                <div className="flex items-center gap-2 mt-5 text-text-secondary" style={{ fontSize: 14 }}>
-                  <Clock size={15} style={{ color: "var(--success)" }} /> ~1-2 stories
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { stat: "83%", suffix: "%", text: "of parents feel guilty about not reading enough to their kids" },
+                { stat: "30M", suffix: "M", text: "word gap by age 3 between children who are read to and those who aren't" },
+                { stat: "1 in 3", suffix: "", text: "children are not read to daily at home" },
+              ].map((item, i) => (
+                <div key={i} className="text-center rounded-[20px] p-8" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
+                  <p style={{ fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 800, color: "var(--accent-warm)", lineHeight: 1, letterSpacing: "-0.03em" }}>
+                    {item.stat === "1 in 3" ? item.stat : <AnimatedCounter value={item.stat} />}
+                  </p>
+                  <p className="text-text-secondary mt-4" style={{ fontSize: 15, lineHeight: 1.6 }}>{item.text}</p>
                 </div>
-                <div className="mt-auto pt-6">
-                  <Link href="/record" className="flex items-center justify-center w-full rounded-full font-semibold transition-all duration-200 active:scale-95" style={{ height: 44, fontSize: 14, color: "var(--accent-warm)", border: "1.5px solid var(--accent-warm)" }}>
-                    Get Started
-                  </Link>
+              ))}
+            </div>
+            <p className="text-text-primary text-center mt-14 mx-auto" style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 600, lineHeight: 1.5, maxWidth: 520, letterSpacing: "-0.01em" }}>
+              What if your child could hear <span style={{ color: "var(--accent-warm)" }}>your voice</span> reading to them — even when you&apos;re not home?
+            </p>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── Video ─── */}
+        <ScrollReveal>
+          <section className="max-w-4xl mx-auto px-6 pb-20 md:pb-28">
+            <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl" style={{ aspectRatio: "16/9", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}>
+              <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/E5hDhWSmeoY" title="Why mom's voice matters" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ border: "none" }} />
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── How It Works ─── */}
+        <ScrollReveal>
+          <section className="max-w-5xl mx-auto px-6 pb-20 md:pb-28">
+            <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              Three simple steps
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {steps.map((step, i) => (
+                <div key={i} className="text-center">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: step.bg }}>
+                    <step.icon size={28} style={{ color: step.color }} />
+                  </div>
+                  <h3 className="text-text-primary" style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</h3>
+                  <p className="text-text-secondary mt-2" style={{ fontSize: 15, lineHeight: 1.65 }}>{step.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-12">
+              <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 50, fontSize: 16, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                Try It Free <ChevronRight size={16} className="ml-1" />
+              </Link>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── Player Mockup ─── */}
+        <ScrollReveal>
+          <section className="px-6 pb-20 md:pb-28">
+            <p className="text-text-primary text-center mb-8" style={{ fontSize: "clamp(22px, 3.5vw, 32px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              Beautiful player for your child
+            </p>
+            <div className="max-w-sm mx-auto">
+              <div className="rounded-[28px] p-6 md:p-8" style={{ background: "var(--surface)", boxShadow: "0 16px 60px rgba(232, 115, 74, 0.12), 0 4px 20px rgba(0,0,0,0.06)" }}>
+                {/* Book cover placeholder */}
+                <div className="w-full rounded-2xl mb-5 flex items-center justify-center" style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #FDE8E0 0%, #EDE0FB 100%)" }}>
+                  <Image src="/images/books/goodnight-moon.png" alt="Goodnight Moon" width={200} height={200} className="w-3/4 h-3/4 object-cover rounded-xl" />
+                </div>
+                {/* Title & author */}
+                <p className="text-text-primary text-center" style={{ fontSize: 18, fontWeight: 700 }}>Goodnight Moon</p>
+                <p className="text-text-secondary text-center mt-0.5" style={{ fontSize: 14 }}>Margaret Wise Brown</p>
+                {/* Progress bar */}
+                <div className="mt-5">
+                  <div className="w-full h-1.5 rounded-full" style={{ background: "var(--bg-warm)" }}>
+                    <div className="h-full rounded-full" style={{ width: "60%", background: "var(--gradient-cta)" }} />
+                  </div>
+                  <div className="flex justify-between mt-1.5">
+                    <span className="text-text-tertiary" style={{ fontSize: 12 }}>1:24</span>
+                    <span className="text-text-tertiary" style={{ fontSize: 12 }}>3:15</span>
+                  </div>
+                </div>
+                {/* Controls */}
+                <div className="flex items-center justify-center gap-8 mt-4">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
+                    <SkipBack size={18} className="text-text-secondary" />
+                  </div>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white" style={{ background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                    <Play size={24} className="ml-0.5" />
+                  </div>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
+                    <SkipForward size={18} className="text-text-secondary" />
+                  </div>
                 </div>
               </div>
+            </div>
+          </section>
+        </ScrollReveal>
 
-              {/* Paid tiers */}
-              {MINUTE_PACKS.map((pack) => (
-                <div
-                  key={pack.id}
-                  className="rounded-[20px] p-7 flex flex-col relative"
-                  style={{
-                    background: pack.popular ? "var(--bg)" : "var(--bg)",
-                    boxShadow: pack.popular ? "0 12px 40px rgba(139, 92, 246, 0.12)" : "var(--shadow-sm)",
-                    border: pack.popular ? "2px solid var(--accent-deep)" : "1px solid rgba(26, 18, 7, 0.06)",
-                  }}
-                >
-                  {pack.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-0.5 text-white" style={{ background: "var(--accent-deep)", fontSize: 11, fontWeight: 700 }}>
-                      BEST VALUE
-                    </span>
-                  )}
-                  <p className="text-text-primary" style={{ fontSize: 18, fontWeight: 700 }}>{pack.name}</p>
+        {/* ─── Book Showcase ─── */}
+        <ScrollReveal>
+          <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
+            <div className="max-w-5xl mx-auto px-6">
+              <h2 className="text-text-primary text-center mb-3" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                Stories your child will <span style={{ color: "var(--accent-warm)" }}>love</span>
+              </h2>
+              <p className="text-text-secondary text-center mb-10" style={{ fontSize: 16 }}>
+                Classic tales from American and Russian traditions
+              </p>
+            </div>
+            <div className="relative">
+              <div className="flex gap-5 md:gap-6 overflow-x-auto no-scrollbar px-6 md:px-8 pb-4" style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
+                <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
+                {books.map((book) => (
+                  <Link key={book.id} href={`/books/${book.id}`} className="shrink-0 group" style={{ scrollSnapAlign: "start" }}>
+                    <div className="transition-transform duration-300 group-hover:-translate-y-2">
+                      <Image
+                        src={`/images/books/${book.id}.png`}
+                        alt={book.title}
+                        width={180}
+                        height={245}
+                        className="rounded-2xl w-[160px] h-[218px] md:w-[180px] md:h-[245px] object-cover transition-shadow duration-300 group-hover:shadow-xl"
+                        style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }}
+                      />
+                      <p className="text-text-primary mt-3 w-[160px] md:w-[180px] truncate" style={{ fontSize: 14, fontWeight: 600 }}>
+                        {book.title}
+                      </p>
+                      <p className="text-text-tertiary w-[160px] md:w-[180px] truncate" style={{ fontSize: 12 }}>
+                        {book.author}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+                <div className="shrink-0 hidden lg:block" style={{ width: "calc((100vw - 1100px) / 2)" }} />
+              </div>
+              <div className="absolute top-0 right-0 bottom-0 w-12 pointer-events-none lg:hidden" style={{ background: "linear-gradient(to left, var(--surface), transparent)" }} />
+            </div>
+            <div className="text-center mt-8">
+              <Link href="/books" className="inline-flex items-center gap-1 font-semibold transition-colors" style={{ color: "var(--accent-warm)", fontSize: 15 }}>
+                See all books <ChevronRight size={16} />
+              </Link>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── Backed by Science ─── */}
+        <ScrollReveal>
+          <section className="px-6 py-20 md:py-28">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-text-primary text-center mb-14" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                Backed by <span style={{ color: "var(--accent-deep)" }}>science</span>
+              </h2>
+
+              {/* Hero Stat */}
+              <div className="mx-auto text-center rounded-[28px] p-10 md:p-14 mb-12" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "0 12px 40px rgba(0,0,0,0.06)" }}>
+                <p style={{ fontSize: "clamp(64px, 10vw, 80px)", fontWeight: 800, color: "var(--accent-deep)", lineHeight: 1, letterSpacing: "-0.04em" }}>
+                  <AnimatedCounter value="97%" />
+                </p>
+                <p className="text-text-primary mt-4 mx-auto" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.6, maxWidth: 420 }}>
+                  Children recognize their mother&apos;s voice with 97% accuracy in under one second
+                </p>
+                <div className="flex items-center justify-center gap-3 mt-5">
+                  <Image src="/images/logos/stanford-full.png" alt="Stanford School of Medicine" width={160} height={40} className="h-[30px] w-auto opacity-60" style={{ objectFit: "contain" }} />
+                </div>
+                <p className="text-text-tertiary mt-2" style={{ fontSize: 13 }}>
+                  PNAS, 2016
+                </p>
+              </div>
+
+              {/* Evidence Cards — text only, no logos */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ maxWidth: 760, margin: "0 auto" }}>
+                {studies.map((study, i) => (
+                  <div key={i} className="rounded-[20px] p-6 md:p-7" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
+                    <p className="text-text-primary" style={{ fontSize: 15, lineHeight: 1.75 }}>
+                      &ldquo;{study.quote}&rdquo;
+                    </p>
+                    <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.06)" }}>
+                      {study.logo ? (
+                        <Image src={study.logo} alt={study.source} width={140} height={32} className="h-[24px] w-auto mb-1.5 opacity-60" style={{ objectFit: "contain" }} />
+                      ) : (
+                        <p className="text-text-primary" style={{ fontSize: 13, fontWeight: 600 }}>{study.source}</p>
+                      )}
+                      <p className="text-text-tertiary" style={{ fontSize: 12 }}>{study.journal}, {study.year}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── Testimonials ─── */}
+        <ScrollReveal>
+          <section className="py-20 md:py-28" style={{ background: "var(--bg-warm)" }}>
+            <div className="max-w-5xl mx-auto px-6">
+              <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                What moms are <span style={{ color: "var(--accent-warm)" }}>saying</span>
+              </h2>
+              {/* Mobile: horizontal scroll, Desktop: 3-col grid */}
+              <div className="flex gap-5 overflow-x-auto no-scrollbar md:grid md:grid-cols-3 md:overflow-visible pb-4 md:pb-0">
+                {testimonials.map((t, i) => (
+                  <div key={i} className="shrink-0 w-[300px] md:w-auto rounded-[20px] p-6 md:p-7 flex flex-col" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
+                    <p className="text-text-primary italic flex-1" style={{ fontSize: 15, lineHeight: 1.75 }}>
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    <div className="flex items-center gap-3 mt-5 pt-4" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.06)" }}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style={{ background: t.color, fontSize: 15 }}>
+                        {t.initials}
+                      </div>
+                      <div>
+                        <p className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>{t.name}</p>
+                        <p className="text-text-tertiary" style={{ fontSize: 12 }}>{t.context}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ─── Pricing ─── */}
+        <ScrollReveal>
+          <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="text-center mb-12">
+                <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                  Simple <span style={{ color: "var(--accent-deep)" }}>pricing</span>
+                </h2>
+                <p className="text-text-secondary mt-3" style={{ fontSize: 16 }}>
+                  Start free. Buy minutes when you need more.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* Free tier */}
+                <div className="rounded-[20px] p-7 flex flex-col" style={{ background: "var(--bg)", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(26, 18, 7, 0.06)" }}>
+                  <p className="text-text-secondary" style={{ fontSize: 18, fontWeight: 700 }}>Free</p>
                   <p className="mt-2" style={{ fontSize: 36, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-                    {pack.priceDisplay}
+                    $0
                   </p>
-                  <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>{pack.minutes} minutes</p>
+                  <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>5 minutes included</p>
                   <div className="flex items-center gap-2 mt-5 text-text-secondary" style={{ fontSize: 14 }}>
-                    <Clock size={15} style={{ color: "var(--success)" }} /> ~{Math.floor(pack.minutes / 3)} stories
+                    <Clock size={15} style={{ color: "var(--success)" }} /> ~1-2 stories
                   </div>
                   <div className="mt-auto pt-6">
-                    <Link
-                      href="/pricing"
-                      className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95"
-                      style={{ height: 44, fontSize: 14, background: pack.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
-                    >
-                      Buy Now
+                    <Link href="/record" className="flex items-center justify-center w-full rounded-full font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 44, fontSize: 14, color: "var(--accent-warm)", border: "1.5px solid var(--accent-warm)" }}>
+                      Get Started
                     </Link>
                   </div>
                 </div>
-              ))}
+
+                {/* Paid tiers */}
+                {MINUTE_PACKS.map((pack) => (
+                  <div
+                    key={pack.id}
+                    className="rounded-[20px] p-7 flex flex-col relative"
+                    style={{
+                      background: pack.popular ? "var(--bg)" : "var(--bg)",
+                      boxShadow: pack.popular ? "0 12px 40px rgba(139, 92, 246, 0.12)" : "var(--shadow-sm)",
+                      border: pack.popular ? "2px solid var(--accent-deep)" : "1px solid rgba(26, 18, 7, 0.06)",
+                    }}
+                  >
+                    {pack.popular && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-0.5 text-white" style={{ background: "var(--accent-deep)", fontSize: 11, fontWeight: 700 }}>
+                        BEST VALUE
+                      </span>
+                    )}
+                    <p className="text-text-secondary" style={{ fontSize: 18, fontWeight: 700 }}>{pack.name}</p>
+                    <p className="mt-2" style={{ fontSize: 36, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+                      {pack.priceDisplay}
+                    </p>
+                    <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>{pack.minutes} minutes</p>
+                    <div className="flex items-center gap-2 mt-5 text-text-secondary" style={{ fontSize: 14 }}>
+                      <Clock size={15} style={{ color: "var(--success)" }} /> ~{Math.floor(pack.minutes / 3)} stories
+                    </div>
+                    <div className="mt-auto pt-6">
+                      <Link
+                        href="/pricing"
+                        className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg"
+                        style={{ height: 44, fontSize: 14, background: pack.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
+                      >
+                        Buy Now
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </ScrollReveal>
 
         {/* ─── Trust & Guarantees ─── */}
-        <section className="max-w-4xl mx-auto px-6 py-20 md:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: Shield, title: "Free to try", desc: "5 free minutes. No credit card required.", color: "var(--success)" },
-              { icon: Lock, title: "Your voice is safe", desc: "Encrypted storage. Never shared with third parties.", color: "var(--accent-deep)" },
-              { icon: Heart, title: "Made for busy parents", desc: "30 seconds to record. Stories in your voice forever.", color: "var(--accent-warm)" },
-            ].map((item, i) => (
-              <div key={i} className="text-center">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: `${item.color}12` }}>
-                  <item.icon size={24} style={{ color: item.color }} />
+        <ScrollReveal>
+          <section className="max-w-4xl mx-auto px-6 py-20 md:py-28">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { icon: Shield, title: "Free to try", desc: "5 free minutes. No credit card required.", color: "var(--success)" },
+                { icon: Lock, title: "Your voice is safe", desc: "Encrypted storage. Never shared with third parties.", color: "var(--accent-deep)" },
+                { icon: Heart, title: "Made for busy parents", desc: "30 seconds to record. Stories in your voice forever.", color: "var(--accent-warm)" },
+              ].map((item, i) => (
+                <div key={i} className="text-center">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: `${item.color}12` }}>
+                    <item.icon size={24} style={{ color: item.color }} />
+                  </div>
+                  <h3 className="text-text-primary" style={{ fontSize: 17, fontWeight: 700 }}>{item.title}</h3>
+                  <p className="text-text-secondary mt-2" style={{ fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
                 </div>
-                <h3 className="text-text-primary" style={{ fontSize: 17, fontWeight: 700 }}>{item.title}</h3>
-                <p className="text-text-secondary mt-2" style={{ fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
 
         {/* ─── FAQ ─── */}
-        <section className="max-w-2xl mx-auto px-6 pb-20 md:pb-28">
-          <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            Questions?
-          </h2>
-          <FAQ />
-        </section>
+        <ScrollReveal>
+          <section className="max-w-2xl mx-auto px-6 pb-20 md:pb-28">
+            <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              Questions?
+            </h2>
+            <FAQ />
+            <p className="text-center mt-8">
+              <a href="mailto:support@mamyvoice.com" className="font-semibold transition-colors" style={{ color: "var(--accent-warm)", fontSize: 15 }}>
+                Still have questions? Contact us
+              </a>
+            </p>
+          </section>
+        </ScrollReveal>
 
         {/* ─── Final CTA ─── */}
-        <section className="px-6 py-20 md:py-28" style={{ background: "var(--surface)" }}>
-          <div className="max-w-xl mx-auto text-center">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: "var(--accent-warm-light)" }}>
-              <Sparkles size={28} style={{ color: "var(--accent-warm)" }} />
+        <ScrollReveal>
+          <section className="px-6 py-20 md:py-28" style={{ background: "var(--surface)" }}>
+            <div className="max-w-xl mx-auto text-center">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ background: "var(--accent-warm-light)" }}>
+                <Sparkles size={28} style={{ color: "var(--accent-warm)" }} />
+              </div>
+              <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                Give your child the gift of
+                <br />
+                <span style={{ color: "var(--accent-warm)" }}>your voice</span>
+              </h2>
+              <p className="text-text-secondary mt-4" style={{ fontSize: 17, lineHeight: 1.65 }}>
+                It takes 30 seconds to record. Your child will have it forever.
+              </p>
+              <div className="mt-10 max-w-sm mx-auto">
+                <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                  Record Your Voice Now
+                </Link>
+              </div>
+              <p className="text-text-tertiary mt-5" style={{ fontSize: 14 }}>
+                Free to try · No download needed · Works on any device
+              </p>
             </div>
-            <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              Give your child the gift of
-              <br />
-              <span style={{ color: "var(--accent-warm)" }}>your voice</span>
-            </h2>
-            <p className="text-text-secondary mt-4" style={{ fontSize: 17, lineHeight: 1.65 }}>
-              It takes 30 seconds to record. Your child will have it forever.
-            </p>
-            <div className="mt-10 max-w-sm mx-auto">
-              <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                Record Your Voice Now
-              </Link>
-            </div>
-            <p className="text-text-tertiary mt-5" style={{ fontSize: 14 }}>
-              Free to try · No download needed · Works on any device
-            </p>
-          </div>
-        </section>
+          </section>
+        </ScrollReveal>
       </main>
 
       {/* ─── Footer ─── */}

@@ -62,12 +62,12 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:gap-20">
             <div className="lg:w-[55%]">
               <h1 className="text-text-primary animate-fade-in-up" style={{ fontSize: "clamp(34px, 5.5vw, 60px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.03em" }}>
-                Bedtime stories
+                Every Story,
                 <br />
-                <span style={{ color: "var(--accent-warm)" }}>in your voice</span>
+                <span style={{ color: "var(--accent-warm)" }}>In Mom&apos;s Voice</span>
               </h1>
-              <p className="text-text-secondary mt-5 lg:mt-6 animate-fade-in-up delay-200" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.7, maxWidth: 480 }}>
-                Your child hears your voice reading their favorite story — <span className="italic" style={{ color: "var(--accent-warm)" }}>even when you can&apos;t be there</span>.
+              <p className="text-text-secondary mt-5 lg:mt-6 animate-fade-in-up delay-200" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.7, maxWidth: 520 }}>
+                AI reading books in a mother&apos;s voice — inspired by research on how a mom&apos;s voice supports a child&apos;s emotional and brain development.
               </p>
               <div className="mt-10 animate-fade-in-up delay-400">
                 <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>

@@ -157,7 +157,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
               {[
                 { stat: "72%", suffix: "%", text: "of parents can't find time to read due to work and exhaustion" },
-                { stat: "1,500", suffix: "", text: "words by age 3 for kids read to daily — versus only 500 for those in homes with little reading" },
+                { stat: "1,500", suffix: "", text: "words by age 3 for kids read to daily — vs only 500 without. A key predictor of early academic success" },
                 { stat: "41%", suffix: "%", text: "of parents read to kids regularly today — down from 64% a decade ago" },
               ].map((item, i) => (
                 <div key={i} className="text-center rounded-[20px] p-8" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
@@ -168,9 +168,11 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="text-text-primary text-center mt-14 mx-auto" style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 600, lineHeight: 1.5, maxWidth: 520, letterSpacing: "-0.01em" }}>
-              What if your child could hear <span style={{ color: "var(--accent-warm)" }}>your voice</span> reading to them — even when you&apos;re not home?
-            </p>
+            <div className="mt-14 mx-auto rounded-[20px] p-7 md:p-8" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
+              <p className="text-text-primary" style={{ fontSize: "clamp(15px, 2vw, 17px)", lineHeight: 1.75, textAlign: "center" }}>
+                Children with a rich vocabulary by age 3 grasp grammar and follow complex instructions more easily, boosting <span style={{ color: "var(--accent-warm)", fontWeight: 600 }}>cognitive skills</span>. This supports school readiness: they are more likely to read and write successfully by age 5–6. A strong vocabulary also helps them <span style={{ color: "var(--accent-deep)", fontWeight: 600 }}>express emotions</span>, communicate with peers, and develop social skills.
+              </p>
+            </div>
           </section>
         </ScrollReveal>
 

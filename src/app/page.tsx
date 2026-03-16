@@ -168,19 +168,10 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="mt-14 mx-auto rounded-[20px] p-7 md:p-10" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
-              <p className="text-text-primary italic" style={{ fontSize: "clamp(15px, 2vw, 17px)", lineHeight: 1.8, textAlign: "center" }}>
-                &ldquo;Children with a rich vocabulary by age 3 grasp grammar and follow complex instructions more easily, boosting <span style={{ color: "var(--accent-warm)", fontWeight: 600 }}>cognitive skills</span>. This supports school readiness: they are more likely to read and write successfully by age 5–6. A strong vocabulary also helps them <span style={{ color: "var(--accent-deep)", fontWeight: 600 }}>express emotions</span>, communicate with peers, and develop social skills.&rdquo;
+            <div className="mt-14 mx-auto rounded-[20px] p-7 md:p-8" style={{ maxWidth: 640, background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
+              <p className="text-text-primary" style={{ fontSize: "clamp(15px, 2vw, 17px)", lineHeight: 1.75, textAlign: "center" }}>
+                Children with a rich vocabulary by age 3 grasp grammar and follow complex instructions more easily, boosting <span style={{ color: "var(--accent-warm)", fontWeight: 600 }}>cognitive skills</span>. This supports school readiness: they are more likely to read and write successfully by age 5–6. A strong vocabulary also helps them <span style={{ color: "var(--accent-deep)", fontWeight: 600 }}>express emotions</span>, communicate with peers, and develop social skills.
               </p>
-              <div className="flex items-center justify-center gap-3 mt-6">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style={{ background: "var(--accent-deep)", fontSize: 15 }}>
-                  O
-                </div>
-                <div className="text-left">
-                  <p className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>Oleg Tyutyunshchikov</p>
-                  <p className="text-text-tertiary" style={{ fontSize: 12 }}>Loving father of 2, founder of Mamy Voice</p>
-                </div>
-              </div>
             </div>
           </section>
         </ScrollReveal>

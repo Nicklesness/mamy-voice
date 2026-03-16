@@ -144,22 +144,25 @@ export default function Home() {
             <span className="absolute bottom-16 left-10 text-xl animate-float-slow-reverse" style={{ opacity: 0.12, animationDelay: "2.5s" }}>&#9834;</span>
             <span className="absolute bottom-32 right-8 text-lg animate-float-slow" style={{ opacity: 0.14, animationDelay: "0.5s" }}>&#10022;</span>
             <span className="absolute top-1/2 left-2 text-sm animate-float-slow-alt" style={{ opacity: 0.1, animationDelay: "3s" }}>&#9790;</span>
-            <div className="text-center mb-12">
+            <div className="text-center mb-6">
               <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                 You know reading matters.
                 <br />
                 <span className="text-text-secondary" style={{ fontWeight: 400 }}>But life gets in the way.</span>
               </h2>
+              <p className="text-text-secondary mt-4 mx-auto" style={{ fontSize: "clamp(15px, 2vw, 18px)", lineHeight: 1.6, maxWidth: 520 }}>
+                <span className="text-text-primary font-bold" style={{ color: "var(--accent-warm)" }}>83% of parents</span> feel guilty about not reading enough to their kids. Here&apos;s why it matters:
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
               {[
-                { stat: "83%", suffix: "%", text: "of parents feel guilty about not reading enough to their kids" },
-                { stat: "1,500", suffix: "", text: "words by age 3 for kids read to — vs only 500 without. A key predictor of academic success" },
+                { stat: "72%", suffix: "%", text: "of parents can't find time to read due to work and exhaustion" },
+                { stat: "1,500", suffix: "", text: "words by age 3 for kids read to daily — versus only 500 for those in homes with little reading" },
                 { stat: "41%", suffix: "%", text: "of parents read to kids regularly today — down from 64% a decade ago" },
               ].map((item, i) => (
                 <div key={i} className="text-center rounded-[20px] p-8" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
                   <p style={{ fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 800, color: "var(--accent-warm)", lineHeight: 1, letterSpacing: "-0.03em" }}>
-                    {item.stat === "1 in 3" ? item.stat : <AnimatedCounter value={item.stat} />}
+                    <AnimatedCounter value={item.stat} />
                   </p>
                   <p className="text-text-secondary mt-4" style={{ fontSize: 15, lineHeight: 1.6 }}>{item.text}</p>
                 </div>

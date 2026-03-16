@@ -154,8 +154,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { stat: "83%", suffix: "%", text: "of parents feel guilty about not reading enough to their kids" },
-                { stat: "3x", suffix: "x", text: "more words by age 3 for kids whose parents read to them — a key predictor of academic success" },
-                { stat: "1 in 3", suffix: "", text: "children are not read to daily at home" },
+                { stat: "1,500", suffix: "", text: "words by age 3 for kids read to — vs only 500 without. A key predictor of academic success" },
+                { stat: "41%", suffix: "%", text: "of parents read to kids regularly today — down from 64% a decade ago" },
               ].map((item, i) => (
                 <div key={i} className="text-center rounded-[20px] p-8" style={{ background: "var(--surface)", boxShadow: "var(--shadow-sm)" }}>
                   <p style={{ fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 800, color: "var(--accent-warm)", lineHeight: 1, letterSpacing: "-0.03em" }}>

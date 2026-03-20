@@ -62,7 +62,7 @@ export default function DemoPlayer() {
       {/* Real audio element in DOM */}
       <audio
         ref={audioRef}
-        src="/audio/winnie-the-pooh-demo.mp3"
+        src="/images/winnie-the-pooh-demo.mp3"
         preload="metadata"
         onLoadedMetadata={() => {
           if (audioRef.current) setDuration(audioRef.current.duration);

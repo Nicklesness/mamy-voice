@@ -15,10 +15,11 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow static assets and Next.js internals
+  // Allow static assets, legal pages, and Next.js internals
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/images") ||
+    pathname.startsWith("/legal") ||
     pathname.startsWith("/favicon")
   ) {
     return NextResponse.next();

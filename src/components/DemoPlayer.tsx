@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 
 export default function DemoPlayer() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const rafRef = useRef<number>(0);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -19,51 +19,34 @@ export default function DemoPlayer() {
     rafRef.current = requestAnimationFrame(updateTime);
   }, []);
 
-  useEffect(() => {
-    const audio = new Audio("/audio/winnie-the-pooh-demo.mp3");
-    audio.preload = "metadata";
-    audioRef.current = audio;
-
-    audio.addEventListener("loadedmetadata", () => {
-      setDuration(audio.duration);
-    });
-    audio.addEventListener("ended", () => {
-      setPlaying(false);
-      cancelAnimationFrame(rafRef.current);
-    });
-
-    return () => {
-      audio.pause();
-      audio.src = "";
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
   const togglePlay = () => {
-    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    if (!audio) return;
     setHasInteracted(true);
 
     if (playing) {
-      audioRef.current.pause();
+      audio.pause();
       cancelAnimationFrame(rafRef.current);
     } else {
-      audioRef.current.play();
+      audio.play().catch(() => {});
       rafRef.current = requestAnimationFrame(updateTime);
     }
     setPlaying(!playing);
   };
 
   const skip = (seconds: number) => {
-    if (!audioRef.current) return;
-    audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, duration));
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = Math.max(0, Math.min(audio.currentTime + seconds, duration));
   };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!audioRef.current || !duration) return;
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    audioRef.current.currentTime = ratio * duration;
-    setCurrentTime(audioRef.current.currentTime);
+    audio.currentTime = ratio * duration;
+    setCurrentTime(audio.currentTime);
   };
 
   const fmt = (s: number) => {
@@ -76,23 +59,19 @@ export default function DemoPlayer() {
 
   return (
     <div className="relative rounded-[28px] p-5 md:p-6" style={{ background: "var(--surface)", boxShadow: "0 20px 60px rgba(232, 115, 74, 0.15), 0 4px 20px rgba(0,0,0,0.06)" }}>
-      {/* Click to listen badge */}
-      {!hasInteracted && (
-        <button
-          onClick={togglePlay}
-          className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 px-4 rounded-full text-white font-semibold cursor-pointer animate-cta-breathe"
-          style={{
-            height: 30,
-            fontSize: 12,
-            background: "var(--gradient-cta)",
-            boxShadow: "var(--shadow-cta)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <Play size={12} className="ml-0" />
-          Click to listen
-        </button>
-      )}
+      {/* Real audio element in DOM */}
+      <audio
+        ref={audioRef}
+        src="/audio/winnie-the-pooh-demo.mp3"
+        preload="metadata"
+        onLoadedMetadata={() => {
+          if (audioRef.current) setDuration(audioRef.current.duration);
+        }}
+        onEnded={() => {
+          setPlaying(false);
+          cancelAnimationFrame(rafRef.current);
+        }}
+      />
 
       {/* Cover image */}
       <div
@@ -117,21 +96,19 @@ export default function DemoPlayer() {
         A. A. Milne
       </p>
 
-      {/* Sound wave visualization */}
-      {playing && (
-        <div className="flex items-center justify-center gap-[3px] mt-2 mb-1" style={{ height: 24 }}>
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div
-              key={i}
-              className="sound-wave-bar rounded-full"
-              style={{ width: 3, background: "var(--accent-warm)", opacity: 0.6 }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Sound wave — always rendered, visibility toggles */}
+      <div className="flex items-center justify-center gap-[3px] mt-2" style={{ height: 24, opacity: playing ? 1 : 0, transition: "opacity 0.3s" }}>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div
+            key={i}
+            className="sound-wave-bar rounded-full"
+            style={{ width: 3, background: "var(--accent-warm)", opacity: 0.6 }}
+          />
+        ))}
+      </div>
 
       {/* Progress bar */}
-      <div className="mt-3">
+      <div className="mt-1">
         <div
           className="w-full h-1.5 rounded-full cursor-pointer"
           style={{ background: "var(--bg-warm)" }}
@@ -149,7 +126,7 @@ export default function DemoPlayer() {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-6 mt-3">
+      <div className="relative flex items-center justify-center gap-6 mt-3">
         <button
           onClick={() => skip(-15)}
           className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform active:scale-90"
@@ -171,7 +148,28 @@ export default function DemoPlayer() {
         >
           <SkipForward size={16} className="text-text-secondary" />
         </button>
+
+        {/* Click to listen badge — near the play button */}
+        {!hasInteracted && (
+          <button
+            onClick={togglePlay}
+            className="absolute -bottom-9 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 rounded-full text-white font-semibold cursor-pointer animate-cta-breathe"
+            style={{
+              height: 26,
+              fontSize: 11,
+              background: "var(--gradient-cta)",
+              boxShadow: "var(--shadow-cta)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Play size={10} />
+            Click to listen
+          </button>
+        )}
       </div>
+
+      {/* Spacer for badge */}
+      {!hasInteracted && <div style={{ height: 20 }} />}
     </div>
   );
 }

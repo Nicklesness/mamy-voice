@@ -149,27 +149,35 @@ export default function DemoPlayer() {
           <SkipForward size={16} className="text-text-secondary" />
         </button>
 
-        {/* Click to listen badge — near the play button */}
-        {!hasInteracted && (
-          <button
-            onClick={togglePlay}
-            className="absolute -bottom-9 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 rounded-full text-white font-semibold cursor-pointer animate-cta-breathe"
-            style={{
-              height: 26,
-              fontSize: 11,
-              background: "var(--gradient-cta)",
-              boxShadow: "var(--shadow-cta)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <Play size={10} />
-            Click to listen
-          </button>
-        )}
       </div>
 
-      {/* Spacer for badge */}
-      {!hasInteracted && <div style={{ height: 20 }} />}
+      {/* Speech bubble badge */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={togglePlay}
+          className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-full cursor-pointer transition-transform active:scale-95"
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            color: "var(--accent-warm)",
+            background: "var(--accent-warm-light)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {/* Bubble arrow pointing up */}
+          <span
+            className="absolute -top-[6px] left-1/2 -translate-x-1/2"
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: "6px solid transparent",
+              borderRight: "6px solid transparent",
+              borderBottom: "6px solid var(--accent-warm-light)",
+            }}
+          />
+          {playing ? "Now playing ~" : "Click to listen ~"}
+        </button>
+      </div>
     </div>
   );
 }

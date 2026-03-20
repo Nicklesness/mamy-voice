@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Shield, Lock, Heart, Clock, Sparkles, Play, SkipBack, SkipForward } from "lucide-react";
+import { ChevronRight, Shield, Lock, Heart, Clock, Sparkles } from "lucide-react";
+import DemoPlayer from "@/components/DemoPlayer";
 import FAQ from "@/components/FAQ";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -88,34 +89,8 @@ export default function Home() {
                 <span className="absolute -bottom-4 left-1/4 text-2xl animate-float-slow" style={{ opacity: 0.2, animationDelay: "0.5s" }}>&#9834;</span>
                 <span className="absolute top-1/2 -left-4 text-sm animate-float-slow-alt" style={{ opacity: 0.18, animationDelay: "3s" }}>&#9829;</span>
                 <span className="absolute top-10 right-1/4 text-sm animate-float-slow-reverse" style={{ opacity: 0.15, animationDelay: "1.5s" }}>&#10022;</span>
-                {/* Player mockup card */}
-                <div className="relative rounded-[28px] p-5 md:p-6" style={{ background: "var(--surface)", boxShadow: "0 20px 60px rgba(232, 115, 74, 0.15), 0 4px 20px rgba(0,0,0,0.06)" }}>
-                  <div className="w-full rounded-2xl mb-4 overflow-hidden" style={{ aspectRatio: "1/1" }}>
-                    <Image src="/images/landing/player_mockup.png" alt="Child sleeping while listening" width={300} height={300} className="w-full h-full object-cover" priority />
-                  </div>
-                  <p className="text-text-primary text-center" style={{ fontSize: 16, fontWeight: 700 }}>Goodnight Moon</p>
-                  <p className="text-text-secondary text-center mt-0.5" style={{ fontSize: 13 }}>Margaret Wise Brown</p>
-                  <div className="mt-4">
-                    <div className="w-full h-1.5 rounded-full" style={{ background: "var(--bg-warm)" }}>
-                      <div className="h-full rounded-full progress-bar-animated" style={{ width: "60%", background: "var(--gradient-cta)" }} />
-                    </div>
-                    <div className="flex justify-between mt-1.5">
-                      <span className="text-text-tertiary" style={{ fontSize: 11 }}>1:24</span>
-                      <span className="text-text-tertiary" style={{ fontSize: 11 }}>3:15</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center gap-6 mt-3">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
-                      <SkipBack size={16} className="text-text-secondary" />
-                    </div>
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                      <Play size={20} className="ml-0.5" />
-                    </div>
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "var(--bg-warm)" }}>
-                      <SkipForward size={16} className="text-text-secondary" />
-                    </div>
-                  </div>
-                </div>
+                {/* Working demo player */}
+                <DemoPlayer />
               </div>
             </div>
           </div>
@@ -480,12 +455,20 @@ export default function Home() {
 
       {/* ─── Footer ─── */}
       <footer className="px-6 py-10 border-t" style={{ borderColor: "rgba(26, 18, 7, 0.06)" }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.03em" }}>
-            <span style={{ color: "var(--accent-warm)" }}>Mamy</span>{" "}
-            <span className="text-text-primary">Voice</span>
-          </span>
-          <p className="text-text-tertiary" style={{ fontSize: 13 }}>
+        <div className="max-w-7xl mx-auto flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.03em" }}>
+              <span style={{ color: "var(--accent-warm)" }}>Mamy</span>{" "}
+              <span className="text-text-primary">Voice</span>
+            </span>
+            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+              <a href="/legal/terms" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Terms & Conditions</a>
+              <a href="/legal/privacy" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Privacy Policy</a>
+              <a href="/legal/cookies" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Cookies Policy</a>
+              <a href="/legal/refund" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Refund Policy</a>
+            </nav>
+          </div>
+          <p className="text-text-tertiary text-center md:text-left" style={{ fontSize: 13 }}>
             &copy; {new Date().getFullYear()} Mamy Voice. All rights reserved.
           </p>
         </div>

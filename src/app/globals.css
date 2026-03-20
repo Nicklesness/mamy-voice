@@ -456,6 +456,70 @@ body {
 
 /* ===== Reduced motion ===== */
 
+/* ===== Legal pages ===== */
+
+.legal-content {
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.legal-content h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.legal-content .legal-updated {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 32px;
+}
+
+.legal-content h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.legal-content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.legal-content p {
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.legal-content ul {
+  margin-bottom: 12px;
+  padding-left: 24px;
+  list-style: disc;
+}
+
+.legal-content li {
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.legal-content a {
+  color: var(--accent-warm);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-content a:hover {
+  color: var(--accent-warm-hover);
+}
+
+/* ===== Reduced motion ===== */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

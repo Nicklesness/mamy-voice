@@ -22,6 +22,7 @@
 
 # generated audio files
 public/audio/*.mp3
+!public/audio/winnie-the-pooh-demo.mp3
 public/audio/*.wav
 public/audio/*.webm
 data/audio/

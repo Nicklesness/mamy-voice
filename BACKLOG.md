@@ -14,8 +14,17 @@
 - [x] **P1** — Voice profile page (My Voice)
 - [x] **P1** — Аудио через API route (не public/)
 
+## Done (v0.3.2)
+
+- [x] **P1** — Legal pages (Terms, Privacy, Cookies, Refund)
+- [x] **P1** — Футер с ссылками на legal pages
+- [x] **P1** — Демо-плеер на лендинге (рабочий, с реальным аудио)
+- [x] **P1** — Middleware: /legal в публичных маршрутах
+- [x] **P2** — Инструкция по настройке R2 (docs/r2-setup.md)
+
 ## In Progress
 
+- [ ] **P0** — Настройка Cloudflare R2 (ждём credentials от владельца CF)
 - [ ] **P0** — Проверить полный флоу на Railway (BUG-005)
 - [ ] **P0** — Вернуть полные тексты книг (сейчас ~200 символов для тестов)
 
@@ -25,7 +34,7 @@
 - [ ] Длинные тексты: ffmpeg конкатенация или ElevenLabs streaming для текстов >5000 символов
 - [ ] Loading states и skeleton screens
 - [ ] Error handling: retry logic, понятные сообщения
-- [ ] Плеер: seekbar (перемотка по клику на прогресс-бар)
+- [ ] Обложка Winnie-the-Pooh для демо-плеера
 
 ### P2 — Nice to have
 - [ ] Push-уведомление когда озвучка готова (Notification API)
@@ -35,4 +44,3 @@
 - [ ] Фильтры по возрасту в каталоге
 - [ ] PWA (install на домашний экран)
 - [ ] Аналитика (какие книги популярны)
-- [ ] Свой домен (mamy-voice.com или подобный)

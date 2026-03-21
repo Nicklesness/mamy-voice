@@ -84,7 +84,7 @@ export default function Home() {
                 Free to try · No credit card · 30 seconds to start
               </p>
             </div>
-            <div className="lg:w-[45%] mt-12 lg:mt-0 animate-fade-in-scale delay-300">
+            <div className="hidden lg:block lg:w-[45%] mt-12 lg:mt-0 animate-fade-in-scale delay-300">
               <div className="relative mx-auto" style={{ maxWidth: 340 }}>
                 <div className="absolute -inset-6 rounded-[32px] blur-3xl opacity-12" style={{ background: "var(--accent-warm)" }} />
                 {/* Floating decorative elements */}

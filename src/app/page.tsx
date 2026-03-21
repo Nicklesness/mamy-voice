@@ -6,6 +6,7 @@ import FAQ from "@/components/FAQ";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import NavbarShadow from "@/components/NavbarShadow";
+import MiniDemoPlayer from "@/components/MiniDemoPlayer";
 import { MINUTE_PACKS } from "@/lib/pricing";
 
 const steps = [
@@ -70,7 +71,11 @@ export default function Home() {
               <p className="text-text-secondary mt-5 lg:mt-6 animate-fade-in-up delay-200" style={{ fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.7, maxWidth: 520 }}>
                 AI reading books in a mother&apos;s voice — inspired by research on how a mom&apos;s voice supports a child&apos;s emotional and brain development.
               </p>
-              <div className="mt-10 animate-fade-in-up delay-400">
+              {/* Mini demo player — mobile only */}
+              <div className="lg:hidden mt-8 animate-fade-in-up delay-300">
+                <MiniDemoPlayer />
+              </div>
+              <div className="mt-6 lg:mt-10 animate-fade-in-up delay-400">
                 <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
                   Record Your Voice <ChevronRight size={20} className="ml-1" />
                 </Link>

@@ -466,6 +466,7 @@ export default function Home() {
               <a href="/legal/privacy" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Privacy Policy</a>
               <a href="/legal/cookies" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Cookies Policy</a>
               <a href="/legal/refund" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Refund Policy</a>
+              <a href="/support" className="text-text-tertiary hover:text-text-secondary transition-colors" style={{ fontSize: 13 }}>Support</a>
             </nav>
           </div>
           <p className="text-text-tertiary text-center md:text-left" style={{ fontSize: 13 }}>

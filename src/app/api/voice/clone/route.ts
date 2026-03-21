@@ -79,11 +79,12 @@ export async function POST(request: NextRequest) {
       audioBlob = await convertToWav(file);
     }
 
-    // Delete existing voice if any
+    // Delete existing voice and its generations
     const existingVoice = await prisma.voice.findUnique({
       where: { userId: session.user.id },
     });
     if (existingVoice) {
+      await prisma.generation.deleteMany({ where: { voiceId: existingVoice.id } });
       await prisma.voice.delete({ where: { id: existingVoice.id } });
     }
 

@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 
 function LoginContent() {
@@ -77,7 +77,12 @@ function LoginContent() {
 
       <div className="relative z-10 flex flex-col items-center gap-5 w-full max-w-sm md:max-w-md">
         <div className="animate-fade-in-scale">
-          <Image src="/images/hero.png" alt="Mamy Voice" width={100} height={100} className="rounded-2xl" />
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.03em" }}>
+              <span style={{ color: "var(--accent-warm)" }}>Mamy</span>{" "}
+              <span className="text-text-primary">Voice</span>
+            </span>
+          </Link>
         </div>
 
         <div className="text-center animate-fade-in-up delay-200">

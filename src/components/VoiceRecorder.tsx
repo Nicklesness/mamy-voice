@@ -91,8 +91,9 @@ export default function VoiceRecorder({ onComplete }: VoiceRecorderProps) {
   }, [currentPassage, resetRecording]);
 
   const handleFinish = useCallback(() => {
-    setScreenState("complete");
-  }, []);
+    const blobs = fragments.filter((f): f is RecordedFragment => f !== null).map(f => f.blob);
+    onComplete(blobs);
+  }, [fragments, onComplete]);
 
   const handleChooseBook = useCallback(() => {
     const blobs = fragments.filter((f): f is RecordedFragment => f !== null).map(f => f.blob);

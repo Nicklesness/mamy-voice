@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cloneVoice, VoicvError } from "@/lib/voicv";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { uploadAudio, voiceSampleKey } from "@/lib/r2";
 import { writeFile, unlink } from "fs/promises";
 import { execFile } from "child_process";
 import { promisify } from "util";
@@ -89,12 +90,18 @@ export async function POST(request: NextRequest) {
     const name = `Mamy Voice - ${session.user.email || session.user.id}`;
     const result = await cloneVoice(audioBlob);
 
+    // Save original recording to R2
+    const originalBuffer = new Uint8Array(await file.arrayBuffer());
+    const sampleKey = voiceSampleKey(session.user.id, result.voice_id);
+    await uploadAudio(sampleKey, originalBuffer, file.type || "audio/webm");
+
     // Save voice to DB
     await prisma.voice.create({
       data: {
         userId: session.user.id,
         elevenLabsId: result.voice_id,
         name,
+        sampleUrl: sampleKey,
       },
     });
 

@@ -2,6 +2,7 @@ import { getBooks } from "@/lib/books";
 import { BookOpen } from "lucide-react";
 import BookCard from "@/components/BookCard";
 import VoiceProfileLink from "@/components/VoiceProfileLink";
+import LogoutButton from "@/components/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,10 @@ export default async function BooksPage() {
                 Step 2 of 3
               </span>
             </div>
-            <VoiceProfileLink />
+            <div className="flex items-center gap-3">
+              <VoiceProfileLink />
+              <LogoutButton />
+            </div>
           </div>
           <h1
             className="text-text-primary"

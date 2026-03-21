@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { deleteVoice, ElevenLabsError } from "@/lib/elevenlabs";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -21,21 +20,11 @@ export async function DELETE() {
       );
     }
 
-    // Delete from ElevenLabs
-    await deleteVoice(voice.elevenLabsId);
-
-    // Delete from DB
+    // Voicv doesn't have a delete voice endpoint — just remove from DB
     await prisma.voice.delete({ where: { id: voice.id } });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof ElevenLabsError) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: error.statusCode === 429 ? 429 : 502 }
-      );
-    }
-
     console.error("Voice delete error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

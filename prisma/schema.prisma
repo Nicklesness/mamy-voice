@@ -144,3 +144,11 @@ enum PurchaseStatus {
   FAILED
   REFUNDED
 }
+
+model SupportMessage {
+  id        String   @id @default(cuid())
+  email     String
+  name      String?
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}

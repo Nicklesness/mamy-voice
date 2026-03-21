@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Mail } from "lucide-react";
+import { ChevronDown, Mail, Send } from "lucide-react";
 
 interface FAQItem {
   q: string;
@@ -166,6 +166,112 @@ function FAQCategorySection({ category, isFirst }: { category: FAQCategory; isFi
   );
 }
 
+function ContactForm() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.email || !form.message) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/support", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "sent") {
+    return (
+      <div className="text-center py-4">
+        <p className="text-text-primary" style={{ fontSize: 16, fontWeight: 600 }}>
+          Thank you! We got your message.
+        </p>
+        <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>
+          We&apos;ll get back to you within 24 hours.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3 text-left">
+      <input
+        type="text"
+        placeholder="Your name (optional)"
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+        className="w-full rounded-xl px-4 py-3 text-text-primary outline-none transition-colors"
+        style={{
+          fontSize: 14,
+          background: "var(--bg)",
+          border: "1px solid rgba(26, 18, 7, 0.08)",
+          minHeight: 44,
+        }}
+      />
+      <input
+        type="email"
+        required
+        placeholder="Your email *"
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+        className="w-full rounded-xl px-4 py-3 text-text-primary outline-none transition-colors"
+        style={{
+          fontSize: 14,
+          background: "var(--bg)",
+          border: "1px solid rgba(26, 18, 7, 0.08)",
+          minHeight: 44,
+        }}
+      />
+      <textarea
+        required
+        placeholder="How can we help? *"
+        value={form.message}
+        onChange={(e) => setForm({ ...form, message: e.target.value })}
+        rows={4}
+        maxLength={5000}
+        className="w-full rounded-xl px-4 py-3 text-text-primary outline-none transition-colors resize-none"
+        style={{
+          fontSize: 14,
+          background: "var(--bg)",
+          border: "1px solid rgba(26, 18, 7, 0.08)",
+        }}
+      />
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="inline-flex items-center justify-center gap-2 w-full sm:w-auto self-center transition-all duration-200 hover:-translate-y-px active:scale-[0.97] disabled:opacity-60"
+        style={{
+          background: "var(--accent-warm)",
+          color: "#fff",
+          fontSize: 15,
+          fontWeight: 600,
+          padding: "12px 28px",
+          borderRadius: 9999,
+          border: "none",
+          cursor: status === "sending" ? "wait" : "pointer",
+          minHeight: 44,
+        }}
+      >
+        <Send size={16} />
+        {status === "sending" ? "Sending..." : "Send message"}
+      </button>
+      {status === "error" && (
+        <p className="text-center" style={{ fontSize: 13, color: "#e74c3c" }}>
+          Something went wrong. Please try again or email us directly.
+        </p>
+      )}
+    </form>
+  );
+}
+
 export default function SupportPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -227,37 +333,20 @@ export default function SupportPage() {
             >
               We&apos;re a small team of parents who built this for our own families. If you have a question, a suggestion, or just want to say hi — we&apos;d love to hear from you.
             </p>
-            <a
-              href="mailto:support@mamyvoice.com"
-              className="inline-flex items-center gap-2 mt-4 w-full sm:w-auto justify-center transition-all duration-200 hover:-translate-y-px active:scale-[0.97]"
-              style={{
-                background: "var(--accent-warm-light)",
-                color: "var(--accent-warm)",
-                fontSize: 15,
-                fontWeight: 600,
-                padding: "12px 24px",
-                borderRadius: 9999,
-                textDecoration: "none",
-                minHeight: 44,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "#FADDD2";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 8px rgba(232, 115, 74, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent-warm-light)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
-            >
-              <Mail size={18} />
-              support@mamyvoice.com
-            </a>
-            <p
-              className="text-text-secondary mt-3"
-              style={{ fontSize: 13 }}
-            >
-              We usually reply within 24 hours.
-            </p>
+            <ContactForm />
+            <div className="mt-5 pt-4 border-t" style={{ borderColor: "rgba(26, 18, 7, 0.06)" }}>
+              <p className="text-text-secondary" style={{ fontSize: 13 }}>
+                Or email us directly at{" "}
+                <a
+                  href="mailto:support@mamyvoice.com"
+                  className="inline-flex items-center gap-1"
+                  style={{ color: "var(--accent-warm)", textDecoration: "none", fontWeight: 600 }}
+                >
+                  <Mail size={14} />
+                  support@mamyvoice.com
+                </a>
+              </p>
+            </div>
           </div>
 
           {/* Quick Links */}

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const publicRoutes = ["/", "/login", "/record"];
-const publicPrefixes = ["/api/auth", "/api/books"];
+const publicPrefixes = ["/api/auth", "/api/books", "/api/support"];
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

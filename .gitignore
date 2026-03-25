@@ -26,6 +26,7 @@ public/audio/*.mp3
 public/audio/*.wav
 public/audio/*.webm
 data/audio/
+data/books/
 
 # image generation scripts (contain API keys)
 generate_images.py

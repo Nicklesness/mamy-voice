@@ -1,8 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateSpeech, ElevenLabsError } from "@/lib/elevenlabs";
+import { generateSpeech, splitText, ElevenLabsError } from "@/lib/elevenlabs";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadAudio, generationKey } from "@/lib/r2";
+
+// Safety limit: only generate ~30 seconds of audio (≈75 words)
+// Remove this limit when ready for full-book generation
+const PREVIEW_WORD_LIMIT = 75;
+
+function truncateToPreview(text: string): string {
+  const words = text.split(/\s+/);
+  if (words.length <= PREVIEW_WORD_LIMIT) return text;
+  // Find sentence boundary near the limit
+  const truncated = words.slice(0, PREVIEW_WORD_LIMIT).join(" ");
+  const lastSentence = truncated.search(/[.!?][^.!?]*$/);
+  if (lastSentence > truncated.length / 2) {
+    return truncated.slice(0, lastSentence + 1);
+  }
+  return truncated + "...";
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -81,8 +97,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Generate speech
-    const audioBuffer = await generateSpeech(book.text, voice.elevenLabsId);
+    // Generate speech (preview mode: ~30 seconds)
+    // TODO: remove PREVIEW_WORD_LIMIT for full-book generation
+    // For full books, use: const chunks = splitText(book.text, 5000);
+    // then generate each chunk and concatenate MP3 buffers
+    const previewText = truncateToPreview(book.text);
+    const audioBuffer = await generateSpeech(previewText, voice.elevenLabsId);
     const combined = new Uint8Array(audioBuffer);
 
     // Upload to R2

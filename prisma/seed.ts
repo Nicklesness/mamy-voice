@@ -1,6 +1,8 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -17,6 +19,11 @@ interface BookSeed {
   ageRange: string;
   category: string;
   sortOrder: number;
+}
+
+function loadBookText(slug: string): string {
+  const path = join(__dirname, "..", "data", "books", `${slug}.txt`);
+  return readFileSync(path, "utf-8").trim();
 }
 
 const books: BookSeed[] = [
@@ -165,6 +172,163 @@ const books: BookSeed[] = [
     sortOrder: 10,
     text: `A little girl got lost in the forest and found a cottage. Inside lived three bears. She tried their chairs, porridge, and beds. The littlest was always just right! When the bears came home, she woke up and ran away. The end!`,
   },
+  // ─── Full-length books (text loaded from data/books/) ───
+  {
+    id: "alice-in-wonderland",
+    title: "Alice's Adventures in Wonderland",
+    author: "Lewis Carroll",
+    description: "A curious girl falls down a rabbit hole into a fantastical world.",
+    summary: "Alice follows a White Rabbit down a hole and discovers a world where nothing makes sense — mad tea parties, a grinning cat, and a furious Queen of Hearts.",
+    coverColor: "#5B8DB8",
+    pageCount: 80,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 11,
+    text: loadBookText("alice-in-wonderland"),
+  },
+  {
+    id: "through-the-looking-glass",
+    title: "Through the Looking-Glass",
+    author: "Lewis Carroll",
+    description: "Alice steps through a mirror into a world of living chess pieces.",
+    summary: "Alice climbs through a looking-glass and finds herself in a strange land organized like a giant chess game, meeting Tweedledee, Tweedledum, and the Red Queen.",
+    coverColor: "#8B6DB8",
+    pageCount: 90,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 12,
+    text: loadBookText("through-the-looking-glass"),
+  },
+  {
+    id: "wonderful-wizard-of-oz",
+    title: "The Wonderful Wizard of Oz",
+    author: "L. Frank Baum",
+    description: "A Kansas girl is swept by a tornado to a magical land.",
+    summary: "Dorothy and her dog Toto are carried by a cyclone to Oz, where they join a Scarecrow, a Tin Woodman, and a Cowardly Lion on a journey to the Emerald City.",
+    coverColor: "#2E8B57",
+    pageCount: 120,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 13,
+    text: loadBookText("wonderful-wizard-of-oz"),
+  },
+  {
+    id: "ozma-of-oz",
+    title: "Ozma of Oz",
+    author: "L. Frank Baum",
+    description: "Dorothy returns to Oz and rescues the Royal Family of Ev.",
+    summary: "Dorothy is shipwrecked near the Land of Ev, meets a mechanical man named Tik-Tok, and teams up with Ozma to rescue a queen and her children from the Nome King.",
+    coverColor: "#DAA520",
+    pageCount: 130,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 14,
+    text: loadBookText("ozma-of-oz"),
+  },
+  {
+    id: "marvelous-land-of-oz",
+    title: "The Marvelous Land of Oz",
+    author: "L. Frank Baum",
+    description: "A boy named Tip escapes a witch and discovers his true identity.",
+    summary: "Tip runs away from the witch Mombi with a pumpkin-headed man he brought to life, and journeys to the Emerald City where a surprising secret about his past awaits.",
+    coverColor: "#3CB371",
+    pageCount: 140,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 15,
+    text: loadBookText("marvelous-land-of-oz"),
+  },
+  {
+    id: "peter-pan",
+    title: "Peter Pan",
+    author: "J. M. Barrie",
+    description: "A boy who never grows up takes three children to Neverland.",
+    summary: "Peter Pan flies Wendy, John, and Michael to Neverland — a land of pirates, fairies, and Lost Boys. Adventure awaits, but so does the villainous Captain Hook.",
+    coverColor: "#4682B4",
+    pageCount: 150,
+    ageRange: "6-10",
+    category: "classic",
+    sortOrder: 16,
+    text: loadBookText("peter-pan"),
+  },
+  {
+    id: "jungle-book",
+    title: "The Jungle Book",
+    author: "Rudyard Kipling",
+    description: "A boy raised by wolves learns the law of the jungle.",
+    summary: "Mowgli is raised by wolves in the Indian jungle, taught by Baloo the bear and Bagheera the panther, and must face the tiger Shere Khan who wants him dead.",
+    coverColor: "#556B2F",
+    pageCount: 170,
+    ageRange: "7-12",
+    category: "classic",
+    sortOrder: 17,
+    text: loadBookText("jungle-book"),
+  },
+  {
+    id: "second-jungle-book",
+    title: "The Second Jungle Book",
+    author: "Rudyard Kipling",
+    description: "More tales of Mowgli and the creatures of the Indian jungle.",
+    summary: "Mowgli continues his adventures in the jungle — leading a buffalo stampede, discovering an ancient treasure, and finally choosing between the world of animals and men.",
+    coverColor: "#6B8E23",
+    pageCount: 200,
+    ageRange: "7-12",
+    category: "classic",
+    sortOrder: 18,
+    text: loadBookText("second-jungle-book"),
+  },
+  {
+    id: "treasure-island",
+    title: "Treasure Island",
+    author: "Robert Louis Stevenson",
+    description: "A boy finds a pirate map and sets sail for buried treasure.",
+    summary: "Young Jim Hawkins discovers a treasure map and joins a voyage to a distant island. But the ship's cook, Long John Silver, has his own plans for the gold.",
+    coverColor: "#B8860B",
+    pageCount: 180,
+    ageRange: "8-12",
+    category: "classic",
+    sortOrder: 19,
+    text: loadBookText("treasure-island"),
+  },
+  {
+    id: "adventures-of-tom-sawyer",
+    title: "The Adventures of Tom Sawyer",
+    author: "Mark Twain",
+    description: "A mischievous boy has adventures along the Mississippi River.",
+    summary: "Tom Sawyer tricks his friends into painting a fence, falls in love, hunts for treasure, and witnesses a murder — all in one unforgettable summer on the Mississippi.",
+    coverColor: "#CD853F",
+    pageCount: 220,
+    ageRange: "8-12",
+    category: "classic",
+    sortOrder: 20,
+    text: loadBookText("adventures-of-tom-sawyer"),
+  },
+  {
+    id: "grimms-fairy-tales",
+    title: "Grimms' Fairy Tales",
+    author: "Brothers Grimm",
+    description: "A collection of beloved fairy tales: Cinderella, Rapunzel, Hansel and Gretel, and more.",
+    summary: "The Brothers Grimm collected hundreds of fairy tales from German folklore — stories of clever children, wicked witches, enchanted forests, and happy endings.",
+    coverColor: "#9370DB",
+    pageCount: 300,
+    ageRange: "5-10",
+    category: "fairy-tale",
+    sortOrder: 21,
+    text: loadBookText("grimms-fairy-tales"),
+  },
+  {
+    id: "adventures-of-huckleberry-finn",
+    title: "Adventures of Huckleberry Finn",
+    author: "Mark Twain",
+    description: "A runaway boy and an escaped slave raft down the Mississippi.",
+    summary: "Huck Finn fakes his own death and escapes down the Mississippi on a raft with Jim, a runaway slave. Together they face con men, feuding families, and moral dilemmas.",
+    coverColor: "#8B7355",
+    pageCount: 280,
+    ageRange: "10-14",
+    category: "classic",
+    sortOrder: 22,
+    text: loadBookText("adventures-of-huckleberry-finn"),
+  },
 ];
 
 function estimateMinutes(text: string): number {
@@ -176,6 +340,8 @@ async function main() {
   console.log("Seeding books...");
 
   for (const book of books) {
+    const minutes = estimateMinutes(book.text);
+    const wordCount = book.text.split(/\s+/).length;
     await prisma.book.upsert({
       where: { id: book.id },
       update: {
@@ -187,7 +353,7 @@ async function main() {
         coverColor: book.coverColor,
         pageCount: book.pageCount,
         ageRange: book.ageRange,
-        estimatedMinutes: estimateMinutes(book.text),
+        estimatedMinutes: minutes,
         category: book.category,
         sortOrder: book.sortOrder,
       },
@@ -201,12 +367,12 @@ async function main() {
         coverColor: book.coverColor,
         pageCount: book.pageCount,
         ageRange: book.ageRange,
-        estimatedMinutes: estimateMinutes(book.text),
+        estimatedMinutes: minutes,
         category: book.category,
         sortOrder: book.sortOrder,
       },
     });
-    console.log(`  ✓ ${book.title}`);
+    console.log(`  + ${book.title} (${wordCount} words, ~${minutes} min)`);
   }
 
   console.log(`\nSeeded ${books.length} books.`);

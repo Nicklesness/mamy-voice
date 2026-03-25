@@ -135,7 +135,7 @@ export default function PrivacyPage() {
       <h2>12. Contact Information</h2>
       <p>If you have questions about this Privacy Policy or how your data is handled, please contact us:</p>
       <p>
-        Email: <a href="mailto:oleja12378@gmail.com">oleja12378@gmail.com</a>
+        Email: <a href="mailto:support@mamyvoice.com">support@mamyvoice.com</a>
         <br />
         Website: <a href="https://mamyvoice.com">https://mamyvoice.com</a>
       </p>

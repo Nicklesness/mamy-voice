@@ -67,7 +67,7 @@ export default function RefundPage() {
       </ul>
       <p>Refund requests can be sent to:</p>
       <p>
-        Email: <a href="mailto:oleja12378@gmail.com">oleja12378@gmail.com</a>
+        Email: <a href="mailto:support@mamyvoice.com">support@mamyvoice.com</a>
       </p>
     </article>
   );

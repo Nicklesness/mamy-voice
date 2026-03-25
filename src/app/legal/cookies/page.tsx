@@ -83,7 +83,7 @@ export default function CookiesPage() {
       <h2>7. Contact</h2>
       <p>If you have questions about our use of cookies, please contact us:</p>
       <p>
-        Email: <a href="mailto:oleja12378@gmail.com">oleja12378@gmail.com</a>
+        Email: <a href="mailto:support@mamyvoice.com">support@mamyvoice.com</a>
         <br />
         Website: <a href="https://mamyvoice.com">https://mamyvoice.com</a>
       </p>

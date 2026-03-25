@@ -174,7 +174,7 @@ export default function TermsPage() {
       <h2>14. Contact Information</h2>
       <p>For questions regarding these Terms or the Service, please contact:</p>
       <p>
-        Email: <a href="mailto:oleja12378@gmail.com">oleja12378@gmail.com</a>
+        Email: <a href="mailto:support@mamyvoice.com">support@mamyvoice.com</a>
         <br />
         Website: <a href="https://mamyvoice.com">https://mamyvoice.com</a>
       </p>

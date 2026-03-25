@@ -20,6 +20,11 @@ const BOOKS_WITH_IMAGES = new Set([
   "goodnight-moon", "very-hungry-caterpillar", "where-wild-things",
   "guess-how-much", "giving-tree", "kolobok", "repka",
   "kurochka-ryaba", "teremok", "tri-medvedya",
+  "alice-in-wonderland", "through-the-looking-glass",
+  "wonderful-wizard-of-oz", "ozma-of-oz", "marvelous-land-of-oz",
+  "peter-pan", "jungle-book", "second-jungle-book",
+  "treasure-island", "adventures-of-tom-sawyer",
+  "grimms-fairy-tales", "adventures-of-huckleberry-finn",
 ]);
 
 function Fallback({ title, coverColor, radius }: { title: string; coverColor: string; radius: number }) {

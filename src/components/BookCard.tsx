@@ -1,10 +1,19 @@
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Clock } from "lucide-react";
 import type { Book } from "@/types";
 import BookCover from "@/components/BookCover";
 
 interface BookCardProps {
   book: Book;
+}
+
+function formatDuration(minutes: number): string {
+  if (minutes < 1) return "< 1 min";
+  if (minutes < 60) return `${Math.round(minutes)} min`;
+  const h = Math.floor(minutes / 60);
+  const m = Math.round(minutes % 60);
+  if (m === 0) return `${h} hr`;
+  return `${h} hr ${m} min`;
 }
 
 export default function BookCard({ book }: BookCardProps) {
@@ -34,8 +43,8 @@ export default function BookCard({ book }: BookCardProps) {
           border: "1px solid rgba(26, 18, 7, 0.06)",
         }}
       >
-        <Star size={12} className="text-amber" />
-        {book.ageRange} years
+        <Clock size={12} style={{ color: "var(--accent-warm)" }} />
+        {formatDuration(book.estimatedMinutes ?? book.duration)}
       </span>
     </Link>
   );

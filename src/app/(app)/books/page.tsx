@@ -46,7 +46,7 @@ export default async function BooksPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 md:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
           {books.map((book, i) => (
             <div
               key={book.id}

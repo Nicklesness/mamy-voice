@@ -157,9 +157,14 @@ export default function GeneratePage() {
           <p className="text-text-secondary text-center" style={{ fontSize: 15 }}>
             {error || "Couldn't generate the narration. Please try again."}
           </p>
-          <Button variant="primary" size="lg" fullWidth onClick={() => setHasStarted(false)}>
-            Try Again
-          </Button>
+          <div className="w-full flex flex-col gap-3">
+            <Button variant="primary" size="lg" fullWidth onClick={() => setHasStarted(false)}>
+              Try Again
+            </Button>
+            <Button variant="text" fullWidth onClick={() => router.push("/books")}>
+              Back to Books
+            </Button>
+          </div>
         </div>
       )}
     </div>

@@ -38,7 +38,7 @@ const books: BookSeed[] = [
     pageCount: 3,
     ageRange: "1-3",
     category: "classic",
-    sortOrder: 1,
+    sortOrder: 21,
     text: `In the great green room there was a fireplace, and a red balloon, and a picture of a cow jumping over the moon. Goodnight room. Goodnight moon. Goodnight stars. Goodnight air. Goodnight noises everywhere. The end!`,
   },
   {
@@ -52,7 +52,7 @@ const books: BookSeed[] = [
     pageCount: 3,
     ageRange: "1-3",
     category: "classic",
-    sortOrder: 2,
+    sortOrder: 22,
     text: `One Sunday morning a tiny caterpillar hatched from an egg. He was very hungry. He ate through one apple, two pears, three plums, and so much more! He got a stomachache. Then he ate a nice green leaf and felt much better. He built a cocoon and became a beautiful butterfly! The end!`,
   },
   {
@@ -67,7 +67,7 @@ const books: BookSeed[] = [
     pageCount: 4,
     ageRange: "3-5",
     category: "classic",
-    sortOrder: 3,
+    sortOrder: 23,
     text: `Max wore his wolf suit and made mischief. His mother called him wild thing and sent him to bed. But a forest grew in his room, and he sailed to where the wild things are! They roared and gnashed their teeth, but Max tamed them. He became king of all wild things! But he was lonely, so he sailed back home — where his supper was waiting, still hot. The end!`,
   },
   {
@@ -82,7 +82,7 @@ const books: BookSeed[] = [
     pageCount: 3,
     ageRange: "2-4",
     category: "classic",
-    sortOrder: 4,
+    sortOrder: 24,
     text: `Little Nutbrown Hare said, guess how much I love you! He stretched his arms as wide as they could go. Big Nutbrown Hare stretched his even wider. I love you this much! They reached up high, hopped, and pointed to the moon. I love you to the moon, said Little Hare. And back, whispered Big Hare, kissing him goodnight. The end!`,
   },
   {
@@ -96,7 +96,7 @@ const books: BookSeed[] = [
     pageCount: 3,
     ageRange: "3-5",
     category: "classic",
-    sortOrder: 5,
+    sortOrder: 25,
     text: `Once there was a tree who loved a little boy. He climbed her trunk and swung from her branches. As he grew, the tree gave him her apples to sell, her branches to build a house, and her trunk to make a boat. Now she was just a stump. The boy came back, old and tired. I have a stump to sit on, said the tree. And the boy sat down. And the tree was happy. The end!`,
   },
   {
@@ -111,7 +111,7 @@ const books: BookSeed[] = [
     pageCount: 4,
     ageRange: "2-4",
     category: "fairy-tale",
-    sortOrder: 6,
+    sortOrder: 26,
     text: `Once upon a time, an old woman baked a round bun. She set it on the windowsill to cool. But the bun rolled away into the forest! He met a rabbit, a wolf, and a bear — and outsang them all. But the clever fox tricked him. The end!`,
   },
   {
@@ -126,7 +126,7 @@ const books: BookSeed[] = [
     pageCount: 3,
     ageRange: "2-3",
     category: "fairy-tale",
-    sortOrder: 7,
+    sortOrder: 27,
     text: `Grandpa planted a turnip that grew enormous. He pulled and pulled but couldn't get it out. Grandma, the granddaughter, the dog, the cat, and finally a tiny mouse all helped. Together they pulled it out! The end!`,
   },
   {
@@ -140,7 +140,7 @@ const books: BookSeed[] = [
     pageCount: 2,
     ageRange: "2-3",
     category: "fairy-tale",
-    sortOrder: 8,
+    sortOrder: 28,
     text: `An old man and woman had a hen named Ryaba. One day she laid a golden egg. They tried to crack it but couldn't. A mouse ran by and knocked it off the table. It broke! But Ryaba promised a new one. The end!`,
   },
   {
@@ -154,7 +154,7 @@ const books: BookSeed[] = [
     pageCount: 4,
     ageRange: "2-4",
     category: "fairy-tale",
-    sortOrder: 9,
+    sortOrder: 29,
     text: `A little house stood in a field. A mouse, a frog, a rabbit, a fox, and a wolf all moved in together. Then a big bear came and sat on the roof — and crushed the house! But they built a new one, even better. The end!`,
   },
   {
@@ -169,7 +169,7 @@ const books: BookSeed[] = [
     pageCount: 5,
     ageRange: "3-5",
     category: "fairy-tale",
-    sortOrder: 10,
+    sortOrder: 30,
     text: `A little girl got lost in the forest and found a cottage. Inside lived three bears. She tried their chairs, porridge, and beds. The littlest was always just right! When the bears came home, she woke up and ran away. The end!`,
   },
   // ─── Full-length books (text loaded from data/books/) ───
@@ -183,7 +183,7 @@ const books: BookSeed[] = [
     pageCount: 80,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 11,
+    sortOrder: 1,
     text: loadBookText("alice-in-wonderland"),
   },
   {
@@ -196,7 +196,7 @@ const books: BookSeed[] = [
     pageCount: 90,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 12,
+    sortOrder: 7,
     text: loadBookText("through-the-looking-glass"),
   },
   {
@@ -209,7 +209,7 @@ const books: BookSeed[] = [
     pageCount: 120,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 13,
+    sortOrder: 3,
     text: loadBookText("wonderful-wizard-of-oz"),
   },
   {
@@ -222,7 +222,7 @@ const books: BookSeed[] = [
     pageCount: 130,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 14,
+    sortOrder: 10,
     text: loadBookText("ozma-of-oz"),
   },
   {
@@ -235,7 +235,7 @@ const books: BookSeed[] = [
     pageCount: 140,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 15,
+    sortOrder: 11,
     text: loadBookText("marvelous-land-of-oz"),
   },
   {
@@ -248,7 +248,7 @@ const books: BookSeed[] = [
     pageCount: 150,
     ageRange: "6-10",
     category: "classic",
-    sortOrder: 16,
+    sortOrder: 2,
     text: loadBookText("peter-pan"),
   },
   {
@@ -261,7 +261,7 @@ const books: BookSeed[] = [
     pageCount: 170,
     ageRange: "7-12",
     category: "classic",
-    sortOrder: 17,
+    sortOrder: 5,
     text: loadBookText("jungle-book"),
   },
   {
@@ -274,7 +274,7 @@ const books: BookSeed[] = [
     pageCount: 200,
     ageRange: "7-12",
     category: "classic",
-    sortOrder: 18,
+    sortOrder: 12,
     text: loadBookText("second-jungle-book"),
   },
   {
@@ -287,7 +287,7 @@ const books: BookSeed[] = [
     pageCount: 180,
     ageRange: "8-12",
     category: "classic",
-    sortOrder: 19,
+    sortOrder: 4,
     text: loadBookText("treasure-island"),
   },
   {
@@ -300,7 +300,7 @@ const books: BookSeed[] = [
     pageCount: 220,
     ageRange: "8-12",
     category: "classic",
-    sortOrder: 20,
+    sortOrder: 8,
     text: loadBookText("adventures-of-tom-sawyer"),
   },
   {
@@ -313,7 +313,7 @@ const books: BookSeed[] = [
     pageCount: 300,
     ageRange: "5-10",
     category: "fairy-tale",
-    sortOrder: 21,
+    sortOrder: 6,
     text: loadBookText("grimms-fairy-tales"),
   },
   {
@@ -326,7 +326,7 @@ const books: BookSeed[] = [
     pageCount: 280,
     ageRange: "10-14",
     category: "classic",
-    sortOrder: 22,
+    sortOrder: 9,
     text: loadBookText("adventures-of-huckleberry-finn"),
   },
 ];

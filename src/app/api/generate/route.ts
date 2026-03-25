@@ -57,16 +57,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check balance
+    // Check balance (preview mode: ~0.5 min, full book: estimatedMinutes)
+    const previewMinutes = 0.5; // ~30 seconds preview
+    const minutesNeeded = previewMinutes; // TODO: use book.estimatedMinutes for full generation
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { minuteBalance: true },
     });
-    if (!user || user.minuteBalance < book.estimatedMinutes) {
+    if (!user || user.minuteBalance < minutesNeeded) {
       return NextResponse.json(
         {
           error: "Not enough minutes. Please purchase more.",
-          minutesNeeded: book.estimatedMinutes,
+          minutesNeeded,
           minuteBalance: user?.minuteBalance ?? 0,
         },
         { status: 402 }
@@ -119,13 +121,13 @@ export async function POST(request: NextRequest) {
           status: "DONE",
           audioUrl,
           audioKey,
-          minutesUsed: book.estimatedMinutes,
+          minutesUsed: minutesNeeded,
         },
       }),
       prisma.user.update({
         where: { id: session.user.id },
         data: {
-          minuteBalance: { decrement: book.estimatedMinutes },
+          minuteBalance: { decrement: minutesNeeded },
         },
       }),
     ]);

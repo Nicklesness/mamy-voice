@@ -330,7 +330,7 @@ export default function Home() {
         <ScrollReveal>
           <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
             <div className="max-w-4xl mx-auto px-6">
-              <div className="mb-10">
+              <div className="text-center mb-10">
                 <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                   Simple <span style={{ color: "var(--accent-deep)" }}>pricing</span>
                 </h2>
@@ -340,7 +340,7 @@ export default function Home() {
               </div>
 
               {/* Free trial badge */}
-              <div className="flex items-center gap-2 mb-8 rounded-full px-5 py-2.5 w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
+              <div className="flex items-center justify-center gap-2 mb-8 rounded-full px-5 py-2.5 mx-auto w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
                 <Sparkles size={16} style={{ color: "var(--text-primary)" }} />
                 <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>Free trial — first 5 minutes on us</span>
               </div>

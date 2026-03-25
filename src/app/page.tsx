@@ -82,7 +82,7 @@ export default function Home() {
               </div>
               <div className="mt-6 lg:mt-10 animate-fade-in-up delay-400">
                 <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                  Record Your Voice <ChevronRight size={20} className="ml-1" />
+                  Try 5 Minutes Free <ChevronRight size={20} className="ml-1" />
                 </Link>
               </div>
               <p className="text-text-tertiary mt-4 animate-fade-in delay-500" style={{ fontSize: 14 }}>
@@ -462,7 +462,7 @@ export default function Home() {
               </p>
               <div className="mt-10 max-w-sm mx-auto">
                 <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                  Record Your Voice Now
+                  Try 5 Minutes Free
                 </Link>
               </div>
               <p className="text-text-tertiary mt-5" style={{ fontSize: 14 }}>

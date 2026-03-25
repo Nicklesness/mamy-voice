@@ -51,9 +51,14 @@ export default function Home() {
             <span style={{ color: "var(--accent-warm)" }}>Mamy</span>{" "}
             <span className="text-text-primary">Voice</span>
           </span>
-          <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 36, background: "var(--gradient-cta)" }}>
-            Try Free
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/login" className="text-sm font-semibold transition-colors hover:opacity-80" style={{ color: "var(--text-secondary)" }}>
+              Log in
+            </Link>
+            <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 36, background: "var(--gradient-cta)" }}>
+              Try Free
+            </Link>
+          </div>
         </div>
         <NavbarShadow />
       </nav>

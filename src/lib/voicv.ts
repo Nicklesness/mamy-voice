@@ -41,17 +41,19 @@ export async function cloneVoice(
     throw new VoicvError("Rate limit exceeded. Please try again later.", 429);
   }
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new VoicvError(
-      `Voice cloning failed: ${errorBody}`,
-      response.status
-    );
+  const json = await response.json().catch(() => null);
+
+  if (!response.ok || (json && json.code !== 200)) {
+    const code = json?.code || response.status;
+    if (code === 402) {
+      throw new VoicvError("Voice service temporarily unavailable. Please try again later.", 402);
+    }
+    const message = json?.message || `Voice cloning failed (${code})`;
+    throw new VoicvError(message, code);
   }
 
-  const json = await response.json();
-  if (json.code !== 200) {
-    throw new VoicvError(json.message || "Voice cloning failed", json.code);
+  if (!json?.data?.voiceId) {
+    throw new VoicvError("Unexpected response from voice service", 502);
   }
 
   return { voice_id: json.data.voiceId };

@@ -1,46 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cloneVoice, VoicvError } from "@/lib/voicv";
+import { cloneVoice, ElevenLabsError } from "@/lib/elevenlabs";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadAudio, voiceSampleKey } from "@/lib/r2";
-import { writeFile, unlink } from "fs/promises";
-import { execFile } from "child_process";
-import { promisify } from "util";
-import { join } from "path";
-import { tmpdir } from "os";
-import { randomUUID } from "crypto";
-import { readFile } from "fs/promises";
-
-const execFileAsync = promisify(execFile);
-
-/**
- * Convert audio to WAV using ffmpeg (needed because Voicv only accepts MP3/WAV,
- * but browsers record in WebM/Opus).
- */
-async function convertToWav(inputBlob: Blob): Promise<Blob> {
-  const id = randomUUID();
-  const inputPath = join(tmpdir(), `voice-${id}.webm`);
-  const outputPath = join(tmpdir(), `voice-${id}.wav`);
-
-  try {
-    const buffer = Buffer.from(await inputBlob.arrayBuffer());
-    await writeFile(inputPath, buffer);
-
-    await execFileAsync("ffmpeg", [
-      "-i", inputPath,
-      "-ar", "44100",
-      "-ac", "1",
-      "-y",
-      outputPath,
-    ]);
-
-    const wavBuffer = await readFile(outputPath);
-    return new Blob([wavBuffer], { type: "audio/wav" });
-  } finally {
-    await unlink(inputPath).catch(() => {});
-    await unlink(outputPath).catch(() => {});
-  }
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,14 +33,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert to WAV if not already MP3/WAV
-    const file = audioFiles[0];
-    let audioBlob: Blob = file;
-    const type = file.type.toLowerCase();
-    if (!type.includes("wav") && !type.includes("mp3") && !type.includes("mpeg")) {
-      audioBlob = await convertToWav(file);
-    }
-
     // Delete existing voice and its generations
     const existingVoice = await prisma.voice.findUnique({
       where: { userId: session.user.id },
@@ -89,12 +43,12 @@ export async function POST(request: NextRequest) {
     }
 
     const name = `Mamy Voice - ${session.user.email || session.user.id}`;
-    const result = await cloneVoice(audioBlob);
+    const result = await cloneVoice(audioFiles, name);
 
     // Save original recording to R2
-    const originalBuffer = new Uint8Array(await file.arrayBuffer());
+    const originalBuffer = new Uint8Array(await audioFiles[0].arrayBuffer());
     const sampleKey = voiceSampleKey(session.user.id, result.voice_id);
-    await uploadAudio(sampleKey, originalBuffer, file.type || "audio/webm");
+    await uploadAudio(sampleKey, originalBuffer, audioFiles[0].type || "audio/webm");
 
     // Save voice to DB
     await prisma.voice.create({
@@ -108,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ voice_id: result.voice_id });
   } catch (error) {
-    if (error instanceof VoicvError) {
+    if (error instanceof ElevenLabsError) {
       return NextResponse.json(
         { error: error.message },
         { status: error.statusCode === 429 ? 429 : 502 }

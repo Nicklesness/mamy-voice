@@ -1,3 +1,54 @@
+export interface Plan {
+  id: string;
+  name: string;
+  priceCents: number;
+  priceDisplay: string;
+  hours: number;
+  extraHourCents: number;
+  extraHourDisplay: string;
+  bookExample: string;
+  popular?: boolean;
+}
+
+export const PLANS: Plan[] = [
+  {
+    id: "bookshelf",
+    name: "Bookshelf",
+    priceCents: 2990,
+    priceDisplay: "$29.90",
+    hours: 3,
+    extraHourCents: 599,
+    extraHourDisplay: "$5.99",
+    bookExample: "Alice's Adventures in Wonderland\nor Winnie-the-Pooh",
+  },
+  {
+    id: "reading-room",
+    name: "Reading Room",
+    priceCents: 5990,
+    priceDisplay: "$59.90",
+    hours: 8,
+    extraHourCents: 499,
+    extraHourDisplay: "$4.99",
+    bookExample: "Journey to the Centre of the Earth\nby Jules Verne",
+    popular: true,
+  },
+  {
+    id: "home-library",
+    name: "Home Library",
+    priceCents: 9990,
+    priceDisplay: "$99.90",
+    hours: 15,
+    extraHourCents: 399,
+    extraHourDisplay: "$3.99",
+    bookExample: "Little Women\nby Louisa May Alcott",
+  },
+];
+
+export function getPlanById(id: string) {
+  return PLANS.find((p) => p.id === id);
+}
+
+// Keep backward compatibility for checkout API
 export interface MinutePack {
   id: string;
   name: string;
@@ -7,30 +58,14 @@ export interface MinutePack {
   popular?: boolean;
 }
 
-export const MINUTE_PACKS: MinutePack[] = [
-  {
-    id: "starter",
-    name: "Starter",
-    minutes: 30,
-    priceCents: 499,
-    priceDisplay: "$4.99",
-  },
-  {
-    id: "popular",
-    name: "Popular",
-    minutes: 60,
-    priceCents: 799,
-    priceDisplay: "$7.99",
-    popular: true,
-  },
-  {
-    id: "family",
-    name: "Family",
-    minutes: 120,
-    priceCents: 1299,
-    priceDisplay: "$12.99",
-  },
-];
+export const MINUTE_PACKS: MinutePack[] = PLANS.map((p) => ({
+  id: p.id,
+  name: p.name,
+  minutes: p.hours * 60,
+  priceCents: p.priceCents,
+  priceDisplay: p.priceDisplay,
+  popular: p.popular,
+}));
 
 export function getPackById(id: string) {
   return MINUTE_PACKS.find((p) => p.id === id);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateSpeech, VoicvError } from "@/lib/voicv";
+import { generateSpeech, ElevenLabsError } from "@/lib/elevenlabs";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadAudio, generationKey } from "@/lib/r2";
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ audioUrl });
   } catch (error) {
-    if (error instanceof VoicvError) {
+    if (error instanceof ElevenLabsError) {
       return NextResponse.json(
         { error: error.message },
         { status: error.statusCode === 429 ? 429 : 502 }

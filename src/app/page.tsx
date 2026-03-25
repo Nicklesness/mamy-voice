@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Shield, Lock, Heart, Clock, Sparkles } from "lucide-react";
+import { ChevronRight, Shield, Lock, Heart, Sparkles } from "lucide-react";
 import DemoPlayer from "@/components/DemoPlayer";
 import FAQ from "@/components/FAQ";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import NavbarShadow from "@/components/NavbarShadow";
 import MiniDemoPlayer from "@/components/MiniDemoPlayer";
-import { MINUTE_PACKS } from "@/lib/pricing";
+import { PLANS } from "@/lib/pricing";
 
 const steps = [
   { image: "/images/landing/step_record.png", title: "Record your voice", desc: "Read a short passage out loud — just 30 seconds" },
@@ -330,52 +330,62 @@ export default function Home() {
         <ScrollReveal>
           <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
             <div className="max-w-4xl mx-auto px-6">
-              <div className="text-center mb-12">
+              <div className="mb-10">
                 <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
                   Simple <span style={{ color: "var(--accent-deep)" }}>pricing</span>
                 </h2>
                 <p className="text-text-secondary mt-3" style={{ fontSize: 16 }}>
-                  Start free. Buy minutes when you need more.
+                  Start with a story. Stay for a lifetime.
                 </p>
               </div>
 
-              {/* Free badge */}
-              <div className="flex items-center justify-center gap-2 mb-8 rounded-full px-5 py-2.5 mx-auto w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
-                <Sparkles size={16} style={{ color: "var(--success)" }} />
-                <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>5 free minutes for every new account</span>
+              {/* Free trial badge */}
+              <div className="flex items-center gap-2 mb-8 rounded-full px-5 py-2.5 w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
+                <Sparkles size={16} style={{ color: "var(--text-primary)" }} />
+                <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>Free trial — first 5 minutes on us</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {MINUTE_PACKS.map((pack) => (
+                {PLANS.map((plan) => (
                   <div
-                    key={pack.id}
+                    key={plan.id}
                     className="rounded-[20px] p-7 flex flex-col relative"
                     style={{
-                      background: pack.popular ? "var(--bg)" : "var(--bg)",
-                      boxShadow: pack.popular ? "0 12px 40px rgba(139, 92, 246, 0.12)" : "var(--shadow-sm)",
-                      border: pack.popular ? "2px solid var(--accent-deep)" : "1px solid rgba(26, 18, 7, 0.06)",
+                      background: "var(--bg)",
+                      boxShadow: plan.popular ? "0 12px 40px rgba(139, 92, 246, 0.12)" : "var(--shadow-sm)",
+                      border: plan.popular ? "2px solid var(--accent-deep)" : "1px solid rgba(26, 18, 7, 0.06)",
                     }}
                   >
-                    {pack.popular && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-0.5 text-white" style={{ background: "var(--accent-deep)", fontSize: 11, fontWeight: 700 }}>
+                    {plan.popular && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-white" style={{ background: "var(--accent-deep)", fontSize: 11, fontWeight: 700, letterSpacing: "0.03em" }}>
                         BEST VALUE
                       </span>
                     )}
-                    <p className="text-text-secondary" style={{ fontSize: 18, fontWeight: 700 }}>{pack.name}</p>
-                    <p className="mt-2" style={{ fontSize: 36, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-                      {pack.priceDisplay}
-                    </p>
-                    <p className="text-text-secondary mt-1" style={{ fontSize: 14 }}>{pack.minutes} minutes</p>
-                    <div className="flex items-center gap-2 mt-5 text-text-secondary" style={{ fontSize: 14 }}>
-                      <Clock size={15} style={{ color: "var(--success)" }} /> ~{Math.floor(pack.minutes / 3)} stories
+                    <p className="text-text-primary" style={{ fontSize: 18, fontWeight: 700 }}>{plan.name}</p>
+                    <div className="mt-3 flex items-baseline gap-1">
+                      <span style={{ fontSize: "clamp(36px, 5vw, 48px)", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                        {plan.priceDisplay}
+                      </span>
+                      <span className="text-text-secondary" style={{ fontSize: 15 }}>/ month</span>
                     </div>
+                    <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(26, 18, 7, 0.08)" }}>
+                      <p className="text-text-primary" style={{ fontSize: 15, fontWeight: 700 }}>
+                        {plan.hours} hours of narration / month
+                      </p>
+                    </div>
+                    <p className="text-text-secondary mt-3" style={{ fontSize: 13, fontStyle: "italic", lineHeight: 1.5, whiteSpace: "pre-line" }}>
+                      {"≈ " + plan.bookExample}
+                    </p>
+                    <p className="mt-3" style={{ fontSize: 13, fontWeight: 600, color: "var(--accent-warm)" }}>
+                      + {plan.extraHourDisplay} / extra hour
+                    </p>
                     <div className="mt-auto pt-6">
                       <Link
-                        href="/pricing"
+                        href="/record"
                         className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg"
-                        style={{ height: 44, fontSize: 14, background: pack.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
+                        style={{ height: 48, fontSize: 15, background: plan.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
                       >
-                        Buy Now
+                        Get started
                       </Link>
                     </div>
                   </div>

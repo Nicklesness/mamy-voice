@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cloneVoice, ElevenLabsError } from "@/lib/elevenlabs";
+import { cloneVoice, deleteVoice, ElevenLabsError } from "@/lib/elevenlabs";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadAudio, voiceSampleKey } from "@/lib/r2";
@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       where: { userId: session.user.id },
     });
     if (existingVoice) {
+      await deleteVoice(existingVoice.elevenLabsId).catch(() => {});
       await prisma.generation.deleteMany({ where: { voiceId: existingVoice.id } });
       await prisma.voice.delete({ where: { id: existingVoice.id } });
     }

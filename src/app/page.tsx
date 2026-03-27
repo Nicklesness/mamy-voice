@@ -428,46 +428,11 @@ export default function Home() {
               Questions?
             </h2>
             <FAQ />
-          </section>
-        </ScrollReveal>
-
-        {/* ─── Contact Us ─── */}
-        <ScrollReveal>
-          <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
-            <div className="max-w-2xl mx-auto px-6 text-center">
-              <h2 className="text-text-primary" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
-                Get in <span style={{ color: "var(--accent-deep)" }}>touch</span>
-              </h2>
-              <p className="text-text-secondary mt-3 mb-10" style={{ fontSize: 16, lineHeight: 1.65 }}>
-                Have a question, feedback, or partnership idea? We&apos;d love to hear from you.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
-                <a
-                  href="mailto:support@mamyvoice.com"
-                  className="flex flex-col items-center gap-2 p-6 rounded-[20px] transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "var(--bg)", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(26, 18, 7, 0.06)" }}
-                >
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--accent-warm-light)" }}>
-                    <Heart size={18} style={{ color: "var(--accent-warm)" }} />
-                  </div>
-                  <span className="text-text-primary font-semibold" style={{ fontSize: 15 }}>Email us</span>
-                  <span className="text-text-secondary" style={{ fontSize: 13 }}>support@mamyvoice.com</span>
-                </a>
-                <a
-                  href="https://instagram.com/mamyvoice"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 p-6 rounded-[20px] transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "var(--bg)", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(26, 18, 7, 0.06)" }}
-                >
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--accent-warm-light)" }}>
-                    <Sparkles size={18} style={{ color: "var(--accent-warm)" }} />
-                  </div>
-                  <span className="text-text-primary font-semibold" style={{ fontSize: 15 }}>Instagram</span>
-                  <span className="text-text-secondary" style={{ fontSize: 13 }}>@mamyvoice</span>
-                </a>
-              </div>
-            </div>
+            <p className="text-center mt-8">
+              <a href="mailto:support@mamyvoice.com" className="font-semibold transition-colors" style={{ color: "var(--accent-warm)", fontSize: 15 }}>
+                Still have questions? Contact us
+              </a>
+            </p>
           </section>
         </ScrollReveal>
 

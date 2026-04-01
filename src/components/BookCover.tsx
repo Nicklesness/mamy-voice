@@ -25,6 +25,18 @@ const BOOKS_WITH_IMAGES = new Set([
   "peter-pan", "jungle-book", "second-jungle-book",
   "treasure-island", "adventures-of-tom-sawyer",
   "grimms-fairy-tales", "adventures-of-huckleberry-finn",
+  "aladdin", "king-of-the-golden-river", "happy-prince",
+  "raggedy-ann-stories", "doctor-dolittle", "just-so-stories",
+  "american-fairy-tales", "mother-goose-in-prose", "bambi",
+  "princess-and-the-goblin", "treasure-seekers", "five-children-and-it",
+  "pollyanna", "princess-and-curdie", "wind-in-the-willows",
+  "railway-children", "black-beauty", "phoenix-and-the-carpet",
+  "around-the-world-in-eighty-days", "a-little-princess",
+  "prince-and-the-pauper", "story-of-the-amulet",
+  "rebecca-of-sunnybrook-farm", "wouldbegoods", "secret-garden",
+  "journey-to-the-center-of-the-earth", "at-the-back-of-the-north-wind",
+  "heidi", "anne-of-green-gables", "twenty-thousand-leagues",
+  "swiss-family-robinson", "blue-fairy-book", "little-women",
 ]);
 
 function Fallback({ title, coverColor, radius }: { title: string; coverColor: string; radius: number }) {

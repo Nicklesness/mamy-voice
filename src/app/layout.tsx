@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import Script from "next/script";
+import TrackPageView from "@/components/TrackPageView";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -29,8 +31,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://cdn.amplitude.com/script/c1d7e828c02fe717af967da7b4db6698.js"
+          strategy="afterInteractive"
+        />
+        <Script id="amplitude-init" strategy="afterInteractive">{`
+          if (window.amplitude) {
+            window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
+            window.amplitude.init('c1d7e828c02fe717af967da7b4db6698', {
+              fetchRemoteConfig: true,
+              autocapture: false
+            });
+          }
+        `}</Script>
+      </head>
       <body className={`${nunito.className} antialiased`}>
         <SessionProvider>
+          <TrackPageView />
           {children}
         </SessionProvider>
       </body>

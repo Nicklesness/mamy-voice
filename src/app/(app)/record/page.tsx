@@ -6,6 +6,7 @@ import { useSession, signIn } from "next-auth/react";
 import VoiceRecorder from "@/components/VoiceRecorder";
 import Button from "@/components/ui/Button";
 import { Loader2, CheckCircle } from "lucide-react";
+import { track, trackClick } from "@/lib/analytics";
 
 type CloneState = "idle" | "needsAuth" | "cloning" | "error";
 
@@ -86,6 +87,7 @@ function InlineAuthForm({ pendingBlobs, onAuthed }: { pendingBlobs: Blob[]; onAu
       }
 
       // Now authenticated — trigger cloning with the pending blobs
+      trackClick("record", "form", isLogin ? "login_success" : "register_success");
       onAuthed(pendingBlobs);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -172,6 +174,7 @@ export default function RecordPage() {
   const uploadAndClone = useCallback(async (blobs: Blob[]) => {
     setCloneState("cloning");
     setErrorMessage(null);
+    track("click", { placement: "record", element: "action", name: "clone_start" });
 
     try {
       const formData = new FormData();
@@ -194,11 +197,13 @@ export default function RecordPage() {
         throw new Error(data.error || `Voice cloning failed (${res.status})`);
       }
 
+      track("click", { placement: "record", element: "action", name: "clone_success" });
       router.push("/books");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong";
       setErrorMessage(message);
       setCloneState("error");
+      track("click", { placement: "record", element: "action", name: "clone_error", error: message });
     }
   }, [router]);
 

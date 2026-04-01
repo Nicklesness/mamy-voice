@@ -8,6 +8,7 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import NavbarShadow from "@/components/NavbarShadow";
 import MiniDemoPlayer from "@/components/MiniDemoPlayer";
 import { PLANS } from "@/lib/pricing";
+import TrackClick from "@/components/TrackClick";
 
 const steps = [
   { image: "/images/landing/step_record.png", title: "Record your voice", desc: "Read a short passage out loud — just 30 seconds" },
@@ -52,12 +53,16 @@ export default function Home() {
             <span className="text-text-primary">Voice</span>
           </span>
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-sm font-semibold transition-colors hover:opacity-80" style={{ color: "var(--text-secondary)" }}>
-              Log in
-            </Link>
-            <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 36, background: "var(--gradient-cta)" }}>
-              Try Free
-            </Link>
+            <TrackClick placement="navbar" element="link" name="login">
+              <Link href="/login" className="text-sm font-semibold transition-colors hover:opacity-80" style={{ color: "var(--text-secondary)" }}>
+                Log in
+              </Link>
+            </TrackClick>
+            <TrackClick placement="navbar" element="button" name="try_free">
+              <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white text-sm font-semibold px-5 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg" style={{ height: 36, background: "var(--gradient-cta)" }}>
+                Try Free
+              </Link>
+            </TrackClick>
           </div>
         </div>
         <NavbarShadow />
@@ -81,9 +86,11 @@ export default function Home() {
                 <MiniDemoPlayer />
               </div>
               <div className="mt-6 lg:mt-10 animate-fade-in-up delay-400">
-                <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                  Try 5 Minutes Free <ChevronRight size={20} className="ml-1" />
-                </Link>
+                <TrackClick placement="hero" element="button" name="try_free">
+                  <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                    Try 5 Minutes Free <ChevronRight size={20} className="ml-1" />
+                  </Link>
+                </TrackClick>
               </div>
               <p className="text-text-tertiary mt-4 animate-fade-in delay-500" style={{ fontSize: 14 }}>
                 Free to try · No credit card · 30 seconds to start
@@ -385,13 +392,15 @@ export default function Home() {
                       + {plan.extraHourDisplay} / extra hour
                     </p>
                     <div className="mt-auto pt-6">
-                      <Link
-                        href="/record"
-                        className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg"
-                        style={{ height: 48, fontSize: 15, background: plan.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
-                      >
-                        Get started
-                      </Link>
+                      <TrackClick placement="pricing" element="button" name="get_started" extra={{ plan_id: plan.id }}>
+                        <Link
+                          href="/record"
+                          className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg"
+                          style={{ height: 48, fontSize: 15, background: plan.popular ? "var(--accent-deep)" : "var(--gradient-cta)" }}
+                        >
+                          Get started
+                        </Link>
+                      </TrackClick>
                     </div>
                   </div>
                 ))}
@@ -461,9 +470,11 @@ export default function Home() {
                 It takes 30 seconds to record. Your child will have it forever.
               </p>
               <div className="mt-10 max-w-sm mx-auto">
-                <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                  Try 5 Minutes Free
-                </Link>
+                <TrackClick placement="bottom_cta" element="button" name="try_free">
+                  <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
+                    Try 5 Minutes Free
+                  </Link>
+                </TrackClick>
               </div>
               <p className="text-text-tertiary mt-5" style={{ fontSize: 14 }}>
                 Free to try · No download needed · Works on any device

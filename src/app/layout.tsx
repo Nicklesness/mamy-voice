@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import Script from "next/script";
-import TrackPageView from "@/components/TrackPageView";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -40,14 +39,14 @@ export default function RootLayout({
           if (window.amplitude) {
             window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
             window.amplitude.init('c1d7e828c02fe717af967da7b4db6698', {
-              fetchRemoteConfig: false,
+              fetchRemoteConfig: true,
               autocapture: {
-                attribution: false,
-                fileDownloads: false,
-                formInteractions: false,
-                pageViews: false,
-                sessions: false,
-                elementInteractions: false
+                attribution: true,
+                fileDownloads: true,
+                formInteractions: true,
+                pageViews: true,
+                sessions: true,
+                elementInteractions: true
               }
             });
           }
@@ -55,7 +54,6 @@ export default function RootLayout({
       </head>
       <body className={`${nunito.className} antialiased`}>
         <SessionProvider>
-          <TrackPageView />
           {children}
         </SessionProvider>
       </body>

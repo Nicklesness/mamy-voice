@@ -40,8 +40,15 @@ export default function RootLayout({
           if (window.amplitude) {
             window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
             window.amplitude.init('c1d7e828c02fe717af967da7b4db6698', {
-              fetchRemoteConfig: true,
-              autocapture: false
+              fetchRemoteConfig: false,
+              autocapture: {
+                attribution: false,
+                fileDownloads: false,
+                formInteractions: false,
+                pageViews: false,
+                sessions: false,
+                elementInteractions: false
+              }
             });
           }
         `}</Script>

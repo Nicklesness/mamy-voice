@@ -3,6 +3,8 @@ import { BookOpen } from "lucide-react";
 import BookCard from "@/components/BookCard";
 import VoiceProfileLink from "@/components/VoiceProfileLink";
 import LogoutButton from "@/components/LogoutButton";
+import MinutesBadge from "@/components/MinutesBadge";
+import LowMinutesBanner from "@/components/LowMinutesBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +33,7 @@ export default async function BooksPage() {
               </span>
             </div>
             <div className="flex items-center gap-3">
+              <MinutesBadge />
               <VoiceProfileLink />
               <LogoutButton />
             </div>
@@ -45,6 +48,8 @@ export default async function BooksPage() {
             Which one should we narrate in your voice?
           </p>
         </div>
+
+        <LowMinutesBanner />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
           {books.map((book, i) => (

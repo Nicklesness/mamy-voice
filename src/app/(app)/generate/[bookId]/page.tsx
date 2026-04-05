@@ -152,15 +152,21 @@ export default function GeneratePage() {
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-sm md:max-w-lg mx-auto animate-fade-in-scale">
           <Image src="/images/error.png" alt="Error" width={160} height={160} className="rounded-2xl" />
           <h1 className="text-text-primary text-center" style={{ fontSize: 22, fontWeight: 700 }}>
-            Something went wrong
+            {error?.includes("Not enough minutes") ? "Not enough minutes" : "Something went wrong"}
           </h1>
           <p className="text-text-secondary text-center" style={{ fontSize: 15 }}>
             {error || "Couldn't generate the narration. Please try again."}
           </p>
           <div className="w-full flex flex-col gap-3">
-            <Button variant="primary" size="lg" fullWidth onClick={() => setHasStarted(false)}>
-              Try Again
-            </Button>
+            {error?.includes("Not enough minutes") ? (
+              <Button variant="primary" size="lg" fullWidth onClick={() => router.push("/pricing")}>
+                Buy Minutes
+              </Button>
+            ) : (
+              <Button variant="primary" size="lg" fullWidth onClick={() => setHasStarted(false)}>
+                Try Again
+              </Button>
+            )}
             <Button variant="text" fullWidth onClick={() => router.push("/books")}>
               Back to Books
             </Button>

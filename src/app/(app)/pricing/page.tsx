@@ -10,7 +10,6 @@ import { MINUTE_PACKS } from "@/lib/pricing";
 export default function PricingPage() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const handlePurchase = async (packId: string) => {
     setLoading(packId);
@@ -20,32 +19,18 @@ export default function PricingPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ packId }),
       });
-      if (!res.ok) throw new Error("Failed");
-      setSuccess(true);
-      setTimeout(() => router.push("/account"), 1500);
-    } catch {
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "Payment failed. Please try again.");
+      }
+      const { paymentUrl } = await res.json();
+      if (!paymentUrl) throw new Error("Payment URL not received. Please try again.");
+      window.location.href = paymentUrl;
+    } catch (err) {
       setLoading(null);
+      alert(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
   };
-
-  if (success) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-svh px-6 gap-4">
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center animate-bounce-in"
-          style={{ background: "var(--success)", color: "white" }}
-        >
-          <Check size={32} />
-        </div>
-        <h2 className="text-text-primary animate-fade-in-up" style={{ fontSize: 22, fontWeight: 700 }}>
-          Minutes added!
-        </h2>
-        <p className="text-text-secondary text-sm animate-fade-in-up delay-200">
-          Redirecting to your account...
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="relative px-6 md:px-8 lg:px-12 pt-12 pb-8 min-h-svh overflow-hidden">
@@ -156,11 +141,7 @@ export default function PricingPage() {
           ))}
         </div>
 
-        <p className="text-text-tertiary text-center mt-6 animate-fade-in delay-400" style={{ fontSize: 12 }}>
-          Payment integration coming soon. Currently in test mode.
-        </p>
-
-        <div className="mt-4 animate-fade-in delay-400">
+        <div className="mt-6 animate-fade-in delay-400">
           <Button variant="text" fullWidth onClick={() => router.push("/books")}>
             Back to Catalog
           </Button>

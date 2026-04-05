@@ -7,6 +7,7 @@ export interface Plan {
   extraHourCents: number;
   extraHourDisplay: string;
   bookExample: string;
+  lavaOfferId: string;
   popular?: boolean;
 }
 
@@ -20,6 +21,7 @@ export const PLANS: Plan[] = [
     extraHourCents: 599,
     extraHourDisplay: "$5.99",
     bookExample: "Alice's Adventures in Wonderland\nor Winnie-the-Pooh",
+    lavaOfferId: "9d50d924-e287-4c92-9168-ce2346964ede",
   },
   {
     id: "reading-room",
@@ -30,6 +32,7 @@ export const PLANS: Plan[] = [
     extraHourCents: 499,
     extraHourDisplay: "$4.99",
     bookExample: "Journey to the Centre of the Earth\nby Jules Verne",
+    lavaOfferId: "5c736c61-90d5-4370-b759-c15619f6f323",
     popular: true,
   },
   {
@@ -41,6 +44,7 @@ export const PLANS: Plan[] = [
     extraHourCents: 399,
     extraHourDisplay: "$3.99",
     bookExample: "Little Women\nby Louisa May Alcott",
+    lavaOfferId: "1fb8f060-dc5b-4ffa-8436-8d000cf95395",
   },
 ];
 

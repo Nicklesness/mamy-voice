@@ -5,6 +5,7 @@ import { getBookById } from "@/lib/books";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import BookCover from "@/components/BookCover";
+import NarrateButton from "@/components/NarrateButton";
 
 export const dynamic = "force-dynamic";
 
@@ -105,12 +106,8 @@ export default async function BookPage({ params }: BookPageProps) {
         </div>
 
         {/* Actions */}
-        <div className="mt-7 space-y-3 animate-fade-in-up delay-500">
-          <Link href={`/generate/${book.id}`}>
-            <Button variant="primary" size="lg" fullWidth>
-              Narrate in Mom&apos;s Voice
-            </Button>
-          </Link>
+        <div className="mt-7 animate-fade-in-up delay-500">
+          <NarrateButton bookId={book.id} duration={book.duration} />
           <Link href="/books" className="block mt-3">
             <Button variant="text" fullWidth>
               Back to Catalog

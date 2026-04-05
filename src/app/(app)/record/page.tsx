@@ -53,7 +53,6 @@ function InlineAuthForm({ pendingBlobs, onAuthed }: { pendingBlobs: Blob[]; onAu
   const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +66,7 @@ function InlineAuthForm({ pendingBlobs, onAuthed }: { pendingBlobs: Blob[]; onAu
         const res = await fetch("/api/auth/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ email, password }),
         });
         if (!res.ok) {
           const data = await res.json();
@@ -112,15 +111,6 @@ function InlineAuthForm({ pendingBlobs, onAuthed }: { pendingBlobs: Blob[]; onAu
         </div>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 animate-fade-in-up delay-300">
-          {!isLogin && (
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={inputStyle}
-            />
-          )}
           <input
             type="email"
             placeholder="Email"

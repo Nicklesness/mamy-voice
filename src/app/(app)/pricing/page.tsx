@@ -106,21 +106,17 @@ export default function PricingPage() {
                   </span>
                 )}
 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-text-primary" style={{ fontSize: 18, fontWeight: 700 }}>
-                      {pack.name}
-                    </p>
-                    <p className="text-text-secondary mt-0.5" style={{ fontSize: 14 }}>
-                      {pack.minutes} minutes
-                    </p>
-                  </div>
-                  <p className="text-text-primary" style={{ fontSize: 24, fontWeight: 800 }}>
-                    {pack.priceDisplay}
-                  </p>
-                </div>
+                <p className="text-text-primary" style={{ fontSize: 16, fontWeight: 700 }}>
+                  {pack.name}
+                </p>
+                <p className="text-text-primary mt-1" style={{ fontSize: 32, fontWeight: 800 }}>
+                  {pack.priceDisplay}
+                </p>
+                <p className="text-text-secondary mt-0.5" style={{ fontSize: 13 }}>
+                  {pack.minutes} minutes
+                </p>
 
-                <div className="mt-3 flex items-center gap-2 text-text-tertiary" style={{ fontSize: 12 }}>
+                <div className="mt-2 flex items-center gap-2 text-text-tertiary" style={{ fontSize: 12 }}>
                   <Check size={14} style={{ color: "var(--success)" }} />
                   ~{Math.floor(pack.minutes / 3)} stories
                 </div>

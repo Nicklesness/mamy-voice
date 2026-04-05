@@ -12,7 +12,6 @@ function LoginContent() {
   const callbackUrl = searchParams.get("callbackUrl") || "/books";
 
   const [isRegister, setIsRegister] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +27,7 @@ function LoginContent() {
         const res = await fetch("/api/auth/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ email, password }),
         });
         if (!res.ok) {
           const data = await res.json();
@@ -95,15 +94,6 @@ function LoginContent() {
         </div>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 animate-fade-in-up delay-300">
-          {isRegister && (
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={inputStyle}
-            />
-          )}
           <input
             type="email"
             placeholder="Email"

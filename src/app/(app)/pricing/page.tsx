@@ -44,7 +44,7 @@ export default function PricingPage() {
 
       <div className="relative z-10 max-w-3xl mx-auto">
         <Link
-          href="/account"
+          href="/books"
           className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white mb-6 active:scale-95 transition-all duration-200"
           style={{ boxShadow: "var(--shadow-sm)" }}
           aria-label="Back"

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { X, Check } from "lucide-react";
+import { X } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { MINUTE_PACKS } from "@/lib/pricing";
+import { PLANS } from "@/lib/pricing";
 
 interface PricingModalProps {
   onClose: () => void;
@@ -60,16 +60,16 @@ export default function PricingModal({ onClose }: PricingModalProps) {
         </div>
 
         <div className="flex flex-col gap-3">
-          {MINUTE_PACKS.map((pack) => (
+          {PLANS.map((plan) => (
             <div
-              key={pack.id}
+              key={plan.id}
               className="relative rounded-[16px] p-4 transition-all duration-200"
               style={{
                 background: "var(--bg)",
-                border: pack.popular ? "2px solid var(--accent-deep)" : "1.5px solid rgba(26, 18, 7, 0.08)",
+                border: plan.popular ? "2px solid var(--accent-deep)" : "1.5px solid rgba(26, 18, 7, 0.08)",
               }}
             >
-              {pack.popular && (
+              {plan.popular && (
                 <span
                   className="absolute -top-2.5 left-4 rounded-full px-2.5 py-0.5"
                   style={{
@@ -86,25 +86,19 @@ export default function PricingModal({ onClose }: PricingModalProps) {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-text-primary" style={{ fontSize: 15, fontWeight: 700 }}>
-                    {pack.name}
+                    {plan.name}
                   </p>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <span className="text-text-secondary" style={{ fontSize: 13 }}>
-                      {pack.minutes} min
-                    </span>
-                    <span className="flex items-center gap-1 text-text-tertiary" style={{ fontSize: 12 }}>
-                      <Check size={12} style={{ color: "var(--success)" }} />
-                      ~{Math.floor(pack.minutes / 3)} stories
-                    </span>
-                  </div>
+                  <span className="text-text-secondary" style={{ fontSize: 13 }}>
+                    {plan.hours} hours of narration
+                  </span>
                 </div>
                 <Button
-                  variant={pack.popular ? "primary" : "secondary"}
+                  variant={plan.popular ? "primary" : "secondary"}
                   size="sm"
-                  disabled={loading === pack.id}
-                  onClick={() => handlePurchase(pack.id)}
+                  disabled={loading === plan.id}
+                  onClick={() => handlePurchase(plan.id)}
                 >
-                  {loading === pack.id ? "..." : pack.priceDisplay}
+                  {loading === plan.id ? "..." : plan.priceDisplay}
                 </Button>
               </div>
             </div>

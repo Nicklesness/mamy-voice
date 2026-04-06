@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Sparkles, Check } from "lucide-react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { MINUTE_PACKS } from "@/lib/pricing";
+import { PLANS } from "@/lib/pricing";
 
 export default function PricingPage() {
   const router = useRouter();
@@ -77,9 +77,9 @@ export default function PricingPage() {
         </div>
 
         <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6 mt-8">
-          {MINUTE_PACKS.map((pack, i) => (
+          {PLANS.map((plan, i) => (
             <div
-              key={pack.id}
+              key={plan.id}
               className="animate-fade-in-up"
               style={{ animationDelay: `${(i + 1) * 100}ms` }}
             >
@@ -87,11 +87,11 @@ export default function PricingPage() {
                 className="relative rounded-[20px] p-5 transition-all duration-200"
                 style={{
                   background: "var(--surface)",
-                  boxShadow: pack.popular ? "var(--shadow-lg)" : "var(--shadow-sm)",
-                  border: pack.popular ? "2px solid var(--accent-deep)" : "2px solid transparent",
+                  boxShadow: plan.popular ? "var(--shadow-lg)" : "var(--shadow-sm)",
+                  border: plan.popular ? "2px solid var(--accent-deep)" : "2px solid transparent",
                 }}
               >
-                {pack.popular && (
+                {plan.popular && (
                   <span
                     className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-0.5"
                     style={{
@@ -107,29 +107,32 @@ export default function PricingPage() {
                 )}
 
                 <p className="text-text-primary" style={{ fontSize: 16, fontWeight: 700 }}>
-                  {pack.name}
+                  {plan.name}
                 </p>
                 <p className="text-text-primary mt-1" style={{ fontSize: 32, fontWeight: 800 }}>
-                  {pack.priceDisplay}
+                  {plan.priceDisplay}
                 </p>
-                <p className="text-text-secondary mt-0.5" style={{ fontSize: 13 }}>
-                  {pack.minutes} minutes
+                <p className="text-text-secondary mt-1" style={{ fontSize: 14, fontWeight: 600 }}>
+                  {plan.hours} hours of narration
                 </p>
 
-                <div className="mt-2 flex items-center gap-2 text-text-tertiary" style={{ fontSize: 12 }}>
-                  <Check size={14} style={{ color: "var(--success)" }} />
-                  ~{Math.floor(pack.minutes / 3)} stories
-                </div>
+                <p className="mt-2 italic text-text-tertiary" style={{ fontSize: 12, lineHeight: 1.5 }}>
+                  ≈ {plan.bookExample}
+                </p>
+
+                <p className="mt-2" style={{ fontSize: 12, color: "var(--accent-warm)", fontWeight: 600 }}>
+                  + {plan.extraHourDisplay} / extra hour
+                </p>
 
                 <div className="mt-4">
                   <Button
-                    variant={pack.popular ? "primary" : "secondary"}
+                    variant={plan.popular ? "primary" : "secondary"}
                     size="md"
                     fullWidth
-                    disabled={loading === pack.id}
-                    onClick={() => handlePurchase(pack.id)}
+                    disabled={loading === plan.id}
+                    onClick={() => handlePurchase(plan.id)}
                   >
-                    {loading === pack.id ? "Processing..." : "Buy Now"}
+                    {loading === plan.id ? "Processing..." : "Get started"}
                   </Button>
                 </div>
               </div>

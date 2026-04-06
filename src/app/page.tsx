@@ -106,8 +106,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Trusted By (logos) ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="trusted_by">
           <section className="py-12 md:py-16 px-6" style={{ background: "white" }}>
             <p className="text-text-tertiary text-center mb-8" style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
               Research backed by
@@ -120,8 +119,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── The Problem ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="problem">
           <section className="relative max-w-5xl mx-auto px-6 py-20 md:py-28">
             {/* Decorative elements */}
             <span className="absolute top-12 left-4 md:left-8 text-2xl animate-float-slow" style={{ opacity: 0.18 }}>&#9733;</span>
@@ -161,8 +159,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Video ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="video">
           <section className="max-w-4xl mx-auto px-6 pb-20 md:pb-28">
             <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl" style={{ aspectRatio: "16/9", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}>
               <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/E5hDhWSmeoY" title="Why mom's voice matters" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ border: "none" }} />
@@ -170,8 +167,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── How It Works ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="how_it_works">
           <section className="relative max-w-5xl mx-auto px-6 pb-20 md:pb-28">
             <span className="absolute top-4 right-6 text-2xl animate-float-slow" style={{ opacity: 0.15 }}>&#9733;</span>
             <span className="absolute bottom-16 left-4 text-xl animate-float-slow-alt" style={{ opacity: 0.12, animationDelay: "1.5s" }}>&#9829;</span>
@@ -197,8 +193,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Book Showcase ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="book_showcase">
           <section className="relative py-20 md:py-28" style={{ background: "var(--surface)" }}>
             {/* Decorative elements */}
             <span className="absolute top-8 right-8 text-3xl animate-float-slow" style={{ opacity: 0.2 }}>&#9733;</span>
@@ -251,8 +246,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Backed by Science ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="science">
           <section className="px-6 py-20 md:py-28">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-text-primary text-center mb-14" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
@@ -301,8 +295,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Testimonials ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="testimonials">
           <section className="py-20 md:py-28" style={{ background: "var(--bg-warm)" }}>
             <div className="max-w-5xl mx-auto px-6">
               <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
@@ -331,8 +324,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Pricing ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="pricing">
           <section className="py-20 md:py-28" style={{ background: "var(--surface)" }}>
             <div className="max-w-4xl mx-auto px-6">
               <div className="text-center mb-10">
@@ -400,8 +392,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Trust & Guarantees ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="trust">
           <section className="max-w-4xl mx-auto px-6 py-20 md:py-28">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
@@ -421,8 +412,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── FAQ ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="faq">
           <section className="max-w-2xl mx-auto px-6 pb-20 md:pb-28">
             <h2 className="text-text-primary text-center mb-12" style={{ fontSize: "clamp(26px, 4vw, 40px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
               Questions?
@@ -436,8 +426,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        {/* ─── Final CTA ─── */}
-        <ScrollReveal>
+        <ScrollReveal section="final_cta">
           <section className="relative px-6 py-20 md:py-28" style={{ background: "var(--surface)" }}>
             {/* Decorative elements */}
             <span className="absolute top-10 left-[10%] text-3xl animate-float-slow" style={{ opacity: 0.2 }}>&#9733;</span>

@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { track } from "@/lib/analytics";
 
 interface ScrollRevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** If set, fires an Amplitude "section_viewed" event when this section scrolls into view */
+  section?: string;
 }
 
-export default function ScrollReveal({ children, className = "", delay }: ScrollRevealProps) {
+export default function ScrollReveal({ children, className = "", delay, section }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -20,6 +23,9 @@ export default function ScrollReveal({ children, className = "", delay }: Scroll
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          if (section) {
+            track("section_viewed", { section, placement: "landing" });
+          }
           observer.unobserve(el);
         }
       },
@@ -28,7 +34,7 @@ export default function ScrollReveal({ children, className = "", delay }: Scroll
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [section]);
 
   const delayClass = delay ? `delay-${delay}` : "";
 

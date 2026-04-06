@@ -82,7 +82,7 @@ export default function Home() {
               </div>
               <div className="mt-6 lg:mt-10 animate-fade-in-up delay-400">
                                   <Link href="/record" className="inline-flex items-center justify-center rounded-full text-white font-semibold w-full sm:w-auto sm:px-10 transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                    Try 5 Minutes Free <ChevronRight size={20} className="ml-1" />
+                    Try 2 Minutes Free <ChevronRight size={20} className="ml-1" />
                   </Link>
               </div>
               <p className="text-text-tertiary mt-4 animate-fade-in delay-500" style={{ fontSize: 14 }}>
@@ -347,7 +347,7 @@ export default function Home() {
               {/* Free trial badge */}
               <div className="flex items-center justify-center gap-2 mb-8 rounded-full px-5 py-2.5 mx-auto w-fit" style={{ background: "var(--bg)", border: "1px solid rgba(26, 18, 7, 0.08)" }}>
                 <Sparkles size={16} style={{ color: "var(--text-primary)" }} />
-                <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>Free trial — first 5 minutes on us</span>
+                <span className="text-text-primary" style={{ fontSize: 14, fontWeight: 600 }}>Free trial — first 2 minutes on us</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -404,7 +404,7 @@ export default function Home() {
           <section className="max-w-4xl mx-auto px-6 py-20 md:py-28">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
-                { icon: Shield, title: "Free to try", desc: "5 free minutes for every new account. No credit card required.", color: "var(--success)", image: "/images/landing/trust_free.png" },
+                { icon: Shield, title: "Free to try", desc: "2 free minutes for every new account. No credit card required.", color: "var(--success)", image: "/images/landing/trust_free.png" },
                 { icon: Lock, title: "Your voice is safe", desc: "Encrypted storage. Never shared with third parties.", color: "var(--accent-deep)", image: "/images/landing/trust_hands.png" },
                 { icon: Heart, title: "Made for busy parents", desc: "30 seconds to record. Your child gets stories in your voice forever.", color: "var(--accent-warm)", image: "/images/landing/trust_parent.png" },
               ].map((item, i) => (
@@ -459,7 +459,7 @@ export default function Home() {
               </p>
               <div className="mt-10 max-w-sm mx-auto">
                                   <Link href="/record" className="flex items-center justify-center w-full rounded-full text-white font-semibold transition-all duration-200 active:scale-95 hover:-translate-y-0.5 hover:shadow-lg animate-cta-breathe" style={{ height: 56, fontSize: 17, background: "var(--gradient-cta)", boxShadow: "var(--shadow-cta)" }}>
-                    Try 5 Minutes Free
+                    Try 2 Minutes Free
                   </Link>
               </div>
               <p className="text-text-tertiary mt-5" style={{ fontSize: 14 }}>

@@ -51,10 +51,10 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
-  password      String?   // hashed password for credentials login
+  password      String? // hashed password for credentials login
   emailVerified DateTime?
   image         String?
-  minuteBalance Float     @default(5) // 5 free minutes for new users
+  minuteBalance Float     @default(2) // 2 free minutes for new users
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -66,20 +66,20 @@ model User {
 }
 
 model Book {
-  id               String  @id // slug: "alice-in-wonderland"
+  id               String   @id // slug: "alice-in-wonderland"
   title            String
   author           String
   description      String
-  summary          String  @db.Text
-  text             String  @db.Text
+  summary          String   @db.Text
+  text             String   @db.Text
   coverColor       String
   coverImageUrl    String?
   pageCount        Int
   ageRange         String
   estimatedMinutes Float
   category         String? // "classic", "fairy-tale"
-  isPublished      Boolean @default(true)
-  sortOrder        Int     @default(0)
+  isPublished      Boolean  @default(true)
+  sortOrder        Int      @default(0)
   createdAt        DateTime @default(now())
 
   generations Generation[]
@@ -121,7 +121,7 @@ model Purchase {
   id              String         @id @default(cuid())
   userId          String
   paymentProvider String         @default("stub") // "stub", "stripe", "yookassa", etc.
-  externalId      String?        @unique           // external payment session ID
+  externalId      String?        @unique // external payment session ID
   minutesPack     Float
   amountCents     Int
   currency        String         @default("usd")

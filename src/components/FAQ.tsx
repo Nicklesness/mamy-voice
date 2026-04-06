@@ -22,7 +22,7 @@ const questions = [
   },
   {
     q: "Is it really free to try?",
-    a: "Yes! New users get 5 free minutes of narration — enough for 1-2 stories. After that, you can purchase additional minutes.",
+    a: "Yes! New users get 2 free minutes of narration — enough to hear your voice in a story. After that, you can purchase additional minutes.",
   },
 ];
 

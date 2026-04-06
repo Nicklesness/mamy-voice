@@ -20,7 +20,7 @@ const faqCategories: FAQCategory[] = [
     items: [
       {
         q: "How do I create an account?",
-        a: 'Tap "Try Free" on our homepage, then sign up with your email. It takes less than a minute — and you\'ll get 5 free minutes of narration right away.',
+        a: 'Tap "Try Free" on our homepage, then sign up with your email. It takes less than a minute — and you\'ll get 2 free minutes of narration right away.',
       },
       {
         q: "How do I record my voice?",
@@ -58,7 +58,7 @@ const faqCategories: FAQCategory[] = [
     items: [
       {
         q: "Is it really free to try?",
-        a: "Yes! New users get 5 free minutes of narration — enough for 1-2 stories. No credit card needed. After that, you can purchase additional minutes whenever you'd like.",
+        a: "Yes! New users get 2 free minutes of narration — enough to hear your voice in a story. No credit card needed. After that, you can purchase additional minutes whenever you'd like.",
       },
       {
         q: "How do I buy more minutes?",

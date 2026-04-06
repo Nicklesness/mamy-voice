@@ -299,6 +299,11 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              <div className="text-center mt-10">
+                <Link href="/resources" className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors hover:opacity-80" style={{ color: "var(--accent-deep)" }}>
+                  See all 8 studies <ChevronRight size={14} />
+                </Link>
+              </div>
             </div>
           </section>
         </ScrollReveal>

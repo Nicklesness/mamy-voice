@@ -161,8 +161,16 @@ export default function Home() {
 
         <ScrollReveal section="video">
           <section className="max-w-4xl mx-auto px-6 pb-20 md:pb-28">
+            <div className="max-w-2xl mx-auto text-center mb-8">
+              <h2 className="text-text-primary" style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+                Stanford proved it
+              </h2>
+              <p className="text-text-secondary mt-3" style={{ fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.7 }}>
+                A mother&apos;s voice activates more brain regions than any other sound — not just hearing, but emotion, reward, and social bonding. This isn&apos;t just heartwarming. It&apos;s neuroscience.
+              </p>
+            </div>
             <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl" style={{ aspectRatio: "16/9", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}>
-              <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/E5hDhWSmeoY" title="Why mom's voice matters" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ border: "none" }} />
+              <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/E5hDhWSmeoY" title="Why mom&apos;s voice matters" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ border: "none" }} />
             </div>
           </section>
         </ScrollReveal>

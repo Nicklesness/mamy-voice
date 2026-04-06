@@ -11,9 +11,45 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Mamy Voice",
+  title: {
+    default: "Mamy Voice — Children's Books Narrated in Mom's Voice",
+    template: "%s | Mamy Voice",
+  },
   description:
-    "Narrate your child's favorite story in your own voice. Record a few short passages — and your child will hear their bedtime story told by mom.",
+    "AI reads children's books in a mother's cloned voice. Record 30 seconds, choose a story — your child hears it in your voice. Backed by Stanford neuroscience research.",
+  keywords: [
+    "children's audiobooks",
+    "mom's voice",
+    "voice cloning",
+    "bedtime stories",
+    "AI narration",
+    "kids stories",
+    "mother's voice",
+    "personalized audiobooks",
+    "read aloud",
+    "parenting",
+  ],
+  metadataBase: new URL("https://mamyvoice.com"),
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Mamy Voice — Every Story, In Mom's Voice",
+    description:
+      "AI reads children's books in a mother's cloned voice. Record 30 seconds — your child hears bedtime stories in your voice, anytime.",
+    url: "https://mamyvoice.com",
+    siteName: "Mamy Voice",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mamy Voice — Children's Books in Mom's Voice",
+    description:
+      "Record 30 seconds. AI narrates bedtime stories in your voice. Backed by Stanford research.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {

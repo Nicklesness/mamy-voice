@@ -4,15 +4,21 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadAudio, generationKey } from "@/lib/r2";
 
-// Safety limit: only generate ~30 seconds of audio (≈75 words)
-// Remove this limit when ready for full-book generation
-const PREVIEW_WORD_LIMIT = 75;
+// Average TTS speed: ~150 words per minute
+const WORDS_PER_MINUTE = 150;
 
-function truncateToPreview(text: string): string {
+/**
+ * Truncate book text to fit within available minutes.
+ * Cuts at sentence boundary near the word limit.
+ */
+function truncateToMinutes(text: string, minutes: number): string {
+  const wordLimit = Math.floor(minutes * WORDS_PER_MINUTE);
   const words = text.split(/\s+/);
-  if (words.length <= PREVIEW_WORD_LIMIT) return text;
-  // Find sentence boundary near the limit
-  const truncated = words.slice(0, PREVIEW_WORD_LIMIT).join(" ");
+
+  if (words.length <= wordLimit) return text;
+
+  const truncated = words.slice(0, wordLimit).join(" ");
+  // Find last sentence boundary
   const lastSentence = truncated.search(/[.!?][^.!?]*$/);
   if (lastSentence > truncated.length / 2) {
     return truncated.slice(0, lastSentence + 1);
@@ -57,18 +63,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check balance (preview mode: ~0.5 min, full book: estimatedMinutes)
-    const previewMinutes = 0.5; // ~30 seconds preview
-    const minutesNeeded = previewMinutes; // TODO: use book.estimatedMinutes for full generation
+    // Check balance
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { minuteBalance: true },
     });
-    if (!user || user.minuteBalance < minutesNeeded) {
+    if (!user || user.minuteBalance < 0.5) {
       return NextResponse.json(
         {
           error: "Not enough minutes. Please purchase more.",
-          minutesNeeded,
+          minutesNeeded: book.estimatedMinutes,
           minuteBalance: user?.minuteBalance ?? 0,
         },
         { status: 402 }
@@ -82,6 +86,13 @@ export async function POST(request: NextRequest) {
     if (existing?.status === "DONE" && existing.audioKey) {
       return NextResponse.json({ audioUrl: `/api/audio?key=${encodeURIComponent(existing.audioKey)}` });
     }
+
+    // Determine how many minutes to generate
+    // Use the lesser of: book duration or user's balance
+    const minutesToGenerate = Math.min(book.estimatedMinutes, user.minuteBalance);
+
+    // Truncate text if user doesn't have enough minutes for full book
+    const textToGenerate = truncateToMinutes(book.text, minutesToGenerate);
 
     // Create or update generation record
     const generation = await prisma.generation.upsert({
@@ -99,13 +110,24 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Generate speech (preview mode: ~30 seconds)
-    // TODO: remove PREVIEW_WORD_LIMIT for full-book generation
-    // For full books, use: const chunks = splitText(book.text, 5000);
-    // then generate each chunk and concatenate MP3 buffers
-    const previewText = truncateToPreview(book.text);
-    const audioBuffer = await generateSpeech(previewText, voice.elevenLabsId);
-    const combined = new Uint8Array(audioBuffer);
+    // Split text into chunks (ElevenLabs has a ~5000 char limit per request)
+    const chunks = splitText(textToGenerate, 4500);
+
+    // Generate speech for each chunk and concatenate
+    const audioBuffers: ArrayBuffer[] = [];
+    for (const chunk of chunks) {
+      const buffer = await generateSpeech(chunk, voice.elevenLabsId);
+      audioBuffers.push(buffer);
+    }
+
+    // Concatenate all MP3 buffers
+    const totalLength = audioBuffers.reduce((sum, buf) => sum + buf.byteLength, 0);
+    const combined = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const buf of audioBuffers) {
+      combined.set(new Uint8Array(buf), offset);
+      offset += buf.byteLength;
+    }
 
     // Upload to R2
     const audioKey = generationKey(session.user.id, bookId, voice.elevenLabsId);
@@ -121,13 +143,13 @@ export async function POST(request: NextRequest) {
           status: "DONE",
           audioUrl,
           audioKey,
-          minutesUsed: minutesNeeded,
+          minutesUsed: minutesToGenerate,
         },
       }),
       prisma.user.update({
         where: { id: session.user.id },
         data: {
-          minuteBalance: { decrement: minutesNeeded },
+          minuteBalance: { decrement: minutesToGenerate },
         },
       }),
     ]);
